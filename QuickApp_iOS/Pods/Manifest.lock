@@ -1,0 +1,32 @@
+PODS:
+  - GoogleWebRTC (1.1.25102)
+  - ReachabilitySwift (4.3.0)
+  - Socket.IO-Client-Swift (12.0.0):
+    - StarscreamSocketIO (~> 8.0.7)
+  - StarscreamSocketIO (8.0.7)
+  - SVProgressHUD (2.2.5)
+
+DEPENDENCIES:
+  - GoogleWebRTC (= 1.1.25102)
+  - ReachabilitySwift
+  - Socket.IO-Client-Swift (~> 12.0.0)
+  - SVProgressHUD
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - GoogleWebRTC
+    - ReachabilitySwift
+    - Socket.IO-Client-Swift
+    - StarscreamSocketIO
+    - SVProgressHUD
+
+SPEC CHECKSUMS:
+  GoogleWebRTC: 5cd390bc24c272fb7ca2b8765e4a7578a770b279
+  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
+  Socket.IO-Client-Swift: 5b0154b42b3892bfb4c44fa138cbeb8afec4f6ef
+  StarscreamSocketIO: 00b54e4208481ca5cef089545353aaf126bae16d
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+
+PODFILE CHECKSUM: e4a22ba08eb40f5a52d4a9a493a11deafff78232
+
+COCOAPODS: 1.5.3
