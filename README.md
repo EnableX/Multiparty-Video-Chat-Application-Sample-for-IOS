@@ -74,8 +74,8 @@ https://developer.enablex.io/api/server-api/
 
 iOS App to use iOS Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications.  
 
-Documentation: https://developer.enablex.io/api/client-api/ios-toolkit/
-Download: https://developer.enablex.io/downloads/ios-toolkit/
+* Documentation: https://developer.enablex.io/api/client-api/ios-toolkit/
+* Download: https://developer.enablex.io/downloads/ios-toolkit/
 
 
 ## 4 Application Walk-through
