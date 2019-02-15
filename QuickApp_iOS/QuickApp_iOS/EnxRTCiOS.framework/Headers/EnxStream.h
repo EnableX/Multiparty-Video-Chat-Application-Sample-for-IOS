@@ -9,22 +9,6 @@
 @class EnxRoom;
 @class EnxStream;
 
-static NSString * _Nonnull const kEnxAudioLabel = @"LCMSa0";
-static NSString * _Nonnull const kEnxVideoLabel = @"LCMSv0";
-
-/// Video option
-static NSString * _Nonnull const kStreamOptionVideo         = @"video";
-/// Audio option
-static NSString * _Nonnull const kStreamOptionAudio         = @"audio";
-/// Data option
-static NSString * _Nonnull const kStreamOptionData          = @"data";
-/// minVideoBW
-static NSString * _Nonnull const kStreamOptionMinVideoBW    = @"minVideoBW";
-/// maxVideoBW
-static NSString * _Nonnull const kStreamOptionMaxVideoBW    = @"maxVideoBW";
-/// scheme
-static NSString * _Nonnull const kStreamOptionScheme        = @"scheme";
-
 @protocol EnxStreamDelegate <NSObject>
 @optional
 
@@ -461,13 +445,6 @@ static NSString * _Nonnull const kStreamOptionScheme        = @"scheme";
 //@property (strong,nonatomic) NSDictionary * _Nullable receivedDataDictionary;
 //
 - (void)SelfHardMuteAudio:(BOOL)isMuted;
-////
-//- (void)SelfHardMuteVideo:(BOOL)isMuted;
-////
-//-(void)addVideoTracks;
-////
-//-(void)removeVideoTracks;
-//
 
 -(void)stopCapture;
 -(void)startCapture;
@@ -497,11 +474,11 @@ static NSString * _Nonnull const kStreamOptionScheme        = @"scheme";
 
 - (void)hardUnMuteAudio:(NSString*_Nonnull)clientId;
 
-//- (void)hardMuteVideo:(NSString *_Nullable)clientId;
-//- (void)hardUnMuteVideo:(NSString *_Nullable)clientId;
-
 - (void)attachRenderer :(EnxPlayerView*_Nonnull)ObjEnxPlayerView;
 
 - (void)detachRenderer;
+
+-(BOOL)getUserMedia;
+
 @end
 

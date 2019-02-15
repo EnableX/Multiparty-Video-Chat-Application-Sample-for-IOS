@@ -78,6 +78,9 @@ readyToSubscribeStreamId:(NSString *)streamId
  */
 - (void)signalingChannel:(EnxSignalingChannel *)channel didError:(NSString *)reason;
 
+- (void)signalingChannel:(EnxSignalingChannel *)channel didEventError:(NSString *)reason type:(NSString *)eventType streamId:(NSString *)streamId;
+
+
 - (void)signalingChannel:(EnxSignalingChannel *)channel didReconnect:(NSString *)reason;
 
 - (void)signalingChannel:(EnxSignalingChannel *)channel didRoomConnected:(NSArray *)Data;
@@ -108,6 +111,12 @@ readyToSubscribeStreamId:(NSString *)streamId
  @param streamId NSString id of the stream that will be published.
  */
 - (void)signalingChannel:(EnxSignalingChannel *)channel didReceiveStreamIdReadyToPublish:(NSString *)streamId;
+
+
+/*(Event fired when a new stream id has been created and server is ready
+to start subscribing it. */
+- (void)signalingChannel:(EnxSignalingChannel *)channel didReceiveStreamIdReadyToSubscribe:(NSString *)streamId;
+
 
 /**
  Event fired when a recording of a stream has started.
@@ -233,17 +242,17 @@ readyToSubscribeStreamId:(NSString *)streamId
 - (void)signalingChannel:(EnxSignalingChannel *)channel didReciveHardUnmuteVideo:(NSArray *)dataStream;
 
 
-//self Video mute/unmute P lisner
+//self Video mute/unmute Participant lisner
 - (void)signalingChannel:(EnxSignalingChannel *)channel didSelfMuteVideo:(NSArray *)dataStream;
 
 - (void)signalingChannel:(EnxSignalingChannel *)channel didSelfUnmuteVideo:(NSArray *)dataStream;
 
-//self Audio mute/unmute P lisner
+//self Audio mute/unmute Participant lisner
 - (void)signalingChannel:(EnxSignalingChannel *)channel didSelfMuteAudio:(NSArray *)dataStream;
 
 - (void)signalingChannel:(EnxSignalingChannel *)channel didSelfUnmuteAudio:(NSArray *)dataStream;
 
-//recive by M
+//recive by Moderator
 - (void)signalingChannel:(EnxSignalingChannel *)channel didResponcesSelfMute:(NSArray *)Data;
 - (void)signalingChannel:(EnxSignalingChannel *)channel didResponcesSelfUnMute:(NSArray *)Data;
 
@@ -258,21 +267,20 @@ readyToSubscribeStreamId:(NSString *)streamId
             fromStreamId:(NSString *)streamId
    updateStreamAttributes:(NSDictionary *)attributes;
 
-//on Logs scuccess upload
--(void)signalingLogsSuccess:(NSString *)message;
+//on Logs  upload
+-(void)signalingLogsUpLoaded:(NSArray *)data;
 //on Logs Failure upload
--(void)signalingLogsFailure:(NSString *)message;
+//-(void)signalingLogsFailure:(NSString *)message;
 
 #pragma mark - ChairControl
-//P
+//For Participant
 - (void)signalingChannel:(EnxSignalingChannel *)channel didReciveFloorRequest:(NSArray *)Data;
 - (void)signalingChannel:(EnxSignalingChannel *)channel didReciveFloorGranted:(NSArray *)Data;
 - (void)signalingChannel:(EnxSignalingChannel *)channel didFloorReleased:(NSArray *)Data;
 - (void)signalingChannel:(EnxSignalingChannel *)channel didFloorDeny:(NSArray *)Data;
-//M
+//For Moserator
 - (void)signalingChannel:(EnxSignalingChannel *)channel didFloorRequested:(NSArray *)Data;
 - (void)signalingChannel:(EnxSignalingChannel *)channel didProcessFloorRequest:(NSArray *)Data;
-//- (void)signalingChannel:(EnxSignalingChannel *)channel didResponceReleaseFloor:(NSArray *)Data;
 
 //H
 - (void)signalingChannel:(EnxSignalingChannel *)channel didResponceMuteAllUser:(NSArray *)Data;
@@ -308,6 +316,12 @@ readyToSubscribeStreamId:(NSString *)streamId
 -(void)signalingChannel:(EnxSignalingChannel *)channel publishMediaCodecChange:(NSArray *)Data;
 
 -(void)signalingChannel:(EnxSignalingChannel *)channel publisherBandWidthAlert:(NSArray *)Data;
+
+//SimulCast
+- (void)signalingChannel:(EnxSignalingChannel *)channel didSignallingVideoQualityUpdated:(NSArray *)data;
+
+//delegate method when to get connectedIp
+-(void)signalingGetConnectedIp:(NSString *)connectedIp;
 
 @end
 
@@ -372,7 +386,6 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 #pragma mark- CC
 - (void)RequestFlloor;
 - (void)ProcessFloorRequest:(NSString *)clientId status:(NSString *)status;
-//- (void)ReleaseFloor:(NSDictionary *)Action;
 
 #pragma mark-
 - (void)muteAllUser;
@@ -396,8 +409,12 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 - (void)SelfUnmuteAudio;
 - (void)SelfMuteAudio;
 
-//- (void)localStreamhardMuteVideo;
-
 
 -(void)subscriberVideoMute :(NSString *)StreamId;
+
+//SimulCast:  This API use to request server to set the remote video stream in different quality.
+-(void)signallingSetReceiveVideoQuality:(NSString*_Nonnull)videoQuality streamId:(NSString * _Nonnull )streamId;
+
+// This method use to send log event data to server.
+-(void)socketEnxLogEmit:(NSDictionary *_Nonnull)dictionary;
 @end

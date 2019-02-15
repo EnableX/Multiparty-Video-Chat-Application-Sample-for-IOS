@@ -1,7 +1,7 @@
 //  EnxRTCiOS.h
 //  EnxRTCiOS
-//  Created by Daljeet Singh on 28/02/18.
-//  Copyright © 2018 Daljeet Singh. All rights reserved.
+//  Created by Enablex on 28/02/18.
+//  Copyright © 2018 Vcloudx. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

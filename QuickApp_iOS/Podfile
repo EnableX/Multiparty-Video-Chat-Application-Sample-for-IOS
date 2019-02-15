@@ -6,11 +6,13 @@ target 'QuickApp_iOS' do
   use_frameworks!
 
   # Pods for QuickApp_iOS
-    pod 'GoogleWebRTC', '1.1.25102'
+    pod 'GoogleWebRTC', '1.1.26379'
     pod 'Socket.IO-Client-Swift', '~> 12.0.0'
     pod 'SVProgressHUD'
     pod 'ReachabilitySwift'
-
+    pod 'Fabric'
+    pod 'Crashlytics'
+    
   target 'QuickApp_iOSTests' do
     inherit! :search_paths
     # Pods for testing

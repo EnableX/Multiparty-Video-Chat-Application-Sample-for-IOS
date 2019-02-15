@@ -50,9 +50,6 @@ typedef NS_OPTIONS(NSUInteger, LOG_MODE_MASK) {
 ///-----------------------------------
 /// @name Properties
 ///-----------------------------------
-
-@property LOG_MODE_MASK logModes;
-@property NSMutableArray *prefixes;
 @property (strong,nonatomic) NSString *vcxLogId;
 ///-----------------------------------
 /// @name Methods

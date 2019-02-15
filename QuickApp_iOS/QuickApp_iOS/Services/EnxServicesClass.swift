@@ -133,6 +133,58 @@ class EnxServicesClass: NSObject {
         }
         tast.resume()
     }
+    /*
+     // MARK: - Join Room With Pin
+     /**
+     Input Parameter : - Pin Nummer
+     Return :- EnxRoomInfoModel
+     **/
+     class func fetchRoomInfoWithPin(parameter : String , completion:@escaping (EnxRoomInfoModel) -> ()){
+     let param = ["pin" : parameter]
+     //create the url with URL
+     let url = URL(string: kBasedURL + "getRoomByPin")!
+     //Create A session Object
+     let session = URLSession.shared
+     //Now create the URLRequest object using the url object
+     var request = URLRequest(url: url)
+     request.httpMethod = "POST"
+     do{
+     request.httpBody = try JSONSerialization.data(withJSONObject: param, options:.prettyPrinted)
+     } catch let error {
+     print(error.localizedDescription)
+     }
+     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+     request.addValue("application/json", forHTTPHeaderField: "Accept")
+     //create dataTask using the session object to send data to the server
+     let tast = session.dataTask(with: request as URLRequest){(data,response, error) in
+     guard error == nil else{
+     let roomdataModel = EnxRoomInfoModel()
+     roomdataModel.error = error
+     completion(roomdataModel)
+     return}
+     guard let data = data else {
+     let roomdataModel = EnxRoomInfoModel()
+     roomdataModel.isRoomFlag = false
+     completion(roomdataModel)
+     return}
+     do{
+     if let responseValue = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : String]{
+     let roomdataModel = EnxRoomInfoModel()
+     roomdataModel.role = responseValue["role"]
+     roomdataModel.room_id = responseValue["room_id"]
+     roomdataModel.mode = responseValue["mode"]
+     roomdataModel.isRoomFlag = true
+     completion(roomdataModel)
+     }
+     }catch{
+     let roomdataModel = EnxRoomInfoModel()
+     roomdataModel.error = error
+     completion(roomdataModel)
+     print(error.localizedDescription)
+     }
+     }
+     tast.resume()
+     }*/
     // MARK: - featchToken
     /**
      Input Parameter : - [String : String]

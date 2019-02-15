@@ -30,7 +30,6 @@ class EnxConfrenceViewController: UIViewController {
     var streamArray = [Any]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.shared.isIdleTimerDisabled = true
         localPlayerView.layer.cornerRadius = 8.0
         localPlayerView.layer.borderWidth = 2.0
         localPlayerView.layer.borderColor = UIColor.blue.cgColor
@@ -50,6 +49,9 @@ class EnxConfrenceViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         // Do any additional setup after loading the view.
     }
+    
+    
+    
     // MARK: - didChangePosition
     /**
      This method will change the position of localPlayerView
@@ -95,7 +97,13 @@ class EnxConfrenceViewController: UIViewController {
                     
                     let localStreamInfo : NSDictionary = ["video" : self.param["video"]! ,"audio" : self.param["audio"]! ,"data" :self.param["chat"]! ,"name" :self.roomInfo.participantName!,"type" : "public" ,"maxVideoBW" : 400 ,"minVideoBW" : 300 , "videoSize" : videoSize]
                     
-                    self.localStream = self.objectJoin.joinRoom(token, delegate: self, publishStreamInfo: (localStreamInfo as! [AnyHashable : Any]))
+                    
+                    guard let stream = self.objectJoin.joinRoom(token, delegate: self, publishStreamInfo: (localStreamInfo as! [AnyHashable : Any])) else{
+                         SVProgressHUD.dismiss()
+                        return
+                    }
+                    
+                    self.localStream = stream
                     self.localStream.delegate = self as EnxStreamDelegate
                 }
                     //Handel if Room is full
@@ -221,6 +229,18 @@ class EnxConfrenceViewController: UIViewController {
         self.leaveRoom()
         
     }
+    
+    
+    // MARK: - sendLogs
+    /**
+     Input parameter : - Any
+     OutPut : - Nil
+     Method to send EnxRTCiOS SDK.
+     **/
+    @IBAction func sendLogs(_ sender: Any) {
+        remoteRoom.postClientLogs()
+    }
+    
     // MARK: - Leave Room
     /**
      Input parameter : - Nil
@@ -228,7 +248,7 @@ class EnxConfrenceViewController: UIViewController {
      Its method will exist from Room
      **/
     private func leaveRoom(){
-        UIApplication.shared.isIdleTimerDisabled = false
+        
         remoteRoom?.disconnect()
         self.navigationController?.popViewController(animated: true)
     }
@@ -279,6 +299,13 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
      */
     func room(_ room: EnxRoom?, didError reason: String?) {
         self.showAleartView(message:reason!, andTitles: "OK")
+    }
+    /*
+     This Delegate will notify to User Once he Getting error on performing any event.
+     */
+    func room(_ room: EnxRoom?, didEventError reason: [Any]?) {
+        let resDict = reason![0] as! [String : Any]
+        self.showAleartView(message:resDict["msg"] as! String, andTitles: "OK")
     }
     /*
      This Delegate will notify to  User Once he Publisg Stream
@@ -452,6 +479,13 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
     func didAudioEvents(_ data: [AnyHashable : Any]?) {
         //To Do
     }
+    
+    func didLogUpload(_ message: String?) {
+        let alert = UIAlertController(title: " ", message: message, preferredStyle: UIAlertController.Style.alert)
+        let action = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction) in
+        }
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)    }
 }
 
 extension EnxConfrenceViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
@@ -479,4 +513,6 @@ extension EnxConfrenceViewController : UICollectionViewDelegate,UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 2.0
     }
+    
+    
 }

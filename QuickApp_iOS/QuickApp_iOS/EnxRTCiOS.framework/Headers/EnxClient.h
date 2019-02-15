@@ -5,15 +5,12 @@
 #import "EnxClientDelegate.h"
 #import "EnxClientState.h"
 
+
 typedef RTCSessionDescription * (^SDPHackCallback)(RTCSessionDescription *description);
 
 static SDPHackCallback sdpHackCallback;
 static NSString *preferredVideoCodec;
-static NSString *defaultVideoCodec = @"VP8";
-static NSString *const kEnxAppClientErrorDomain = @"EnxAppClient";
-static NSInteger const kEnxAppClientErrorCreateSDP = -3;
-static NSInteger const kEnxAppClientErrorSetSDP = -4;
-static int const kKbpsMultiplier = 1000;
+
 
 /**
  Returns *EnxClientState* stringified.
@@ -38,8 +35,6 @@ extern NSString* clientStateToString(EnxClientState state);
 
 /// EnxClientDelegate instance.
 @property (weak, nonatomic) id<EnxClientDelegate> delegate;
-/// Server configuration for this client.
-@property (nonatomic, readonly) NSDictionary *serverConfiguration;
 /// Local Stream assigned to this client.
 @property (strong, nonatomic) RTCMediaStream *localStream;
 /// Max bitrate allowed for this client to use.
@@ -47,7 +42,7 @@ extern NSString* clientStateToString(EnxClientState state);
 /// Should bitrate be limited to `maxBitrate` value?
 @property BOOL limitBitrate;
 /// Peer socket id assigned by Enx for signaling P2P connections.
-@property NSString *peerSocketId;
+@property  NSString *peerSocketId;
 /// The streamId
 @property NSString *streamId;
 

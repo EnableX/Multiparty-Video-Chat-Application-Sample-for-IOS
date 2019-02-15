@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27AB2ACB22169C3100F4631D /* EnxRTCiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AB2AC922169C2A00F4631D /* EnxRTCiOS.framework */; };
+		27AB2ACC22169C3100F4631D /* EnxRTCiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 27AB2AC922169C2A00F4631D /* EnxRTCiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		27F51E9221B651D2002F7638 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51E9121B651D2002F7638 /* AppDelegate.swift */; };
 		27F51E9721B651D2002F7638 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F51E9521B651D2002F7638 /* Main.storyboard */; };
 		27F51E9921B651D3002F7638 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F51E9821B651D3002F7638 /* Assets.xcassets */; };
@@ -20,8 +22,6 @@
 		27F51ECE21B65F99002F7638 /* EnxNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51ECD21B65F99002F7638 /* EnxNetworkManager.swift */; };
 		27F51ED021B65FC1002F7638 /* EnxRoomInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51ECF21B65FC1002F7638 /* EnxRoomInfoModel.swift */; };
 		27F51ED221B65FE0002F7638 /* EnxConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51ED121B65FE0002F7638 /* EnxConstant.swift */; };
-		27F51ED721B662FF002F7638 /* EnxRTCiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27F51ED521B662F7002F7638 /* EnxRTCiOS.framework */; };
-		27F51ED821B662FF002F7638 /* EnxRTCiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 27F51ED521B662F7002F7638 /* EnxRTCiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		27F51EDB21B678D4002F7638 /* EnxPlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51EDA21B678D4002F7638 /* EnxPlayerCollectionViewCell.swift */; };
 		709B6A237E4C6B85C5188D70 /* Pods_QuickApp_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F8611551D7DBA075443ECC /* Pods_QuickApp_iOS.framework */; };
 		838AA8367315353FDE2E9F51 /* Pods_QuickApp_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8E0C9923A10C070EEB09631 /* Pods_QuickApp_iOSUITests.framework */; };
@@ -52,7 +52,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				27F51ED821B662FF002F7638 /* EnxRTCiOS.framework in Embed Frameworks */,
+				27AB2ACC22169C3100F4631D /* EnxRTCiOS.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,6 +62,7 @@
 /* Begin PBXFileReference section */
 		20E8DD13DD95ED2EB660E3FB /* Pods-QuickApp_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickApp_iOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickApp_iOSTests/Pods-QuickApp_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		23F8611551D7DBA075443ECC /* Pods_QuickApp_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickApp_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		27AB2AC922169C2A00F4631D /* EnxRTCiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EnxRTCiOS.framework; sourceTree = "<group>"; };
 		27F51E8E21B651D2002F7638 /* QuickApp_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickApp_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F51E9121B651D2002F7638 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F51E9621B651D2002F7638 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -81,7 +82,6 @@
 		27F51ECD21B65F99002F7638 /* EnxNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnxNetworkManager.swift; sourceTree = "<group>"; };
 		27F51ECF21B65FC1002F7638 /* EnxRoomInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnxRoomInfoModel.swift; sourceTree = "<group>"; };
 		27F51ED121B65FE0002F7638 /* EnxConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnxConstant.swift; sourceTree = "<group>"; };
-		27F51ED521B662F7002F7638 /* EnxRTCiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EnxRTCiOS.framework; sourceTree = "<group>"; };
 		27F51EDA21B678D4002F7638 /* EnxPlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnxPlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 		5AFEBAD5335CEAC0165CFB27 /* Pods-QuickApp_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickApp_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		8A35B4054945C6F44AC494BB /* Pods-QuickApp_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickApp_iOSUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickApp_iOSUITests/Pods-QuickApp_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27F51ED721B662FF002F7638 /* EnxRTCiOS.framework in Frameworks */,
+				27AB2ACB22169C3100F4631D /* EnxRTCiOS.framework in Frameworks */,
 				709B6A237E4C6B85C5188D70 /* Pods_QuickApp_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,7 +146,7 @@
 		27F51E9021B651D2002F7638 /* QuickApp_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				27F51ED521B662F7002F7638 /* EnxRTCiOS.framework */,
+				27AB2AC922169C2A00F4631D /* EnxRTCiOS.framework */,
 				27F51EC421B65E0A002F7638 /* AppDelegate */,
 				27F51EC021B65DFE002F7638 /* Headers */,
 				27F51EBF21B65DFD002F7638 /* Model */,
@@ -266,6 +266,7 @@
 				27F51E8C21B651D2002F7638 /* Resources */,
 				134A3D0166FB62E70067AE7C /* [CP] Embed Pods Frameworks */,
 				27F51ED921B662FF002F7638 /* Embed Frameworks */,
+				272FEEAA21C3C3FB00AFA0D0 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -391,7 +392,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS-frameworks.sh",
 				"${PODS_ROOT}/GoogleWebRTC/Frameworks/frameworks/WebRTC.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
@@ -408,8 +409,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		272FEEAA21C3C3FB00AFA0D0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/Fabric/run\" 6db66bb09589a86b6c8ca0a363283eae3d10fc21 95a89475e2a08b213555f788be00d1c32b3aec5692fd969f501e38aeea88ba0c\n";
 		};
 		82951AA04237C1AE4DD2B82A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

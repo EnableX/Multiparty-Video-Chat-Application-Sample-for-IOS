@@ -10,6 +10,7 @@ import Foundation
 
 import UIKit
 import SVProgressHUD
+import AVFoundation
 
 class EnxJoinRoomViewController: UIViewController  {
     
@@ -26,8 +27,21 @@ class EnxJoinRoomViewController: UIViewController  {
     @IBOutlet weak var shareBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        getPermissions()
         self.prepareView()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    func getPermissions() {
+        let vStatus = AVCaptureDevice.authorizationStatus(for: .video)
+        if(vStatus == AVAuthorizationStatus.notDetermined){
+            AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+            })
+        }
+        let aStatus = AVCaptureDevice.authorizationStatus(for: .audio)
+        if(aStatus == AVAuthorizationStatus.notDetermined){
+            AVCaptureDevice.requestAccess(for: .audio, completionHandler: { (granted: Bool) in
+            })
+        }
     }
     // MARK: - prepareView
     /**
@@ -43,10 +57,9 @@ class EnxJoinRoomViewController: UIViewController  {
         topView.round(corners: [.topLeft, .topRight], radius: 8.0)
         moderator.isSelected = true
         createRoom.layer.cornerRadius = 8.0
-        if UserDefaults.standard.string(forKey: "Rood_Id") != nil{
+        if UserDefaults.standard.string(forKey: "QRood_Id") != nil{
             let userdef = UserDefaults.standard
-            self.roomNameTxt.text = userdef.string(forKey: "Rood_Id")
-            self.nameTxt.text = userdef.string(forKey: "participantName")
+            self.roomNameTxt.text = userdef.string(forKey: "QRood_Id")
             shareBtn.isHidden = false
         }
     }
@@ -59,9 +72,9 @@ class EnxJoinRoomViewController: UIViewController  {
         let roomdataModel = EnxRoomInfoModel()
         roomdataModel.room_id = self.roomNameTxt.text
         roomdataModel.participantName = self.nameTxt.text
-        if UserDefaults.standard.string(forKey: "mode") != nil{
+        if UserDefaults.standard.string(forKey: "Qmode") != nil{
             let userdef = UserDefaults.standard
-            roomdataModel.mode = userdef.string(forKey: "mode")
+            roomdataModel.mode = userdef.string(forKey: "Qmode")
         }
         return roomdataModel
     }
@@ -88,13 +101,11 @@ class EnxJoinRoomViewController: UIViewController  {
             DispatchQueue.main.async {
                 //Success Response from server
                 if roomModel.room_id != nil{
-                    if self.isModerator {
+                    if self.isModerator{
                         roomModel.role = "moderator"
+                    }else{
+                        roomModel.role = "participant"
                     }
-                    else{
-                      roomModel.role = "participant"
-                    }
-                    
                     roomModel.participantName = nameStr
                     self.performSegue(withIdentifier: "ConferenceView", sender: roomModel)
                 }
@@ -168,8 +179,8 @@ class EnxJoinRoomViewController: UIViewController  {
      **/
     private func saveTOuserDef(roomInfo:EnxRoomInfoModel){
         let usdef = UserDefaults.standard
-        usdef.set(roomInfo.room_id, forKey: "Rood_Id")
-        usdef.set(roomInfo.mode, forKey: "mode")
+        usdef.set(roomInfo.room_id, forKey: "QRood_Id")
+        usdef.set(roomInfo.mode, forKey: "Qmode")
         usdef.synchronize()
     }
     // MARK: - Create Room

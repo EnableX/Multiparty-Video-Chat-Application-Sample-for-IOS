@@ -159,6 +159,9 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  */
 - (void)room:(EnxRoom *_Nullable)room didError:(NSString *_Nullable)reason;
 
+// called when error on event failure like publish, subscribe etc
+- (void)room:(EnxRoom *_Nullable)room didEventError:(NSArray *_Nullable)reason;
+
 
 - (void)room:(EnxRoom *_Nullable)room didReconnect:(NSString *_Nullable)reason;
 
@@ -228,7 +231,7 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
 //On Logs uploaded failure
 //-(void)logsUploadedFailure:(NSString *)message;
 
--(void)didLogUpload:(NSString *_Nullable)message;
+-(void)didLogUpload:(NSArray *_Nullable)data;
 
 #pragma mark- ChairControl
 #pragma mark- CC
@@ -255,7 +258,7 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  Response:
  
  {
- "mess" : "Floor Request Granted"
+ "msg" : "Floor Request Granted"
  }
  
  */
@@ -269,7 +272,7 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  Response:
  
  {
- "mess" : "Floor Request Denied"
+ "msg" : "Floor Request Denied"
  }
  */
 
@@ -285,7 +288,7 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  Response:
  
  {
- "mess" : "Floor Released"
+ "msg" : "Floor Released"
  }
  
  */
@@ -513,6 +516,12 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  */
 - (void)room:(EnxRoom *_Nullable)room didBandWidthUpdated:(NSArray *_Nullable)data;
 
+
+/**
+ This delegate for response on setting video quality of remote streams.
+ */
+-(void)room:(EnxRoom *_Nullable)room didSetVideoQuality:(NSArray *_Nullable)data;
+
 @end
 
 ///-----------------------------------
@@ -523,6 +532,7 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  Interface responsable of publshing/consuming streams in a given EnxRoom.
  */
 @interface EnxRoom : NSObject <EnxSignalingChannelRoomDelegate, EnxClientDelegate>
+
 
 ///-----------------------------------
 /// @name Initializers
@@ -571,7 +581,7 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
 @property (readonly) NSString * _Nullable publishStreamId;
 
 /// EnxStream referencing the stream being published.
-@property (weak, readonly) EnxStream * _Nullable publishStream;
+@property (readonly) EnxStream * _Nullable publishStream;
 
 /// EnxStream streams in the room.
 @property (readonly) NSMutableDictionary * _Nullable streamsByStreamId;
@@ -607,10 +617,15 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
 @property (nonatomic) BOOL isHardMuteRoom;
 @property (nonatomic) BOOL isHardMuteUser;
 @property (nonatomic) BOOL isVideoUserHardMute;
+@property (nonatomic) BOOL isAudioOnlyRoom;
 //@property (nonatomic,strong) NSNumber *activeTalkerCount;
+// connected clientId
+@property (readonly,weak) NSString * _Nullable clientId;
+// connected clientName
+@property (readonly,weak) NSString * _Nullable clientName;
+@property (nonatomic,weak) NSArray * _Nullable userList;
+@property (readonly,nonatomic) NSString * _Nonnull userRole;
 
-@property (nonatomic,strong) NSString * _Nullable clientId;
-@property (nonatomic,strong) NSArray * _Nullable userList;
 
 ///-----------------------------------
 /// @name Public Methods
@@ -892,5 +907,18 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  
  */
 -(void)setTalkerCount:(NSInteger)number;
+
+
+-(void)changeToAudioOnly:(BOOL)check;
+
+
+/**
+videoQuality which should be "Auto, HD , SD, LD"
+ This API use to request server to set the remote video stream in different quality.
+ */
+-(void)setReceiveVideoQuality:(NSString*_Nonnull)videoQuality;
+
+/** This method for get event from stream if any unauthrozed event get called **/
+-(void)getEnxSteamEventError:(NSString *)eventName;
 
 @end
