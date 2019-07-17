@@ -95,6 +95,14 @@ readyToSubscribeStreamId:(NSString *)streamId
 - (void)signalingChannel:(EnxSignalingChannel *)channel didConnectToRoom:(NSDictionary *)roomMeta;
 
 /**
+ Event fired as soon a client connect to a room.
+ 
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param roomMeta Metadata associated to the room that the client just connect.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *)channel didReConnectToRoom:(NSDictionary *)roomMeta;
+
+/**
  Event fired as soon as rtc channels were disconnected and websocket
  connection is about to be closed.
  
@@ -111,6 +119,12 @@ readyToSubscribeStreamId:(NSString *)streamId
  @param streamId NSString id of the stream that will be published.
  */
 - (void)signalingChannel:(EnxSignalingChannel *)channel didReceiveStreamIdReadyToPublish:(NSString *)streamId;
+/**
+ Event Fired when unpublish called
+@param channel EnxSignalingChannel the channel that emit the message.
+@param data NSArray Response of the stream that will be Unpublished.
+*/
+- (void)signalingChannel:(EnxSignalingChannel *)channel didOnUnPublish:(NSArray *)data;
 
 
 /*(Event fired when a new stream id has been created and server is ready
@@ -313,6 +327,10 @@ to start subscribing it. */
 -(void)signalingChannel:(EnxSignalingChannel *)channel screenShareStartedSignaling:(NSArray *)Data;
 -(void)signalingChannel:(EnxSignalingChannel *)channel screenShareStoppedSignaling:(NSArray *)Data;
 
+//Canvas Delegate
+-(void)signalingChannel:(EnxSignalingChannel *)channel canvasStartedSignaling:(NSArray *)Data;
+-(void)signalingChannel:(EnxSignalingChannel *)channel canvasStoppedSignaling:(NSArray *)Data;
+
 -(void)signalingChannel:(EnxSignalingChannel *)channel publishMediaCodecChange:(NSArray *)Data;
 
 -(void)signalingChannel:(EnxSignalingChannel *)channel publisherBandWidthAlert:(NSArray *)Data;
@@ -397,7 +415,7 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 #pragma mark- AT
 -(void)getMaxTalkersFromSignaling;
 -(void)getTalkerCountFromSignaling;
--(void)setTalkerCountFromSignaling:(NSInteger)number;
+-(void)setTalkerCountFromSignaling:(NSInteger)number callbackCheck:(BOOL)callbackCheck;
 
 #pragma mark-
 - (void)hardMuteVideo:(NSString*)clientId;
@@ -417,4 +435,7 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 
 // This method use to send log event data to server.
 -(void)socketEnxLogEmit:(NSDictionary *_Nonnull)dictionary;
+
+#pragma mark- Reconnect
+-(void)reconnectAttampt:(NSString*)token;
 @end

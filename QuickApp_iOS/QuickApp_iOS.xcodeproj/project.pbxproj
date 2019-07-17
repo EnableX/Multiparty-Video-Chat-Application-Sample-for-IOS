@@ -3,12 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		27AB2ACB22169C3100F4631D /* EnxRTCiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27AB2AC922169C2A00F4631D /* EnxRTCiOS.framework */; };
-		27AB2ACC22169C3100F4631D /* EnxRTCiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 27AB2AC922169C2A00F4631D /* EnxRTCiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		27F51E9221B651D2002F7638 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51E9121B651D2002F7638 /* AppDelegate.swift */; };
 		27F51E9721B651D2002F7638 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27F51E9521B651D2002F7638 /* Main.storyboard */; };
 		27F51E9921B651D3002F7638 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27F51E9821B651D3002F7638 /* Assets.xcassets */; };
@@ -45,24 +43,9 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		27F51ED921B662FF002F7638 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				27AB2ACC22169C3100F4631D /* EnxRTCiOS.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		20E8DD13DD95ED2EB660E3FB /* Pods-QuickApp_iOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickApp_iOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickApp_iOSTests/Pods-QuickApp_iOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		23F8611551D7DBA075443ECC /* Pods_QuickApp_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuickApp_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		27AB2AC922169C2A00F4631D /* EnxRTCiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EnxRTCiOS.framework; sourceTree = "<group>"; };
 		27F51E8E21B651D2002F7638 /* QuickApp_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickApp_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		27F51E9121B651D2002F7638 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		27F51E9621B651D2002F7638 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -97,7 +80,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27AB2ACB22169C3100F4631D /* EnxRTCiOS.framework in Frameworks */,
 				709B6A237E4C6B85C5188D70 /* Pods_QuickApp_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,7 +128,6 @@
 		27F51E9021B651D2002F7638 /* QuickApp_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				27AB2AC922169C2A00F4631D /* EnxRTCiOS.framework */,
 				27F51EC421B65E0A002F7638 /* AppDelegate */,
 				27F51EC021B65DFE002F7638 /* Headers */,
 				27F51EBF21B65DFD002F7638 /* Model */,
@@ -265,7 +246,6 @@
 				27F51E8B21B651D2002F7638 /* Frameworks */,
 				27F51E8C21B651D2002F7638 /* Resources */,
 				134A3D0166FB62E70067AE7C /* [CP] Embed Pods Frameworks */,
-				27F51ED921B662FF002F7638 /* Embed Frameworks */,
 				272FEEAA21C3C3FB00AFA0D0 /* ShellScript */,
 			);
 			buildRules = (
@@ -391,21 +371,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS-frameworks.sh",
-				"${PODS_ROOT}/GoogleWebRTC/Frameworks/frameworks/WebRTC.framework",
-				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
-				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework",
-				"${BUILT_PRODUCTS_DIR}/StarscreamSocketIO/StarscreamSocketIO.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketIO.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StarscreamSocketIO.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -690,7 +661,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.enx.quickapp.QuickApp-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -715,7 +686,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.enx.quickapp.QuickApp-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

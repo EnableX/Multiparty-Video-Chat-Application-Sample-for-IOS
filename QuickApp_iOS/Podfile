@@ -1,3 +1,4 @@
+project 'QuickApp_iOS.xcodeproj'
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
@@ -6,7 +7,7 @@ target 'QuickApp_iOS' do
   use_frameworks!
 
   # Pods for QuickApp_iOS
-    pod 'GoogleWebRTC', '1.1.26379'
+    pod 'EnxRTCiOS'
     pod 'Socket.IO-Client-Swift', '~> 12.0.0'
     pod 'SVProgressHUD'
     pod 'ReachabilitySwift'

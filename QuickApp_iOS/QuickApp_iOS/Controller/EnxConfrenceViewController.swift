@@ -211,11 +211,11 @@ class EnxConfrenceViewController: UIViewController {
             return
         }
         if sender.isSelected {
-            remoteRoom.speakerActive(true)
+           // remoteRoom.speakerActive(true)
             sender.isSelected = false
         }
         else{
-            remoteRoom.speakerActive(false)
+            //remoteRoom.speakerActive(false)
             sender.isSelected = true
         }
     }
@@ -248,9 +248,7 @@ class EnxConfrenceViewController: UIViewController {
      Its method will exist from Room
      **/
     private func leaveRoom(){
-        
         remoteRoom?.disconnect()
-        self.navigationController?.popViewController(animated: true)
     }
     
     /*
@@ -350,7 +348,7 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
      This Delegate will notify to User if Room Got discunnected
      */
     func roomDidDisconnected(_ status: EnxRoomStatus) {
-        self.leaveRoom()
+        self.navigationController?.popViewController(animated: true)
     }
     /*
      This Delegate will notify to User if any person join room

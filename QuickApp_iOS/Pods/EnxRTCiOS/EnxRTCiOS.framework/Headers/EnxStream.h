@@ -128,6 +128,7 @@
  Moderator Delegates
  */
 - (void)didhardMuteAudio:(NSArray *_Nullable)Data;
+
 /**
  
  There would be listener for moderator when hardmute used by moderator. For this delegates are:
@@ -300,6 +301,13 @@
  */
 //- (NSException *)unmute;
 
+/**
+ mute/unmute stream video when user cross over senssor .
+ 
+ @param flag BOOL to send true to mute or false to unmute.
+ @see EnxStreamDelegate:didVideoEvents:data:
+ */
+-(void)muteUnMuteVideowithSenssorUpdate:(BOOL)flag;
 
 /**
  mute/unmute stream video.
@@ -409,8 +417,11 @@
 /// Indicates attributes hasn't been sent to Enx yet.
 @property (readonly) BOOL dirtyAttributes;
 
-/// Enx stream options.
+/// Enx Lecol stream options.
 @property (strong, nonatomic) NSMutableDictionary * _Nullable streamOptions;
+
+/// Enx Remote stream options.
+@property (strong, nonatomic) NSDictionary * _Nullable remoteStreamOptions;
 
 /// Factory instance used to access local media.
 @property (strong, nonatomic) RTCPeerConnectionFactory * _Nullable peerFactory;

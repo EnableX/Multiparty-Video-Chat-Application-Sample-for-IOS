@@ -507,6 +507,26 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  */
 -(void)room:(EnxRoom *_Nullable)room screenShareStopped:(NSArray *_Nullable)Data;
 
+
+
+//Canvas Delegate
+/**
+ 
+ A Participant listens to this delegate to know about a Canvas started by a user.
+ @param room Instance of the room where event happen.
+ @param Data list of required information to display canvas
+ 
+ */
+-(void)room:(EnxRoom *_Nullable)room canvasStarted:(NSArray *_Nullable)Data;
+/**
+ A Participant listens to this delegate to know about that Canvas  has stopped by user.
+ 
+ @param room Instance of the room where event happen.
+ @param Data list of required information to remove canvas
+ 
+ */
+-(void)room:(EnxRoom *_Nullable)room canvasStopped:(NSArray *_Nullable)Data;
+
 /**
  Fired when a bandWidth alert received from server.
  
@@ -521,6 +541,40 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  This delegate for response on setting video quality of remote streams.
  */
 -(void)room:(EnxRoom *_Nullable)room didSetVideoQuality:(NSArray *_Nullable)data;
+/**
+ This delegate Method Will Notify app user for any Audio media changes happen recentally(Like :- New device connected/Doisconnected).
+ */
+-(void)didNotifyDeviceUpdate:(NSString*_Nonnull)updates;
+
+#pragma -mark Network Connection intrupted
+/**
+ Fired when a bandWidth alert received from server.
+ 
+ @param room Instance of the room where event happen.
+ @param data network intruption alert info.
+ 
+ */
+-(void)room:(EnxRoom*_Nonnull)room didConnectionInterrupted:(NSArray*_Nonnull)data;
+
+#pragma -mark Network Connection Lost
+/**
+ Fired when a bandWidth alert received from server after 10sec .
+ 
+ @param room Instance of the room where event happen.
+ @param data network Time Out alert info.
+ 
+ */
+-(void)room:(EnxRoom*_Nonnull)room didConnectionLost:(NSArray*_Nonnull)data;
+
+#pragma -mark Reconnect Success
+/**
+ Fired when a bandWidth alert received from server after 10sec .
+ 
+ @param room Instance of the room where event happen.
+ @param data Inform user for reconnect success.
+ 
+ */
+-(void)room:(EnxRoom*_Nonnull)room didUserReconnected:(NSDictionary*_Nonnull)data;
 
 @end
 
@@ -625,6 +679,7 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
 @property (readonly,weak) NSString * _Nullable clientName;
 @property (nonatomic,weak) NSArray * _Nullable userList;
 @property (readonly,nonatomic) NSString * _Nonnull userRole;
+//@property(nonatomic,strong) NSDictionary * _Nonnull reconnect;
 
 
 ///-----------------------------------
@@ -869,7 +924,7 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
  
  */
 
-- (void)speakerActive :(BOOL)state;
+//- (void)speakerActive :(BOOL)state;
 
 /**
  This method returns user-meta information about the user connected on a End-POint.
@@ -913,12 +968,32 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
 
 
 /**
-videoQuality which should be "Auto, HD , SD, LD"
+opt which should be "Auto, HD , SD, LD and talker/canvas"
  This API use to request server to set the remote video stream in different quality.
  */
--(void)setReceiveVideoQuality:(NSString*_Nonnull)videoQuality;
+-(void)setReceiveVideoQuality:(NSDictionary*_Nonnull)opt;
+
+/**
+ streamType which should be "talker/canvas"
+ This API use to return the remote video stream quality.
+ */
+-(NSString *_Nonnull)getReceiveVideoQuality:(NSString*_Nonnull)streamType;
 
 /** This method for get event from stream if any unauthrozed event get called **/
--(void)getEnxSteamEventError:(NSString *)eventName;
+-(void)getEnxSteamEventError:(NSString *_Nonnull)eventName;
+/** This method Will return all list of connected Audio Device**/
+-(NSArray*_Nonnull)getDevices;
+/** This method Will return Current selected Audio device**/
+-(NSString*_Nonnull)getSelectedDevice;
+/** This method Will Switch to selected media device**/
+-(void)switchMediaDevice:(NSString*_Nonnull)mediaName;
+
+
+/** Client endpoint will call this method to a mute/unmute remote stream while application in the background. **/
+-(void)applicationDidEnterBackground:(BOOL)videoMuteRemoteStream;
+
+/** Client endpoint will call this method to a mute/unmute remote stream while application in the foreground. **/
+-(void)applicationWillEnterForeground:(BOOL)videoMuteRemoteStream;
+-(void)reconnect:(NSString*_Nonnull)token;
 
 @end
