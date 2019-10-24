@@ -97,9 +97,9 @@ class EnxConfrenceViewController: UIViewController {
                     
                     let localStreamInfo : NSDictionary = ["video" : self.param["video"]! ,"audio" : self.param["audio"]! ,"data" :self.param["chat"]! ,"name" :self.roomInfo.participantName!,"type" : "public" ,"maxVideoBW" : 400 ,"minVideoBW" : 300 , "videoSize" : videoSize]
                     
-                    
-                    guard let stream = self.objectJoin.joinRoom(token, delegate: self, publishStreamInfo: (localStreamInfo as! [AnyHashable : Any])) else{
-                         SVProgressHUD.dismiss()
+                    let roomInfo : NSDictionary  = ["allow_reconnect" : true , "number_of_attempts" : 3, "timeout_interval" : 20, "audio_only": false]
+                    guard let stream = self.objectJoin.joinRoom(token, delegate: self, publishStreamInfo: (localStreamInfo as! [AnyHashable : Any]), roomInfo: (roomInfo as! [AnyHashable : Any]), advanceOptions: nil) else{
+                        SVProgressHUD.dismiss()
                         return
                     }
                     
@@ -159,7 +159,6 @@ class EnxConfrenceViewController: UIViewController {
         guard remoteRoom != nil else {
             return
         }
-        localStream.signalingChannel = remoteRoom.signalingChannel
         if sender.isSelected {
             localStream.muteSelfAudio(false)
             sender.isSelected = false
@@ -179,7 +178,6 @@ class EnxConfrenceViewController: UIViewController {
         guard remoteRoom != nil else {
             return
         }
-        localStream.signalingChannel = remoteRoom.signalingChannel
         if sender.isSelected {
             localStream.muteSelfVideo(false)
             sender.isSelected = false
@@ -211,11 +209,11 @@ class EnxConfrenceViewController: UIViewController {
             return
         }
         if sender.isSelected {
-           // remoteRoom.speakerActive(true)
+            remoteRoom.switchMediaDevice("Speaker")
             sender.isSelected = false
         }
         else{
-            //remoteRoom.speakerActive(false)
+            remoteRoom.switchMediaDevice("EARPIECE")
             sender.isSelected = true
         }
     }
@@ -248,7 +246,9 @@ class EnxConfrenceViewController: UIViewController {
      Its method will exist from Room
      **/
     private func leaveRoom(){
+        
         remoteRoom?.disconnect()
+        self.navigationController?.popViewController(animated: true)
     }
     
     /*
@@ -348,7 +348,7 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
      This Delegate will notify to User if Room Got discunnected
      */
     func roomDidDisconnected(_ status: EnxRoomStatus) {
-        self.navigationController?.popViewController(animated: true)
+        self.leaveRoom()
     }
     /*
      This Delegate will notify to User if any person join room
@@ -380,12 +380,35 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
     func room(_ room: EnxRoom?, didUpdateAttributesOf stream: EnxStream?) {
         //To Do
     }
+    
+    /*
+     This Delegate will notify when internet connection lost.
+     */
+    func room(_ room: EnxRoom, didConnectionLost data: [Any]) {
+        
+    }
+    
+    /*
+     This Delegate will notify on connection interuption example switching from Wifi to 4g.
+     */
+    func room(_ room: EnxRoom, didConnectionInterrupted data: [Any]) {
+        
+    }
+    
+    /*
+     This Delegate will notify reconnect success.
+     */
+    func room(_ room: EnxRoom, didUserReconnectSuccess data: [AnyHashable : Any]) {
+        
+    }
+    
     /*
      This Delegate will notify to User if any new User Reconnect the room
      */
-    func room(_ room: EnxRoom?, didReconnect reason: String?) {
-        //To Do
+    func room(_ room:EnxRoom?, didReconnect reason: String?){
+        
     }
+    
     /*
      This Delegate will notify to User with active talker list
      */
@@ -419,13 +442,13 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
                 let mostActiveDict = active as! [String : Any]
                 let streamId = String(mostActiveDict["streamId"] as! Int)
                 let stream = remoteStreamDict[streamId] as! EnxStream
+                stream.mediaType = (mostActiveDict["mediatype"] as! String) as NSString
                 if(index == 0){
                     mainPlayerView.isHidden = false
                     subscriberNameLBL.isHidden = false
                     messageLBL.isHidden = true
                     
                     stream.streamAttributes = ["name" : mostActiveDict["name"] as! String]
-                    stream.mediaType = (mostActiveDict["mediatype"] as! String)
                     stream.detachRenderer()
                     stream.attachRenderer(mainPlayerView)
                     subscriberNameLBL.text = mostActiveDict["name"] as? String
@@ -440,6 +463,48 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
             
         }
     }
+    
+    /* To Ack. moderator on switch user role.
+     */
+    func room(_ room: EnxRoom?, didSwitchUserRole data: [Any]?) {
+        
+    }
+    
+    /* To all participants that user role has chnaged.
+     */
+    func room(_ room: EnxRoom?, didUserRoleChanged data: [Any]?) {
+        
+    }
+    
+    /*
+     This Delegate will Acknowledge setting advance options.
+     */
+    func room(_ room: EnxRoom?, didAcknowledgementAdvanceOption data: [AnyHashable : Any]?) {
+        
+    }
+    
+    /*
+     This Delegate will notify battery updates.
+     */
+    func room(_ room: EnxRoom?, didBatteryUpdates data: [AnyHashable : Any]?) {
+        
+    }
+    
+    /*
+     This Delegate will notify change on stream aspect ratio.
+     */
+    func room(_ room: EnxRoom?, didAspectRatioUpdates data: [Any]?) {
+        
+    }
+    
+    /*
+     This Delegate will notify change video resolution.
+     */
+    func room(_ room: EnxRoom?, didVideoResolutionUpdates data: [Any]?) {
+        
+    }
+    
+    
     //Mark- EnxStreamDelegate Delegate
     /*
      This Delegate will notify to current User If User will do Self Stop Video
@@ -497,6 +562,7 @@ extension EnxConfrenceViewController : UICollectionViewDelegate,UICollectionView
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return streamArray.count
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customeCell", for: indexPath) as! EnxPlayerCollectionViewCell
         let stream = streamArray[indexPath.row] as! EnxStream

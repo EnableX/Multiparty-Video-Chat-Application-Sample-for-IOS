@@ -22,7 +22,7 @@ class EnxJoinRoomViewController: UIViewController  {
     @IBOutlet weak var stackView: UIView!
     @IBOutlet weak var moderator: UIButton!
     @IBOutlet weak var createRoom: UIButton!
-    var isModerator : Bool! = true
+    var isModerator : Bool! = false
     
     @IBOutlet weak var shareBtn: UIButton!
     override func viewDidLoad() {

@@ -44,6 +44,12 @@ import Foundation
     /// - parameter reason: The reason the engine opened.
     func engineDidOpen(reason: String)
 
+    /// Called when the engine receives a pong message.
+    func engineDidReceivePong()
+
+    /// Called when the engine sends a ping to the server.
+    func engineDidSendPing()
+
     /// Called when the engine has a message that must be parsed.
     ///
     /// - parameter msg: The message that needs parsing.
@@ -53,4 +59,9 @@ import Foundation
     ///
     /// - parameter data: The data the engine received.
     func parseEngineBinaryData(_ data: Data)
+
+    /// Called when when upgrading the http connection to a websocket connection.
+    ///
+    /// - parameter headers: The http headers.
+    func engineDidWebsocketUpgrade(headers: [String: String])
 }

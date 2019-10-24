@@ -1,45 +1,42 @@
 PODS:
-  - Crashlytics (3.13.4):
-    - Fabric (~> 1.10.2)
-  - EnxRTCiOS (1.3.1):
-    - GoogleWebRTC (= 1.1.27564)
-  - Fabric (1.10.2)
-  - GoogleWebRTC (1.1.27564)
-  - ReachabilitySwift (4.3.1)
-  - Socket.IO-Client-Swift (12.0.0):
-    - StarscreamSocketIO (~> 8.0.7)
-  - StarscreamSocketIO (8.0.7)
+  - Crashlytics (3.12.0):
+    - Fabric (~> 1.9.0)
+  - Fabric (1.9.0)
+  - GoogleWebRTC (1.1.29229)
+  - ReachabilitySwift (4.3.0)
+  - Socket.IO-Client-Swift (15.0.0):
+    - Starscream (~> 3.1)
+  - Starscream (3.1.1)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - Crashlytics
-  - EnxRTCiOS
   - Fabric
+  - GoogleWebRTC (= 1.1.29229)
   - ReachabilitySwift
-  - Socket.IO-Client-Swift (~> 12.0.0)
+  - Socket.IO-Client-Swift (~> 15.0.0)
   - SVProgressHUD
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Crashlytics
-    - EnxRTCiOS
     - Fabric
-    - GoogleWebRTC
     - ReachabilitySwift
-    - Socket.IO-Client-Swift
-    - StarscreamSocketIO
     - SVProgressHUD
+  trunk:
+    - GoogleWebRTC
+    - Socket.IO-Client-Swift
+    - Starscream
 
 SPEC CHECKSUMS:
-  Crashlytics: 2dfd686bcb918dc10ee0e76f7f853fe42c7bd552
-  EnxRTCiOS: 8282f5e0afb0a9e86939465e525f60f77b038dec
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
-  GoogleWebRTC: fc33f469599b0c15eda73213696d2346c0ed1c4a
-  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
-  Socket.IO-Client-Swift: 5b0154b42b3892bfb4c44fa138cbeb8afec4f6ef
-  StarscreamSocketIO: 00b54e4208481ca5cef089545353aaf126bae16d
+  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
+  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
+  GoogleWebRTC: ffbf2dca3bdef0fbeebcff497e0a659bd69761c8
+  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
+  Socket.IO-Client-Swift: c039a808195d22a7192962841b8c035cb61ea49e
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 28ecdeaed7a74ce20880bb43741217d6c22e8baf
+PODFILE CHECKSUM: 78d7a7613a1b321d8fb2adfcb34f2f577261e7ab
 
-COCOAPODS: 1.7.4
+COCOAPODS: 1.8.4
