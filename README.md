@@ -62,20 +62,20 @@ meeting rooms. API Access is given to each Application through the assigned App 
 are to be used as Username and Password respectively to pass as HTTP Basic Authentication header to access Server API.
  
 For this application, the following Server API calls are used: 
-* https://api.enablex.io/v1/rooms - To create new room
-* https://api.enablex.io/v1/rooms/:roomId - To get information of a given Room
-* https://api.enablex.io/v1/rooms/:roomId/tokens - To create Token for a given Room to get into a RTC Session
+* https://developer.enablex.io/latest/server-api/rooms-route/#get-rooms - To get list of Rooms
+* https://developer.enablex.io/latest/server-api/rooms-route/#get-room-info - To get information of the given Room
+* https://developer.enablex.io/latest/server-api/rooms-route/#create-token - To create Token for the given Room
 
 To know more about Server API, go to:
-https://developer.enablex.io/api/server-api/
+https://developer.enablex.io/latest/server-api/
 
 
 ## 3 iOS Toolkit
 
 iOS App to use iOS Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications.  
 
-* Documentation: https://developer.enablex.io/api/client-api/ios-toolkit/
-* Download: https://developer.enablex.io/downloads/ios-toolkit/
+* Documentation: https://developer.enablex.io/latest/client-api/ios-toolkit/
+* Download: https://developer.enablex.io/latest/client-api/ios-toolkit/
 
 
 ## 4 Application Walk-through
@@ -85,13 +85,13 @@ iOS App to use iOS Toolkit to communicate with EnableX Servers to initiate and m
 We create a Token for a Room Id to get connected to EnableX Platform to connect to the Virtual Room to carry out a RTC Session.
 
 To create Token, we make use of Server API. Refer following documentation:
-https://developer.enablex.io/api/server-api/api-routes/rooms-route/#create-token
+https://developer.enablex.io/latest/server-api/rooms-route/#create-token
 
 
 ### 4.2 Connect to a Room, Initiate & Publish Stream
 
 We use the Token to get connected to the Virtual Room. Once connected, we intiate local stream and publish into the room. Refer following documentation for this process:
-https://developer.enablex.io/api/client-api/ios-toolkit/enxrtc/
+https://developer.enablex.io/latest/client-api/ios-toolkit/enxrtc/
 
 
 ### 4.3 Play Stream
@@ -102,7 +102,7 @@ let streamView = EnxPlayerView(frame: CGRect)
 self.view.addSubview(streamView) 
 localStream.attachRenderer(streamView) 
   ```
-More on Player: https://developer.enablex.io/api/client-api/ios-toolkit/enxplayerview/
+More on Player: https://developer.enablex.io/latest/client-api/ios-toolkit/basic-functions/#play-stream
 
 ### 4.4 Handle Server Events
 
