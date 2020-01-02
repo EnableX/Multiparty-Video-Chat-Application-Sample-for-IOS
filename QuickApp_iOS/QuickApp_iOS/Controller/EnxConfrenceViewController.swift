@@ -295,9 +295,10 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
     /*
      This Delegate will notify to User Once he Getting error in joining room
      */
-    func room(_ room: EnxRoom?, didError reason: String?) {
-        self.showAleartView(message:reason!, andTitles: "OK")
+    func room(_ room: EnxRoom?, didError reason: [Any]?) {
+        self.showAleartView(message:"Room error", andTitles: "OK")
     }
+
     /*
      This Delegate will notify to User Once he Getting error on performing any event.
      */
@@ -368,11 +369,59 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
     func room(_ room: EnxRoom?, didChange status: EnxRoomStatus) {
         //To Do
     }
-    /*
-     This Delegate will notify to User once any stream got publish
+        /*
+     This Delegate will notify to User if any participant will send chat data
      */
-    func room(_ room: EnxRoom?, didReceiveData data: [AnyHashable : Any]?, from stream: EnxStream?) {
+    func room(_ room: EnxRoom, didMessageReceived data: [Any]?) {
+        //TO DO
+    }
+    /*
+    This Delegate will notify to User if any participant will send message over custome signaling
+    */
+    func room(_ room: EnxRoom, didUserDataReceived data: [Any]?) {
+        //TO Do
+    }
+    /*
+    This Delegate will notify to User if any participant will start sharing files
+    */
+    func room(_ room: EnxRoom, didFileUploadStarted data: [Any]?) {
+        //TO Do
+    }
+    /*
+    This Delegate will notify to self  if he/she will start sharing files
+    */
+    func room(_ room: EnxRoom, didInitFileUpload data: [Any]?) {
         //To Do
+    }
+    /*
+    This Delegate will notify to self  if file sharing success
+    */
+    func room(_ room: EnxRoom, didFileUploaded data: [Any]?) {
+        //To DO
+    }
+    /*
+    This Delegate will notify to self  if file sharing failed
+    */
+    func room(_ room: EnxRoom, didFileUploadFailed data: [Any]?) {
+        //To DO
+    }
+    /*
+    This Delegate will notify to end user  if file available
+    */
+    func room(_ room: EnxRoom, didFileAvailable data: [Any]?) {
+        //TO DO
+    }
+    /*
+    This Delegate will notify to self  if file download failed
+    */
+    func room(_ room: EnxRoom, didFileDownloadFailed data: [Any]?) {
+        //TO Do
+    }
+    /*
+    This Delegate will notify to self  if file download success
+    */
+    func room(_ room: EnxRoom, didFileDownloaded data: String?) {
+        //TO DO
     }
     /*
      This Delegate will notify to User to get updated attributes of particular Stream
@@ -542,13 +591,13 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
     func didAudioEvents(_ data: [AnyHashable : Any]?) {
         //To Do
     }
-    
-    func didLogUpload(_ message: String?) {
-        let alert = UIAlertController(title: " ", message: message, preferredStyle: UIAlertController.Style.alert)
+    func didLogUpload(_ data: [Any]?) {
+        let alert = UIAlertController(title: " ", message: "Upload loges success", preferredStyle: UIAlertController.Style.alert)
         let action = UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction) in
         }
         alert.addAction(action)
-        self.present(alert, animated: true, completion: nil)    }
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension EnxConfrenceViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {

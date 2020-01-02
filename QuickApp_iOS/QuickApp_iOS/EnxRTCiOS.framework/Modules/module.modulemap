@@ -1,6 +1,0 @@
-framework module EnxRTCiOS {
-  umbrella header "EnxRTCiOS.h"
-
-  export *
-  module * { export * }
-}
