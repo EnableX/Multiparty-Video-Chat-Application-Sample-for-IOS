@@ -10,9 +10,9 @@ import Foundation
 
 //Dev
 
-let userName = "demo"
-let password = "enablex"
+let userName = ""
+let password = ""
 
-let kBasedURL = "https://vcm-mt.vcloudx.com/"
+let kBasedURL = ""
 
 
