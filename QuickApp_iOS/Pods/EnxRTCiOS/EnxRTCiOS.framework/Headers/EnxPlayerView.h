@@ -1,3 +1,4 @@
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 @import WebRTC;
 #import "EnxStream.h"
@@ -53,4 +54,16 @@ typedef NS_ENUM(NSInteger, TextPosition) {
 -(void)setConfigureOption:(NSDictionary *_Nonnull)options;
 -(UIView*_Nullable)getremoteView;
 -(UIView*_Nullable)getlocalView;
+//-(void)createAvatar:(CGRect)frame;
+//-(void)removeAvatar;
+-(void)createOverlayIcons:(NSDictionary *_Nullable)playerConfiguartion;
+-(void)videoMutedByUser:(NSDictionary *_Nullable)playerConfiguartion;
+-(void)videoUnMutedByUser;
+-(void)videoMutedByBW:(NSDictionary *_Nullable)playerConfiguartion;
+-(void)bandWidthRecovered;
+-(void)audioMuted:(NSDictionary *_Nullable)playerConfiguartion;
+-(void)audioUnmuted;
+-(void)showAndHideStats:(BOOL)flag;
+-(void)updateCollectionViewFrame;
+
 @end

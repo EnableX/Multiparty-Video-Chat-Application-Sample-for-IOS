@@ -22,6 +22,8 @@
                                           withStreamId:(NSString *)streamId;
 - (void)appClient:(EnxClient *)client didError:(NSError *)error;
 - (RTCMediaStream *)streamToPublishByAppClient:(EnxClient *)client;
+- (RTCMediaStream *)streamToCanvasPublishByAppClient:(EnxClient *)client;
+- (RTCMediaStream *)canVasStreamToPublishByAppClient:(EnxClient *)client;
 - (NSDictionary *)appClientRequestICEServers:(EnxClient *)client;
 -(void)ICEConnectionFailed;
 

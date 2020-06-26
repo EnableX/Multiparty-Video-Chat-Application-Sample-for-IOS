@@ -57,11 +57,6 @@ class EnxJoinRoomViewController: UIViewController  {
         topView.round(corners: [.topLeft, .topRight], radius: 8.0)
         moderator.isSelected = true
         createRoom.layer.cornerRadius = 8.0
-        if UserDefaults.standard.string(forKey: "QRood_Id") != nil{
-            let userdef = UserDefaults.standard
-            self.roomNameTxt.text = userdef.string(forKey: "QRood_Id")
-            shareBtn.isHidden = false
-        }
     }
     // MARK: - getFromuserDef
     /**

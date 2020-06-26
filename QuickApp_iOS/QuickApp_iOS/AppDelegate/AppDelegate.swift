@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Enable crashlytics
         Fabric.with([Crashlytics.self])
         //Enable EnxRTCiOS Logs
-        let logger = EnxLogger.sharedInstance()
+        let logger = EnxUtilityManager.shareInstance()
         logger?.startLog()
         return true
     }

@@ -1,6 +1,5 @@
 @import WebRTC;
 #import <Foundation/Foundation.h>
-#import "EnxLogger.h"
 #import "EnxSignalingChannel.h"
 #import "EnxClientDelegate.h"
 #import "EnxClientState.h"
@@ -48,6 +47,7 @@ extern NSString* clientStateToString(EnxClientState state);
 @property NSString *streamId;
 @property (nonatomic,readonly) int maxNumberOfLayers;
 @property (nonatomic,readonly) int maxbandWidth;
+@property (nonatomic,strong) NSString *peerId;
 
 ///-----------------------------------
 /// @name Initializers
@@ -59,6 +59,9 @@ extern NSString* clientStateToString(EnxClientState state);
 
 // for Subscriber Stream
 -(instancetype)initSubscriberClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room;
+
+// for CanVas Stream
+-(instancetype)initCanvasClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room;
 
 ///-----------------------------------
 /// @name Instance Methods
@@ -74,4 +77,5 @@ extern NSString* clientStateToString(EnxClientState state);
 + (NSString *)getPreferredVideoCodec;
 + (void)hackSDPWithBlock:(SDPHackCallback)callback;
 -(void)resetSDPonClient:(NSString *)mediaConfigurationCodec bandWidth:(NSString *)bandWidth;
+-(void)setClientBitrate;
 @end

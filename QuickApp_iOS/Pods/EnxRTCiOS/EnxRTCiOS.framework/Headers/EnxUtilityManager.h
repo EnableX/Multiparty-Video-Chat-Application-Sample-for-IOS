@@ -1,4 +1,16 @@
+//
+//  EnxAudioManager.h
+//  VCXiOS_SampleApp
+//
+//  Created by Enablex on 19/02/19.
+//  Copyright © 2019 Enablex. All rights reserved.
+//
+@import WebRTC;
 #import <Foundation/Foundation.h>
+#import "EnxRoom.h"
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+//#import <WebRTC/RTCAudioSession.h>
+//NS_ASSUME_NONNULL_BEGIN
 
 #ifdef DEBUG
 #define L_DEBUG(f, ...) { \
@@ -20,7 +32,18 @@ logThis(LOG_MODE_WARNING, @(__FILE__), @(__LINE__), f, ##__VA_ARGS__); \
 logThis(LOG_MODE_INFO, nil, nil, f, ##__VA_ARGS__); \
 }
 
-@class EnxLogger;
+@protocol EnxMediaDeledate <NSObject>
+
+@optional
+-(void)newAudioMediaConnected;
+-(void)currentConnectedNetwork:(NSString*)networkName;
+@end
+typedef NS_ENUM(NSInteger, EnxCustomeEventType) {
+    Error,
+    Info,
+    Debug,
+    Warning,
+};
 
 typedef enum {
     LOG_MODE_UNKNOWN,
@@ -37,16 +60,31 @@ typedef NS_OPTIONS(NSUInteger, LOG_MODE_MASK) {
     LOG_MODE_ERROR_MASK         = 1 << LOG_MODE_ERROR
 };
 
+@class EnxUtilityManager;
+@interface EnxUtilityManager : NSObject <RTCAudioSessionDelegate>
+@property(nonatomic,weak) id <EnxMediaDeledate> delegate;
+@property(nonatomic,weak) NSString *previousNetwork;
 
-@interface EnxLogger : NSObject
++(EnxUtilityManager*)shareInstance;
+-(BOOL)setAudioDevice:(NSString*)name;
+-(NSString*)selectedDevice;
+-(NSArray*)connectedDevice;
+-(NSString*)currentConnectNetwork;
+-(void)setPriviousNetwork;
 
-///-----------------------------------
-/// @name Initializers
-///-----------------------------------
-
-- (instancetype)init;
-+ (instancetype)sharedInstance;
-
+/*Custome Events*/
+-(void)setEventServerURL:(NSString *)serverURL;
+-(NSString*)getEventServer;
+-(void)setEventToken:(NSString*)token;
+-(NSString*)getEventToken;
+-(void)sendCustomeEvent;
+-(void)setLogId:(NSString*)logId;
+-(void)customeEvent:(NSString *)eventLavelName eventType:(EnxCustomeEventType)type eventName:(NSString*)eventname eventData:(NSDictionary*)eventdata;
+-(void)checkForStoreRequest;
+/*These two variables used in enxclient class only*/
+-(NSMutableArray *)getMessageQueue;
+-(NSMutableArray *)geticeServers;
+/* Property And Methods for client Loger */
 ///-----------------------------------
 /// @name Properties
 ///-----------------------------------
@@ -65,6 +103,8 @@ typedef NS_OPTIONS(NSUInteger, LOG_MODE_MASK) {
 -(BOOL)checkLogsStatus;
 -(void)startLog;
 -(BOOL)getLoggerStatus;
+/*Drain All object once Session closed*/
+-(void)drainAllObjectRefrence;
 @end
 
 FOUNDATION_STATIC_INLINE void logThis(LOG_MODE mode, NSString *file, NSNumber *line, NSString *format, ...) {
@@ -74,7 +114,8 @@ FOUNDATION_STATIC_INLINE void logThis(LOG_MODE mode, NSString *file, NSNumber *l
     LOG_MODE_MASK overrideModes = LOG_MODES;
     [[Logger sharedInstance] logWithModesOverride:overrideModes mode:mode file:file line:line format:format args:args];
 #else
-    [[EnxLogger sharedInstance] log:mode file:file line:line format:format args:args];
+    [[EnxUtilityManager shareInstance] log:mode file:file line:line format:format args:args];
 #endif
     va_end(args);
 }
+//NS_ASSUME_NONNULL_END

@@ -1,4 +1,5 @@
 @import WebRTC;
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "EnxClient.h"
 #import "EnxSignalingChannel.h"
@@ -14,12 +15,21 @@ typedef NS_ENUM(NSInteger, EnxRoomStatus) {
     EnxRoomStatusReady,
     EnxRoomStatusConnected,
     EnxRoomStatusDisconnected,
-    EnxRoomStatusError
+    EnxRoomStatusError,
+    EnxConferenceExprired,
+    EnxDisconnectedByModerator
 };
 typedef NS_ENUM(NSUInteger, EnxFilePosition) {
   Top,
   Center,
   Bottom
+};
+typedef NS_ENUM(NSInteger, EnxOutBoundCallState) {
+    Initiated,
+    Ringing,
+    Connected,
+    Failed,
+    Disconnected
 };
 /**
  @enum EnxRoomErrorStatus
@@ -152,8 +162,9 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
  */
 - (void)room:(EnxRoom *_Nullable)room didConnect:(NSDictionary *_Nullable)roomMetadata;
 
-- (void)roomDidDisconnected:(EnxRoomStatus)status;
+- (void)roomDidDisconnected:(EnxRoomStatus)status __attribute__((deprecated("This API is depricated.Use didRoomDisconnect: in EnxRoom")));
 
+- (void)didRoomDisconnect:(NSArray * _Nullable)response;
 /**
  Fired each time there is an error with the room.
  It doesn't mean the room has been disconnected. For example you could receive
@@ -210,6 +221,7 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
   fromStream:(EnxStream *_Nullable)stream;
 
 
+- (void)room:(EnxRoom *_Nullable)room didStreamZoom:(NSDictionary *_Nullable)data;
 
 /**
  Fired when stream attribute updated.
@@ -246,6 +258,41 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
  
  */
 - (void)didFloorRequested:(NSArray *_Nullable)Data;
+
+/*
+    This ACK method for Participent , When he/she will cancle their request floor
+    Response will be
+    {
+        msg = Success;
+        request =     {
+            id = processFloorRequest;
+            params =         {
+                action = cancelFloor;
+                clientId = "ClentID";
+            };
+        };
+        result = 0;
+    }
+ */
+- (void)didFloorCancelled:(NSArray *_Nullable)Data;
+/*
+    This ACK method for Participent , When he/she will finished their request floor
+    after request floor accepted by any modiatore
+ Response will be
+    {
+        msg = Success;
+        request =     {
+            id = processFloorRequest;
+            params =         {
+                action = finishFloor;
+                clientId = "ClentID";
+            };
+        };
+        result = 0;
+    }
+ */
+- (void)didFloorFinished:(NSArray *_Nullable)Data;
+
 /**
  This delegate invoke when Moderator accepts the floor request.
  
@@ -260,7 +307,9 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
  }
  
  */
-- (void)didGrantFloorRequested:(NSArray *_Nullable)Data;
+- (void)didGrantFloorRequested:(NSArray *_Nullable)Data
+__attribute__((deprecated("This API is depricated.Use didGrantedFloorRequest: in EnxRoom")));
+- (void)didGrantedFloorRequest:(NSArray *_Nullable)Data;
 /**
  
  Here, Data is result form EnxServer on receiving denyFloor event.
@@ -274,7 +323,8 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
  }
  */
 
-- (void)didDenyFloorRequested:(NSArray *_Nullable)Data;
+- (void)didDenyFloorRequested:(NSArray *_Nullable)Data __attribute__((deprecated("This API is depricated.Use didDeniedFloorRequest: in EnxRoom")));
+- (void)didDeniedFloorRequest:(NSArray *_Nullable)Data;
 /**
  
  Here, Data is result form EnxServer on releaseFloor event.
@@ -290,8 +340,16 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
  }
  
  */
-
-- (void)didReleaseFloorRequested:(NSArray *_Nullable)Data;
+- (void)didReleaseFloorRequested:(NSArray *_Nullable)Data __attribute__((deprecated("This API is depricated.Use didReleasedFloorRequest: in EnxRoom")));
+- (void)didReleasedFloorRequest:(NSArray *_Nullable)Data;
+/*
+    This delegate method will notify to all available modiatore, Once any participent has cancled there floor request
+ */
+- (void)didCancelledFloorRequest:(NSArray *_Nullable)Data;
+/*
+   This delegate method will notify to all available modiatore, Once any participent has finished there floor request
+*/
+- (void)didFinishedFloorRequest:(NSArray *_Nullable)Data;
 
 #pragma mark- ChairControl - Moderator Delegate
 /**
@@ -341,6 +399,10 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
  
  */
 - (void)didProcessFloorRequested:(NSArray *_Nullable)Data;
+
+
+
+
 
 
 #pragma mark-  HardMute Delegate
@@ -467,7 +529,12 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
  @param room Instance of the room where event happen.
  
  */
--(void)room:(EnxRoom *_Nullable)room activeTalkerList:(NSArray *_Nullable)Data;
+-(void)room:(EnxRoom *_Nullable)room activeTalkerList:(NSArray *_Nullable)Data __attribute__((deprecated("This API is depricated.Use didActiveTalkerList: in EnxStream")));
+//This delegate methods will return list of EnxStream
+-(void)room:(EnxRoom *_Nullable)room didActiveTalkerList:(NSArray *_Nullable)Data;
+//This delegate methods will return collectionView of EnxStream
+-(void)room:(EnxRoom *_Nullable)room didActiveTalkerView:(UIView *_Nullable)view;
+
 /**
  
  A Participant get of max number of talker count .
@@ -524,6 +591,55 @@ typedef NS_ENUM(NSUInteger, EnxFilePosition) {
  
  */
 -(void)room:(EnxRoom *_Nullable)room canvasStopped:(NSArray *_Nullable)Data;
+
+//Annotation Start/Stop Delegate for End User
+/**
+ A Participant listens to this delegate to know about a Anotation started by a user.
+ @param room Instance of the room where event happen.
+ @param Data list of required information to display Annotation Stream
+ 
+ */
+-(void)room:(EnxRoom *_Nullable)room didAnnotationStarted:(NSArray *_Nullable)Data;
+/**
+ A Participant listens to this delegate to know about that Annotation  has stopped by user.
+ 
+ @param room Instance of the room where event happen.
+ @param Data list of required information to remove Annotation Stream
+ */
+-(void)room:(EnxRoom *_Nullable)room didAnnotationStopped:(NSArray *_Nullable)Data;
+
+//Annotation Start/Stop Delegate for Self User
+/**
+ A Participant listens to this delegate to know about a Anotation started by a user.
+ @param room Instance of the room where event happen.
+ @param Data ACK list of start Annotation
+ 
+ */
+-(void)room:(EnxRoom *_Nullable)room didStartAnnotationACK:(NSArray *_Nullable)Data;
+/**
+ A Participant listens to this delegate to know about that Annotation  has stopped by user.
+ 
+ @param room Instance of the room where event happen.
+ @param  Data ACK list of Stop Annotation
+ */
+-(void)room:(EnxRoom *_Nullable)room didStoppedAnnotationACK:(NSArray *_Nullable)Data;
+
+/*
+ Canvas Start/Stop Delegate for Self User
+
+ A Participant listens to this delegate to know about a canvas started by a user.
+ @param room Instance of the room where event happen.
+ @param Data ACK list of start canvas
+ 
+ */
+-(void)room:(EnxRoom *_Nullable)room didStartCanvasACK:(NSArray *_Nullable)Data;
+/**
+ A Participant listens to this delegate to know about that Canvas  has stopped by user.
+ 
+ @param room Instance of the room where event happen.
+ @param  Data ACK list of Stop Canvas
+ */
+-(void)room:(EnxRoom *_Nullable)room didStoppedCanvasACK:(NSArray *_Nullable)Data;
 
 /**
  Fired when a bandWidth alert received from server.
@@ -659,6 +775,24 @@ This delegate method called When file download failed.
 - (void)room:(EnxRoom *_Nonnull)room
 didFileDownloadFailed:(NSArray *_Nullable)data;
 /*
+This delegate method called When file download initiated.
+*/
+- (void)room:(EnxRoom *_Nonnull)room
+didInitFileDownload:(NSArray *_Nullable)data;
+
+/*
+This delegate method called When file download Cancel.
+*/
+- (void)room:(EnxRoom *_Nonnull)room
+didFileDownloadCancelled:(NSArray *_Nullable)data;
+
+/*
+This delegate method called When file Upload Cancel.
+*/
+- (void)room:(EnxRoom *_Nonnull)room
+didFileUploadCancelled:(NSArray *_Nullable)data;
+
+/*
  This delegate called for advance options updates.
  */
 - (void)room:(EnxRoom *_Nullable)room didAcknowledgementAdvanceOption:(NSDictionary *_Nullable)data;
@@ -671,7 +805,12 @@ didFileDownloadFailed:(NSArray *_Nullable)data;
 
 - (void)room:(EnxRoom *_Nullable)room didGetAdvanceOptions:(NSArray *_Nullable)data;
 
-
+/*
+ Confrence Time Alert
+ */
+- (void)room:(EnxRoom *_Nullable)room didConferenceRemainingDuration:(NSArray *_Nullable)data;
+/* Extend Confrence callback*/
+- (void)room:(EnxRoom *_Nullable)room didConferencessExtended:(NSArray *_Nullable)data;
 #pragma mark- Switch user role Delegate
 
 - (void)room:(EnxRoom *_Nullable)room didSwitchUserRole:(NSArray *_Nullable)data;
@@ -682,7 +821,24 @@ didFileDownloadFailed:(NSArray *_Nullable)data;
 #pragma mark- Send Data Delegate
 - (void)room:(EnxRoom *_Nullable)room didAcknowledgSendData:(NSArray *_Nullable)data;
 
-//-(void)sendUserData:(NSDictionary *_Nonnull)data broadCast:(BOOL)broadcast clientIds:(NSArray *_Nullable)clientIds;
+#pragma mark- Out Bond Call for App User
+- (void)room:(EnxRoom *_Nullable)room didOutBoundCallInitiated:(NSArray *_Nullable)data;
+- (void)room:(EnxRoom *_Nullable)room didDialStateEvents:(EnxOutBoundCallState)state;
+
+//#pragma mark- Lock/Unlock Room Delegate
+- (void)room:(EnxRoom *_Nullable)room didAckLockRoom:(NSArray *_Nullable)data;
+
+- (void)room:(EnxRoom *_Nullable)room didAckUnlockRoom:(NSArray *_Nullable)data;
+
+- (void)room:(EnxRoom *_Nullable)room didLockRoom:(NSArray *_Nullable)data;
+
+- (void)room:(EnxRoom *_Nullable)room didUnlockRoom:(NSArray *_Nullable)data;
+
+//Delegate for drop and destroy
+- (void)room:(EnxRoom *_Nullable)room didAckDropUser:(NSArray *_Nullable)data;
+
+- (void)room:(EnxRoom *_Nullable)room didAckDestroy:(NSArray *_Nullable)data;
+
 @end
 
 ///-----------------------------------
@@ -721,6 +877,9 @@ didFileDownloadFailed:(NSArray *_Nullable)data;
 /// EnxRoomDelegate were this room will invoke methods as events.
 @property (weak, nonatomic) id <EnxRoomDelegate> _Nullable delegate;
 
+///Here i am storing playerDelegate when join room called and set this playerDelegate to player when we create player internally.
+@property (weak, nonatomic) id  _Nullable playerDelegate;
+
 ///// EnxRoomStatsDelegate delegate to receive stats.
 ///// Notice that you should also set *publishingStats* to YES.
 //@property (weak, nonatomic) id <EnxRoomStatsDelegate> _Nullable statsDelegate;
@@ -734,6 +893,8 @@ didFileDownloadFailed:(NSArray *_Nullable)data;
 
 /// Enx Local stream options.
 @property (readonly, nonatomic) NSDictionary * _Nullable streamOptions;
+/// Enx Screen Share/Canvas stream options.
+@property (readonly, nonatomic) NSDictionary * _Nullable options_screen;
 
 /// Full response after signalling channel connect the server.
 @property (nonatomic, readonly) NSMutableDictionary * _Nullable roomMetadata;
@@ -777,13 +938,14 @@ didFileDownloadFailed:(NSArray *_Nullable)data;
 /// moment of subscribe an EnxStream.
 //@property NSDictionary * _Nullable defaultSubscribingStreamOptions;
 
-@property (nonatomic) BOOL moderatorHardMuteActiveState;
-@property (nonatomic) BOOL participantHardMuteActiveState;
-@property (nonatomic) BOOL isHardMuteRoom;
-@property (nonatomic) BOOL isHardMuteUser;
-@property (nonatomic) BOOL isVideoUserHardMute;
-@property (nonatomic) BOOL isAudioOnlyStreams;
+@property (nonatomic,readonly) BOOL moderatorHardMuteActiveState;
+@property (nonatomic,readonly) BOOL participantHardMuteActiveState;
+@property (nonatomic,readonly) BOOL isHardMuteRoom;
+@property (nonatomic, readonly) BOOL isHardMuteUser;
+@property (nonatomic,readonly) BOOL isVideoUserHardMute;
+@property (nonatomic,readonly) BOOL isAudioOnlyStreams;
 @property (nonatomic) BOOL isAudioOnlyRoom;
+@property(nonatomic,readonly)BOOL chatOnlyRoom;
 
 @property(nonatomic)BOOL isReconnectingAttampted;
 //@property (nonatomic,strong) NSNumber *activeTalkerCount;
@@ -791,7 +953,6 @@ didFileDownloadFailed:(NSArray *_Nullable)data;
 @property (readonly,weak) NSString * _Nullable clientId;
 // connected clientName
 @property (readonly,weak) NSString * _Nullable clientName;
-@property (nonatomic,weak) NSArray * _Nullable userList;
 @property (readonly,nonatomic) NSString * _Nonnull userRole;
 @property(readonly) int maxFrameLimits;
 @property (readonly) NSDictionary * _Nullable roomInfo;
@@ -904,6 +1065,16 @@ didFileDownloadFailed:(NSArray *_Nullable)data;
  */
 
 - (void)requestFloor;
+/**
+ This API is only available during Lecture Mode of a Session. Each Participant can cancle their  floor request individually any time after reise hand request success using this API Call. This API calls are only available to users with role “Participant”
+ */
+
+- (void)cancelFloor;
+/**
+ This API is only available during Lecture Mode of a Session. Each Participant can Finish Floor request  individually after floor request accepted by any of the modiatore in same room using this API Call. This API calls are only available to users with role “Participant”
+ */
+
+- (void)finishFloor;
 /**
  
  This API is only available during Lecture Mode. Each Participant requested Floor Control can individually be granted access to the Floor using this API Call. These API calls are only available to users with role “Moderator”.
@@ -1083,8 +1254,9 @@ didFileDownloadFailed:(NSArray *_Nullable)data;
 -(void)setTalkerCount:(NSInteger)number;
 
 
--(void)changeToAudioOnly:(BOOL)check;
+-(void)changeToAudioOnly:(BOOL)check __attribute__((deprecated("This API is depricated.Use setAudioOnlyMode: in EnxRoom")));;
 
+-(void)setAudioOnlyMode:(BOOL)audioOnly;
 
 /**
 opt which should be "Auto, HD , SD, LD and talker/canvas"
@@ -1139,9 +1311,44 @@ opt which should be "Auto, HD , SD, LD and talker/canvas"
 
 //Client endpoint can use this method to switch role.
 -(void)switchUserRole:(NSString *_Nullable)clientId;
--(void)shareFiles:(EnxFilePosition)position isBroadcast:(BOOL)isBroadcast clientIds:(NSArray *_Nullable)clientIds;
+#pragma mark - File upload/download/Cancle
+-(void)sendFiles:(BOOL)isBroadcast clientIds:(NSArray *_Nullable)clientIds;
 -(void)downloadFile:(NSDictionary *_Nonnull)file autoSave:(BOOL)flag;
--(NSArray*_Nonnull)getAvailableFiles;
+-(NSArray*_Nullable)getAvailableFiles;
+-(void)cancelUpload:(int)jobID;
+-(void)cancelAllUploads;
+-(void)cancelDownload:(int)jobID;
+-(void)cancelAllDownloads;
+/*
+    This method for initiating outbound call
+ */
+-(void)makeOutboundCall:(NSString*_Nonnull)number;
+-(void)setZoomFactor:(CGFloat)value clientId:(NSArray *_Nonnull)clientIds;
+/* Annotations*/
+-(void)startAnnotation:(EnxStream*_Nonnull)stream;
+-(void)stopAnnotation;
+/* Canvas*/
+-(void)startCanvas:(UIView*_Nonnull)view;
+-(void)stopCanvas;
+/*
+ This metho for Extend Confrence Duration
+ */
+-(void)extendConferenceDuration;
+-(void)updateConfiguration:(NSDictionary *)data;
+
+ // lock/Unlock Room
+-(void)lockRoom;
+-(void)unlockRoom;
+
+-(void)enableProximitySensor:(BOOL)value;
+
+//Drop user and Destroy Room API
+-(void)dropUser:(NSArray *_Nonnull)clientIds;
+-(void)destroy;
+/* Get all available users in room*/
+-(NSArray*_Nonnull)getUserList;
+/* this method help to rearrange collection view*/
+-(void)adjustLayout;
 
 @end
 

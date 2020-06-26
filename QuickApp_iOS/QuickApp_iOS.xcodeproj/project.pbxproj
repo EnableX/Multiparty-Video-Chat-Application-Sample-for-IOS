@@ -20,7 +20,6 @@
 		27F51ECE21B65F99002F7638 /* EnxNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51ECD21B65F99002F7638 /* EnxNetworkManager.swift */; };
 		27F51ED021B65FC1002F7638 /* EnxRoomInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51ECF21B65FC1002F7638 /* EnxRoomInfoModel.swift */; };
 		27F51ED221B65FE0002F7638 /* EnxConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51ED121B65FE0002F7638 /* EnxConstant.swift */; };
-		27F51EDB21B678D4002F7638 /* EnxPlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F51EDA21B678D4002F7638 /* EnxPlayerCollectionViewCell.swift */; };
 		709B6A237E4C6B85C5188D70 /* Pods_QuickApp_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23F8611551D7DBA075443ECC /* Pods_QuickApp_iOS.framework */; };
 		838AA8367315353FDE2E9F51 /* Pods_QuickApp_iOSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8E0C9923A10C070EEB09631 /* Pods_QuickApp_iOSUITests.framework */; };
 		D4684D759DF399CB83460F81 /* Pods_QuickApp_iOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D61B46CF5B14B42965D33C15 /* Pods_QuickApp_iOSTests.framework */; };
@@ -78,7 +77,6 @@
 		27F51ECD21B65F99002F7638 /* EnxNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnxNetworkManager.swift; sourceTree = "<group>"; };
 		27F51ECF21B65FC1002F7638 /* EnxRoomInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnxRoomInfoModel.swift; sourceTree = "<group>"; };
 		27F51ED121B65FE0002F7638 /* EnxConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnxConstant.swift; sourceTree = "<group>"; };
-		27F51EDA21B678D4002F7638 /* EnxPlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnxPlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 		5AFEBAD5335CEAC0165CFB27 /* Pods-QuickApp_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickApp_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		8A35B4054945C6F44AC494BB /* Pods-QuickApp_iOSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickApp_iOSUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QuickApp_iOSUITests/Pods-QuickApp_iOSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A0ADE8C9173B771B85DF6489 /* Pods-QuickApp_iOSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuickApp_iOSUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-QuickApp_iOSUITests/Pods-QuickApp_iOSUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 				27F51EC521B65EEF002F7638 /* EnxJoinRoomViewController.swift */,
 				27F51EC721B65F06002F7638 /* EnxConfrenceViewController.swift */,
 				27F51EC921B65F1C002F7638 /* EnxMenuViewController.swift */,
-				27F51EDA21B678D4002F7638 /* EnxPlayerCollectionViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -480,7 +477,6 @@
 				27F51ECC21B65F6D002F7638 /* EnxServicesClass.swift in Sources */,
 				27F51ED221B65FE0002F7638 /* EnxConstant.swift in Sources */,
 				27F51EC621B65EEF002F7638 /* EnxJoinRoomViewController.swift in Sources */,
-				27F51EDB21B678D4002F7638 /* EnxPlayerCollectionViewCell.swift in Sources */,
 				27F51ECA21B65F1C002F7638 /* EnxMenuViewController.swift in Sources */,
 				27F51ED021B65FC1002F7638 /* EnxRoomInfoModel.swift in Sources */,
 				27F51E9221B651D2002F7638 /* AppDelegate.swift in Sources */,

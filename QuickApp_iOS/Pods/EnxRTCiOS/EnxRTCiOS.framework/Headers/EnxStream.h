@@ -1,6 +1,5 @@
 @import WebRTC;
 #import <Foundation/Foundation.h>
-#import "EnxLogger.h"
 #import "EnxSignalingChannel.h"
 #import "EnxSignalingMessage.h"
 #import "EnxPlayerView.h"
@@ -84,7 +83,14 @@
  Paricipant delegate
 
  */
-- (void)stream:(EnxStream *_Nullable)stream didSelfMuteVideo:(NSArray *_Nullable)data;
+- (void)stream:(EnxStream *_Nullable)stream didSelfMuteVideo:(NSArray *_Nullable)data __attribute__((deprecated("This API is depricated.Use didRemoteStreamVideoUnMute: in EnxStream")));
+
+/**
+* User will get notify If other participants will do self mute video.
+@param stream Instance of the stream where event happen.
+@param data  mute video info on a stream.
+*/
+- (void)stream:(EnxStream *_Nullable)stream didRemoteStreamVideoMute:(NSArray *_Nullable)data;
 /**
  Fired when a self unmute video alert participant received from server.
  
@@ -95,8 +101,14 @@
 
  }
  */
-- (void)stream:(EnxStream *_Nullable)stream didSelfUnmuteVideo:(NSArray *_Nullable)data;
+- (void)stream:(EnxStream *_Nullable)stream didSelfUnmuteVideo:(NSArray *_Nullable)data __attribute__((deprecated("This API is depricated.Use didRemoteStreamVideoUnMute: in EnxStream")));
 
+/**
+* User will get notify If other participants will do self unmute.
+@param stream Instance of the stream where event happen.
+@param data  unmute video info on a stream.
+*/
+- (void)stream:(EnxStream *_Nullable)stream didRemoteStreamVideoUnMute:(NSArray *_Nullable)data;
 
 /**
  Fired when a self mute audio alert participant received from server.
@@ -107,20 +119,32 @@
  Paricipant delegate
 
  */
-- (void)stream:(EnxStream *_Nullable)stream didSelfMuteAudio:(NSArray *_Nullable)data;
+- (void)stream:(EnxStream *_Nullable)stream didSelfMuteAudio:(NSArray *_Nullable)data __attribute__((deprecated("This API is depricated.Use didRemoteStreamAudioMute: in EnxStream")));
+/**
+* User will get notify If other participants will do self mute audio.
+@param stream Instance of the stream where event happen.
+@param data  mute audio info on a stream.
+*/
+- (void)stream:(EnxStream *_Nullable)stream didRemoteStreamAudioMute:(NSArray *_Nullable)data;
+
+
+
 /**
  Fired when a self unmute audio alert participant received from server.
  
  @param stream Instance of the stream where event happen.
- 
  @param data self unmute audio info on a stream.
  
  Paricipant delegate
 
  */
-- (void)stream:(EnxStream *_Nullable)stream didSelfUnmuteAudio:(NSArray *_Nullable)data;
-
-
+- (void)stream:(EnxStream *_Nullable)stream didSelfUnmuteAudio:(NSArray *_Nullable)data __attribute__((deprecated("This API is depricated.Use didRemoteStreamAudioUnMute: in EnxStream")));
+/**
+* User will get notify If other participants will do self unmute audio.
+@param stream Instance of the stream where event happen.
+@param data  unmute audio info on a stream.
+*/
+- (void)stream:(EnxStream *_Nullable)stream didRemoteStreamAudioUnMute:(NSArray *_Nullable)data;
 /**
  
  There would be listener for moderator when hardmute used by moderator. For this delegates are:
@@ -177,6 +201,14 @@
  */
 - (instancetype _Nonnull)initLocalStream;
 
+/**
+Creates an instance of EnxStream capturing Screen Frame data
+from host device with defaultVideoConstraints.
+@see initLocalStreamWithOptions:attributes:videoConstraints:audioConstraints:
+
+@return instancetype
+*/
+- (instancetype _Nonnull)initCanvasStream;
 /**
  Creates an instance of EnxStream with a given stream id and signaling channel.
  
@@ -384,8 +416,6 @@
 //
 @property (nonatomic) BOOL isSelfVideoMuted;
 
-@property (weak,nonatomic) NSString * _Nullable mediaType;
-
 
 /// Default video contraints.
 @property (readonly,weak) RTCMediaConstraints * _Nullable defaultVideoConstraints;
@@ -395,12 +425,18 @@
 
 @property (nonatomic) RTCCameraVideoCapturer * _Nullable capturer;
 
-@property(weak,readonly,nonatomic) EnxPlayerView * _Nullable enxPlayerView;
-@property(strong,nonatomic) NSString * _Nullable clientID;
- @property (readonly) BOOL usingFrontCamera;
-//@property (strong,nonatomic) NSDictionary * _Nullable receivedDataDictionary;
-//
+@property(strong,readonly,nonatomic) EnxPlayerView * _Nullable enxPlayerView;
+@property(strong,nonatomic)  NSString * _Nullable clientId;
+@property (strong,nonatomic) NSString * _Nullable mediaType;
+@property (strong,nonatomic) NSString * _Nullable name;
+@property (strong,nonatomic) NSString * _Nullable reasonForMuteVideo;
+@property (strong,nonatomic) NSString * _Nullable videoAspectRatio;
+@property (nonatomic) BOOL isAudioOnlyStream;
+
+@property (readonly) BOOL usingFrontCamera;
+
 - (void)SelfHardMuteAudio:(BOOL)isMuted;
+- (void)SelfHardMuteVideo:(BOOL)isMuted;
 
 -(void)stopCapture;
 -(void)startCapture;
@@ -436,5 +472,9 @@
 
 -(BOOL)getUserMedia;
 
+-(void)setZoomFactor:(CGFloat)value;
+-(void)recordScreen;
+-(void)stopRecordingCaptcha;
+-(void)updateConfiguration:(NSDictionary *)data;
 @end
 

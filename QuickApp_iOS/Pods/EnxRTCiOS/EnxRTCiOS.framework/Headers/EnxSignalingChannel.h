@@ -1,5 +1,5 @@
 @import WebRTC;
-
+@import SocketIO;
 #import "EnxSignalingMessage.h"
 #import "EnxSignalingEvent.h"
 
@@ -62,6 +62,23 @@
 readyToSubscribeStreamId:(NSString *)streamId
             peerSocketId:(NSString *)peerSocketId;
 
+#pragma mark-  Canvas portocal
+/**
+ Event fired when Enx failed to publishing canvas stream.
+ 
+ @param signalingChannel EnxSignalingChannel the channel that emit the message.
+ */
+- (void)signalingChannelCanvasPublishFailed:(EnxSignalingChannel *)signalingChannel;
+/**
+ Event fired when Enx is ready to receive a canvas publishing stream.
+
+ @param signalingChannel EnxSignalingChannel the channel that emit the message.
+ @param peerSocketId Id of the socket in a p2p publishing without MCU. Pass nil if
+        you are not setting a P2P room.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *)signalingChannel
+  canvasReadyToPublishStreamId:(NSString *)streamId
+            peerSocketId:(NSString *)peerSocketId;
 @end
 
 ///-----------------------------------
@@ -131,6 +148,8 @@ readyToSubscribeStreamId:(NSString *)streamId
  @param roomMeta Metadata associated to the room that the client just connect.
  */
 - (void)signalingChannel:(EnxSignalingChannel *)channel roomDidDisconnected:(NSDictionary *)roomMeta;
+
+- (void)signalingChannel:(EnxSignalingChannel *)channel roomDidDisconnectedByServer:(NSDictionary *)roomMeta;
 
 /**
  Event fired when a new stream id has been created and server is ready
@@ -207,12 +226,29 @@ to start subscribing it. */
 - (void)signalingChannel:(EnxSignalingChannel *)channel didUnsubscribeStreamWithId:(NSString *)streamId;
 
 /**
+Event fired when a StreamId previously subscribed has been failed to unsubscribed.
+
+@param channel EnxSignalingChannel the channel that emit the message.
+@param streamId NSString of the unsubscribed stream.
+*/
+- (void)signalingChannel:(EnxSignalingChannel *)channel didUnsubscribeFailedStreamWithId:(NSString *)streamId;
+
+/**
  Event fired when a published stream is being unpublished.
 
  @param channel EnxSignalingChannel the channel that emit the message.
  @param streamId NSString of the stream being unpublished
  */
 - (void)signalingChannel:(EnxSignalingChannel *)channel didUnpublishStreamWithId:(NSString *)streamId;
+
+/**
+ Event fired when a published stream is faild to unpublished.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param streamId NSString of the stream being unpublished
+ */
+- (void)signalingChannel:(EnxSignalingChannel *)channel didUnpublishStreamfailed:(NSString *)streamId;
+
 
 /**
  Event fired when some peer request to subscribe to a given stream.
@@ -308,13 +344,9 @@ to start subscribing it. */
 //-(void)signalingLogsFailure:(NSString *)message;
 
 #pragma mark - ChairControl
-//For Participant
-- (void)signalingChannel:(EnxSignalingChannel *)channel didReciveFloorRequest:(NSArray *)Data;
-- (void)signalingChannel:(EnxSignalingChannel *)channel didReciveFloorGranted:(NSArray *)Data;
-- (void)signalingChannel:(EnxSignalingChannel *)channel didReleaseFloorRequested:(NSArray *)Data;
-- (void)signalingChannel:(EnxSignalingChannel *)channel didDenyFloorRequested:(NSArray *)Data;
-//For Moserator
-- (void)signalingChannel:(EnxSignalingChannel *)channel didFloorRequested:(NSArray *)Data;
+//Floor Manage On Event
+-(void)signalingChannel:(EnxSignalingChannel*)channel didFloorManagmentEvents:(NSArray *)Data;
+// Floor process Emit Event
 - (void)signalingChannel:(EnxSignalingChannel *)channel didProcessFloorRequest:(NSArray *)Data;
 
 //H
@@ -383,6 +415,45 @@ to start subscribing it. */
 #pragma mark- Send Data Delegate
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAcknowledgSendData:(NSArray *_Nullable)data;
 
+#pragma mark - OutBound Call
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didOutBoundCallInitiated:(NSArray *_Nullable)data;
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didDialStateEvents:(NSArray *_Nullable)data;
+
+
+#pragma mark- Canvas Room Delegate
+/**
+ Event fired when a new stream id has been created and server is ready
+ to start publishing it.
+ 
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param streamId NSString id of the stream that will be published.
+ */
+- (void)signalingChannel:(EnxSignalingChannel * _Nullable)channel didReceiveCanvasStreamIdReadyToPublish:(NSString *_Nullable)streamId;
+
+/**
+ Event fired when a Canvas published stream is being unpublished.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param streamId NSString of the stream being unpublished
+ */
+- (void)signalingChannel:(EnxSignalingChannel *)channel didCanvasUnpublishStreamWithId:(NSString *)streamId;
+
+#pragma mark- Room Expire Events
+//Timing Alert
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didConferencessDurationReminder:(NSArray *_Nullable)data;
+//TimeExtend
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didConferencessDurationExtend:(NSArray *_Nullable)data;
+
+//Lock/Unlock Delegates
+
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckLockRoom:(NSArray *_Nullable)data;
+
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckUnlockRoom:(NSArray *_Nullable)data;
+
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckDropUser:(NSArray *_Nullable)data;
+
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckDestroy:(NSArray *_Nullable)data;
+
 
 @end
 
@@ -417,6 +488,7 @@ to start subscribing it. */
 @property (weak, nonatomic) id<EnxSignalingChannelRoomDelegate> roomDelegate;
 @property(nonatomic) int reconnectAttamped;
 @property (nonatomic,copy,readonly) NSString *roomSigMediaConfiguration;
+@property(strong,nonatomic) SocketIOClient * _Nonnull socketIO;
 
 ///-----------------------------------
 /// @name Public Methods
@@ -429,7 +501,7 @@ to start subscribing it. */
 - (void)drainMessageQueueForStreamId:(NSString *)streamId
                         peerSocketId:(NSString *)peerSocketId;
 - (void)publish:(NSDictionary *)options
-            signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
+  signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 - (void)unpublish:(NSString *)streamId
             signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 - (void)publishToPeerID:(NSString *)peerSocketId
@@ -446,6 +518,11 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 - (void)updateStreamAttributes:(EnxSignalingMessage *)message;
 -(void)sendLogsToServer:(NSString *)logId logText:(NSString *)logText;
 
+#pragma mark- Canvas
+- (void)publishCanvas:(NSDictionary *_Nonnull)options
+signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
+- (void)unpublishCanvas:(NSString * _Nonnull)streamId signalingChannelDelegate:(id<EnxSignalingChannelDelegate> _Nullable)delegate;
+
 #pragma mark- CC
 - (void)RequestFlloor;
 - (void)ProcessFloorRequest:(NSString *)clientId status:(NSString *)status;
@@ -460,7 +537,7 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 #pragma mark- AT
 -(void)getMaxTalkersFromSignaling;
 -(void)getTalkerCountFromSignaling;
--(void)setTalkerCountFromSignaling:(NSInteger)number callbackCheck:(BOOL)callbackCheck;
+-(void)setTalkerCountFromSignaling:(NSDictionary* _Nonnull)takerValue callbackCheck:(BOOL)callbackCheck;
 
 #pragma mark-
 - (void)hardMuteVideo:(NSString*)clientId;
@@ -492,6 +569,17 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 -(void)getSignallingAdvanceOptions;
 
 // To Switch user role.
--(void)switchUserRole:(NSString *)clientId;
+-(void)switchUserRole:(NSString *_Nonnull)clientId;
+
+// To initiate outbound call.
+-(void)startOutBoundCall:(NSString* _Nonnull)number;
+-(void)extendConfrenceTime;
+
+-(void)signalingLockRoom;
+-(void)signalingUnlockRoom;
+
+//Drop user and Destroy Room API
+-(void)signalingDropUser:(NSDictionary *_Nonnull)data;
+-(void)signalingDestroy:(NSDictionary *_Nonnull)data;
 
 @end

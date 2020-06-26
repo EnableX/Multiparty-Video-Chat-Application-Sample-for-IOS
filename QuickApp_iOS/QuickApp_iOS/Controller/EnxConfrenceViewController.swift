@@ -12,14 +12,15 @@ import UIKit
 import EnxRTCiOS
 import SVProgressHUD
 class EnxConfrenceViewController: UIViewController {
+    @IBOutlet weak var sendLogBtn: UIButton!
      @IBOutlet weak var cameraBTN: UIButton!
-    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var publisherNameLBL: UILabel!
     @IBOutlet weak var subscriberNameLBL: UILabel!
     @IBOutlet weak var messageLBL: UILabel!
     @IBOutlet weak var localPlayerView: EnxPlayerView!
     @IBOutlet weak var mainPlayerView: EnxPlayerView!
     @IBOutlet weak var optionsView: UIView!
+    @IBOutlet weak var optionsContainerView: UIView!
     @IBOutlet weak var optionViewButtonlayout: NSLayoutConstraint!
     var roomInfo : EnxRoomInfoModel!
     var param : [String : Any] = [:]
@@ -95,9 +96,9 @@ class EnxConfrenceViewController: UIViewController {
                     
                     let videoSize : NSDictionary =  ["minWidth" : 720 , "minHeight" : 480 , "maxWidth" : 1280, "maxHeight" :720]
                     
-                    let localStreamInfo : NSDictionary = ["video" : self.param["video"]! ,"audio" : self.param["audio"]! ,"data" :self.param["chat"]! ,"name" :self.roomInfo.participantName!,"type" : "public" ,"maxVideoBW" : 400 ,"minVideoBW" : 300 , "videoSize" : videoSize]
+                    let localStreamInfo : NSDictionary = ["video" : self.param["video"]! ,"audio" : self.param["audio"]! ,"data" :self.param["chat"]! ,"name" :self.roomInfo.participantName!,"type" : "public","audio_only": false ,"maxVideoBW" : 400 ,"minVideoBW" : 300 , "videoSize" : videoSize]
                     
-                    let roomInfo : NSDictionary  = ["allow_reconnect" : true , "number_of_attempts" : 3, "timeout_interval" : 20, "audio_only": false]
+                    let roomInfo : NSDictionary  = ["allow_reconnect" : true , "number_of_attempts" : 3, "timeout_interval" : 20, "activeviews": "list"]
                     guard let stream = self.objectJoin.joinRoom(token, delegate: self, publishStreamInfo: (localStreamInfo as! [AnyHashable : Any]), roomInfo: (roomInfo as! [AnyHashable : Any]), advanceOptions: nil) else{
                         SVProgressHUD.dismiss()
                         return
@@ -246,9 +247,9 @@ class EnxConfrenceViewController: UIViewController {
      Its method will exist from Room
      **/
     private func leaveRoom(){
-        
+        UIApplication.shared.isIdleTimerDisabled = false
         remoteRoom?.disconnect()
-        self.navigationController?.popViewController(animated: true)
+        
     }
     
     /*
@@ -348,8 +349,8 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
     /*
      This Delegate will notify to User if Room Got discunnected
      */
-    func roomDidDisconnected(_ status: EnxRoomStatus) {
-        self.leaveRoom()
+    func didRoomDisconnect(_ response: [Any]?) {
+       self.navigationController?.popViewController(animated: true)
     }
     /*
      This Delegate will notify to User if any person join room
@@ -458,60 +459,18 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
         
     }
     
-    /*
-     This Delegate will notify to User with active talker list
-     */
-    func room(_ room: EnxRoom?, activeTalkerList Data: [Any]?) {
-        //To Do
-        if(streamArray.count > 0){
-            streamArray.removeAll()
-            collectionView.reloadData()
-        }
-        guard let tempDict = Data?[0] as? [String : Any], Data!.count>0 else {
-            messageLBL.text = "Please wait till other participant join."
-            messageLBL.isHidden = false
-            subscriberNameLBL.isHidden = true
-            mainPlayerView.isHidden = true
-            return
-        }
-        let activeListArray = tempDict["activeList"] as? [Any]
-        if (activeListArray?.count == 0){
-            
-            messageLBL.text = "Please wait till other participant join."
-            messageLBL.isHidden = false
-            subscriberNameLBL.isHidden = true
-            mainPlayerView.isHidden = true
-            
-        }
-        else{
-            
-            for (index,active) in (activeListArray?.enumerated())! {
-                // Do this
-                let remoteStreamDict = remoteRoom.streamsByStreamId as! [String : Any]
-                let mostActiveDict = active as! [String : Any]
-                let streamId = String(mostActiveDict["streamId"] as! Int)
-                let stream = remoteStreamDict[streamId] as! EnxStream
-                stream.mediaType = (mostActiveDict["mediatype"] as! String) as NSString
-                if(index == 0){
-                    mainPlayerView.isHidden = false
-                    subscriberNameLBL.isHidden = false
-                    messageLBL.isHidden = true
-                    
-                    stream.streamAttributes = ["name" : mostActiveDict["name"] as! String]
-                    stream.detachRenderer()
-                    stream.attachRenderer(mainPlayerView)
-                    subscriberNameLBL.text = mostActiveDict["name"] as? String
-                    mainPlayerView.bringSubviewToFront(subscriberNameLBL)
-                    mainPlayerView.contentMode = UIView.ContentMode.scaleAspectFill
-                }
-                else{
-                   streamArray.append(stream)
-                   collectionView.reloadData()
-                }
-            }
-            
-        }
-    }
+     /*
+        This Delegate will notify to User with active talker list
+        */
+       func room(_ room: EnxRoom?, didActiveTalkerList Data: [Any]?) {
+           // Handle individual stream and there player
+       }
+       func room(_ room: EnxRoom?, didActiveTalkerView view: UIView?) {
+           self.view.addSubview(view!)
+           self.view.bringSubviewToFront(localPlayerView)
+           self.view.bringSubviewToFront(optionsContainerView)
+           self.view.bringSubviewToFront(sendLogBtn)
+       }
     
     /* To Ack. moderator on switch user role.
      */
@@ -600,32 +559,3 @@ extension EnxConfrenceViewController : EnxRoomDelegate, EnxStreamDelegate {
     }
 }
 
-extension EnxConfrenceViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
-    
-   // func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-     //   let space : CGFloat = 30
-      //  let size:CGFloat = (collectionView.frame.size.width - space) / 3.0
-     //   return CGSize(width: size, height: size)
-   // }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return streamArray.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customeCell", for: indexPath) as! EnxPlayerCollectionViewCell
-        let stream = streamArray[indexPath.row] as! EnxStream
-        stream.detachRenderer()
-        cell.playerView.isHidden = true
-        stream.attachRenderer(cell.playerView)
-        cell.playerView.isHidden = false
-        cell.playerView.contentMode = UIView.ContentMode.scaleAspectFill
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2.0
-    }
-    
-    
-}

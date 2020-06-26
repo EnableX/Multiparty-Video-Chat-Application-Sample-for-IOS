@@ -23,25 +23,28 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 * Clone or download this Repository [https://github.com/EnableX/Multiparty-Video-Chat-Application-Sample-for-IOS.git] 
 
 
-#### 1.1.3 Sample App Server 
+#### 1.1.3 Test Application Server
 
-* Clone or download this Repository [https://github.com/EnableX/Video-Conferencing-Open-Source-Web-Application-Sample.git] & follow the steps further 
-* You need to use App ID and App Key to run this Service. 
-* Your iOS Client End Point needs to connect to this Service to create Virtual Room.
-* Follow README file of this Repository to setup the Service.
+You need to setup an Application Server to provision Web Service API for your iOS Application to communicate enabling Video Session. 
 
+To help you to try our iOS Application quickly, without having to setup Applciation Server, the Application is shipped pre-configured with EnableX hosted Application Server i.e. https://try.enablex.io. 
+
+Our Application Server restricts a single Session Duation to 15 minutes, and allows 1 moderator and note more than 3 Participant in a Session.
+
+Once you tried EnableX iOS Sample Application, you may need to setup your own  Application Server. More on this, read Point 2 later in the Document.
 
 #### 1.1.4 Configure iOS Client 
 
 * Open the App
-* Go to VCXConstant.swift and change the following:
+* Go to VCXConstant.swift, it's reads- 
+
 ``` 
- let userName = "USERNAME"  /* HTTP Basic Auth Username of App Server */
- let password = "PASSWORD"  /* HTTP Basic Auth Password of App Server */
- let kBaseURL = "FQDN"      /* FQDN of of App Server */
- ```
+ let userName = "demo"  /* HTTP Basic Auth Username of App Server */
+ let password = "enablex"  /* HTTP Basic Auth Password of App Server */
+ let kBaseURL = "https://try.enablex.io/"      /* FQDN of of App Server */
  
- Note: The distributable comes with demo username and password for the Service. 
+ ```
+ Note:- So application has pre configuration with "https://try.enablex.io/". When you have setup your own API server, you need to update these confifuration according. 
 
 ### 1.2 Test
 
@@ -55,20 +58,21 @@ Note: Only one user with Moderator Role allowed to connect to a Virtual Room.
 
 
   
-## 2 Server API
+## 2 Setup Your Own Application Server
 
-EnableX Server API is a Rest API service meant to be called from Partners' Application Server to provision video enabled 
-meeting rooms. API Access is given to each Application through the assigned App ID and App Key. So, the App ID and App Key 
-are to be used as Username and Password respectively to pass as HTTP Basic Authentication header to access Server API.
- 
-For this application, the following Server API calls are used: 
-* https://developer.enablex.io/latest/server-api/rooms-route/#get-rooms - To get list of Rooms
-* https://developer.enablex.io/latest/server-api/rooms-route/#get-room-info - To get information of the given Room
-* https://developer.enablex.io/latest/server-api/rooms-route/#create-token - To create Token for the given Room
+You may need to setup your own Application Server after you tried the Sample Application with EnableX hosted Server. We have differnt variant of Appliciation Server Sample Code, pick one in your preferred language and follow instructions given in respective README.md file.
+
+*NodeJS: [https://github.com/EnableX/Video-Conferencing-Open-Source-Web-Application-Sample.git]
+*PHP: [https://github.com/EnableX/Group-Video-Call-Conferencing-Sample-Application-in-PHP]
+
+Note the following:
+
+* You need to use App ID and App Key to run this Service.
+* Your Android Client End Point needs to connect to this Service to create Virtual Room and Create Token to join session.
+* Application Server is created using EnableX Server API, a Rest API Service helps in provisioning, session access and pos-session reporting.  
 
 To know more about Server API, go to:
 https://developer.enablex.io/latest/server-api/
-
 
 ## 3 iOS Toolkit
 
@@ -122,7 +126,7 @@ func room(_ room: EnxRoom?, didConnect roomMetadata: [AnyHashable : Any]?) {
 /* Delegate: didError
  Error handler when room connection fails */
  
-func room(_ room: EnxRoom?, didError reason: String?) { 
+func room(_ room: EnxRoom?, didError reason: [Any]?) { 
 
 } 
 
@@ -137,9 +141,15 @@ func room(_ room: EnxRoom?, didAddedStream stream: EnxStream?) {
 /* Delegate: activeTalkerList
  To handle any time Active Talker list is updated */
   
-func room(_ room: EnxRoom?, activeTalkerList Data: [Any]?) { 
-    /* Handle Stream Players */
+func room(_ room: EnxRoom?, didActiveTalkerList Data: [Any]?) {
+    // Handle individual stream and their player
 }
+Or
+func room(_ room: EnxRoom?, didActiveTalkerView view: UIView?) {
+// Get complet view for list of player , add this view to any where in your app.
+}
+
+Note:- To receive complete view, User need to add parameter as "activeviews" : "view" in "roomInfo" at the time of join room API call. 
 ```
 
 ## 5 Demo

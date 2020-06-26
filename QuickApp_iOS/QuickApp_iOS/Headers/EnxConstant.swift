@@ -10,9 +10,8 @@ import Foundation
 
 //Dev
 
-let userName = ""
-let password = ""
-
-let kBasedURL = ""
+let userName = "demo"
+let password = "enablex"
+let kBasedURL = "https://try.enablex.io/"
 
 

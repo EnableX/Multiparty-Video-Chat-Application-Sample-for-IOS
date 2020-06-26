@@ -18,3 +18,5 @@ FOUNDATION_EXPORT const unsigned char EnxiOSVersionString[];
 #import <EnxRTCiOS/EnxStream.h>
 #import <EnxRTCiOS/EnxRoom.h>
 #import <EnxRTCiOS/EnxPlayerView.h>
+#import <EnxRTCiOS/EnxUtilityManager.h>
+#import <EnxRTCiOS/EnxToolBar.h>

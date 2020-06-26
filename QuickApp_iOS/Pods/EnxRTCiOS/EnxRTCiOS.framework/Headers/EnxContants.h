@@ -82,12 +82,12 @@
 //#define kMinHeightResolution (720)
 //#define kMaxHeightResolution (720)
 
-#define kMinWidthResolution (420)
+#define kMinWidthResolution (180)
 #define kMaxWidthResolution (1280)
 #define kMinHeightResolution (320)
 #define kMaxHeightResolution (720)
-#define kMaxBW (2048)
-#define kMinBW (300)
+#define kMaxBW (1500)
+#define kMinBW (150)
 //size.width = 1280;
 //size.height = 720;
 /// Event State Mechanism
@@ -130,6 +130,7 @@
     #define kRequestFloor                          @"requestfloor"
     #define kRequestFloor_In_Progress              @"requestfloor_in_progress"
     #define kRequestedFloor                        @"requestedfloor"
+    #define kRequestFloorAccepted                  @"requestflooraccepted"
 
 //******Floor Grant *****//
     #define kGrant_Floor_Request                   @"grantfloorrequest"
@@ -137,13 +138,21 @@
     #define kGranted_Floor_Request                 @"grantedfloorrequest"
 
 //******Floor Deny *****//
-    #define kDeny_Floor_Request                        @"denyfloorrequest"
-    #define kDeny_Floor_Request_In_Progress            @"deningfloorrequest"
-    #define kDenied_Floor_Request                      @"deniedfloorrequest"
+//    #define kDeny_Floor_Request                        @"denyfloorrequest"
+//    #define kDeny_Floor_Request_In_Progress            @"deningfloorrequest"
+//    #define kDenied_Floor_Request                      @"deniedfloorrequest"
 
 //******Floor Release *****//
-    #define kRelease_Floor_Request_In_Progress         @"deningfloorrequest"
+   // #define kRelease_Floor_Request_In_Progress         @"deningfloorrequest"
 
+
+//******Floor Cancle *****//
+    #define kCancle_Floor_Request                        @"cancelfloor"
+    #define kCancle_Floor_Request_In_Progress            @"cancelfloor_in_progress"
+    
+//******Floor Finished *****//
+    #define kFinish_Floor_Request                        @"finishfloor"
+    #define kFinish_Floor_Request_In_Progress            @"finishfloor_in_progress"
 //******Change to audio only*****//
 
     #define kChange_To_Audio                            @"change_to_audio"
@@ -186,6 +195,17 @@
     #define kSelf_UnMute_Video_Request_In_Progress         @"self_unmute_video_in_progress"
     #define kSelf_UnMuted_Video                            @"self_unmuted_video"
 
+//******Canvas Observer*****//
+
+#define kIsCanvasStarted                                   @"IsCanvasStarted"
+#define kTextEditDone                                      @"EditDone"
+#define kTextOption                                         @"DoenSelection"
+#define kreannotatePoint                                    @"reannotatePoint"
+#define kfinishreannotate                                  @"finishreannotate"
+#define kSingleUndo                                    @"singleAnnotationundo"
+#define kfinishedUndo                                  @"finishedUndo"
+#define kUndoAll                                        @"undoAll"
+#define kfinishedAllUndo                                  @"finishedAllUndo"
 
 //******Player Observer*****//
 
@@ -207,6 +227,29 @@
 #define kCaptchaOn                                           @"startcaptcha"
 #define kCaptchaOff                                           @"stopcaptcha"
 
+/*
+    Outbound Call
+ */
+#define kStartOutBoundCall                                  @"startCall"
+#define kOutBoundCallInProgress                             @"callInProgress"
+#define kOutBoundCallEnd                                    @"callEnd"
+/* Annotation*/
+#define kStartAnnotation                         @"StartAnnotation"
+#define kStartAnnotationInProgress               @"StartAnnotationInProgress"
+#define kStartAnnotationStartted                 @"StartAnnotationStarted"
+
+//******Lock/Unlock Room*****//
+#define kLockRoom                              @"lockroom"
+#define kLockRoom_In_Progress                  @"Lockroom_in_progress"
+#define kLockdRoom                             @"Lockdroom"
+#define kUnLockRoom_In_Progress                @"unLockroom_in_progress"
+
+/* Canvas*/
+#define kStartCanvas                         @"StartCanvas"
+#define kStartCanvasInProgress               @"StartCanvasInProgress"
+#define kStartCanvasStartted                 @"StartCanvasStarted"
+
 #endif /* EnxContants_h */
+
 
 
