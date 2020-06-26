@@ -95,7 +95,7 @@
                                             <outlet property="delegate" destination="W7b-Lx-8Us" id="uMq-ZG-tbG"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="5ef599aaec74380858b53bcf" borderStyle="roundedRect" placeholder="Enter Room Id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SM1-PA-zei">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Room Id" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SM1-PA-zei">
                                         <rect key="frame" x="20" y="174" width="240" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="DWK-wL-RvC"/>

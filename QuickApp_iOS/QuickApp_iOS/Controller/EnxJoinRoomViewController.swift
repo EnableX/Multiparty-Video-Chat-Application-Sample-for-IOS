@@ -73,7 +73,6 @@ class EnxJoinRoomViewController: UIViewController  {
         }
         return roomdataModel
     }
-    
     // MARK: - Join Button Event
     /**
      Validate  maindatory Filed should not empty
