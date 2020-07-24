@@ -56,6 +56,7 @@ Once you tried EnableX iOS Sample Application, you may need to setup your own  A
     let kAppkey   = ""
  
  ```
+ 
 ### 1.2 Test
 
 #### 1.2.1 Open the App
@@ -66,6 +67,7 @@ Once you tried EnableX iOS Sample Application, you may need to setup your own  A
 
 Note: Only one user with Moderator Role allowed to connect to a Virtual Room while trying with EnableX Hosted Service. Your Own Application Server may allow upto 5 Moderators. 
 
+Note:- If you used any emulator/simulator your local stream will not create. It will create only on real device.
 
   
 ## 2 Setup Your Own Application Server
