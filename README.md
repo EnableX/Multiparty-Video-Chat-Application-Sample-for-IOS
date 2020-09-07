@@ -13,7 +13,7 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 
 #### 1.1.1 App Id and App Key 
 
-* Register with EnableX [https://www.enablex.io] 
+* Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/] 
 * Login to the EnableX Portal
 * Create your Application Key
 * Get your App ID and App Key delivered to your Email
@@ -28,7 +28,7 @@ This App creates a virtual Room on the fly  hosted on the Enablex platform using
 
 You need to setup an Application Server to provision Web Service API for your iOS Application to communicate enabling Video Session. 
 
-To help you to try our iOS Application quickly, without having to setup Applciation Server, the Application is shipped pre-configured with EnableX hosted Application Server i.e. https://demo.enablex.io. 
+To help you to try our iOS Application quickly, without having to setup Applciation Server, the Application is shipped pre-configured with EnableX hosted Application Server i.e. https://try.enablex.io. 
 
 Our Application Server restricts a single Session Duation to 10 minutes, and allows 1 moderator and not more than 3 Participant in a Session.
 
@@ -94,11 +94,6 @@ This Sample Applcation uses EnableX iOS Toolkit to communicate with EnableX Serv
 * Download: https://developer.enablex.io/resources/downloads/#ios-toolkit
 
 
-## 4 Demo
+## 4 Trial
 
-EnableX provides hosted Vemo Application of different use-case for you to try out.
-
-1. Try a quick Video Call: https://demo.enablex.io
-2. Try Apps on Demo Zone: https://portal.enablex.io/demo-zone/
-3. Try Meeting & Webinar:  https://www.enablex.io/ucaas/
-
+Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/ or try our multiparty video chat https://try.enablex.io/.
