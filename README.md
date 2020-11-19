@@ -1,6 +1,6 @@
 # Multi-Party RTC: A Sample iOS App with EnableX iOS Toolkit
 
-This is a Sample iOS App demonstrates the use of EnableX (https://www.enablex.io) platform Server APIs and iOS Toolkit.  It allows developers to ramp up on app development by hosting on their own devices. 
+This is a Sample iOS App demonstrates the use of EnableX platform (https://www.enablex.io/cpaas/) Server APIs and iOS Toolkit.  It allows developers to ramp up on app development by hosting on their own devices. 
 
 This App creates a virtual Room on the fly  hosted on the Enablex platform using REST calls and uses the Room credentials (i.e. Room Id) to connect to the virtual Room as a Moderator or Participant using a mobile client.  The same Room credentials can be shared with others to join the same virtual Room to carry out a RTC (Real Time Communication) session. 
 
