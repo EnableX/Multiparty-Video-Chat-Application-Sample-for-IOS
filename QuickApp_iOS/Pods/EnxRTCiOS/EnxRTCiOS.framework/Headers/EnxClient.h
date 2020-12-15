@@ -53,6 +53,8 @@ extern NSString* clientStateToString(EnxClientState state);
 /// @name Initializers
 ///-----------------------------------
 
+-(void)getPara;
+
 //- (instancetype)initWithDelegate:(id<EnxClientDelegate>)delegate;
 // for Publisger Stream
 - (instancetype)initPublishClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room withMaxVideoLayers:(int)layer withMaxBandWidth:(int)bandWidth isAudioOnly:(BOOL)isAudioOnly ;
@@ -62,6 +64,9 @@ extern NSString* clientStateToString(EnxClientState state);
 
 // for CanVas Stream
 -(instancetype)initCanvasClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room;
+
+// for Screen Share Stream
+-(instancetype)initScreenShareClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room;
 
 ///-----------------------------------
 /// @name Instance Methods

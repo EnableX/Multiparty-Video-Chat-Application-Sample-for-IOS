@@ -8,7 +8,11 @@
 @import WebRTC;
 #import <Foundation/Foundation.h>
 #import "EnxRoom.h"
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#if TARGET_IPHONE_SIMULATOR
+    
+#else
+    #import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#endif
 //#import <WebRTC/RTCAudioSession.h>
 //NS_ASSUME_NONNULL_BEGIN
 
@@ -64,6 +68,7 @@ typedef NS_OPTIONS(NSUInteger, LOG_MODE_MASK) {
 @interface EnxUtilityManager : NSObject <RTCAudioSessionDelegate>
 @property(nonatomic,weak) id <EnxMediaDeledate> delegate;
 @property(nonatomic,weak) NSString *previousNetwork;
+@property(nonatomic,readonly,strong) EnxRoom *mRoom;
 
 +(EnxUtilityManager*)shareInstance;
 -(BOOL)setAudioDevice:(NSString*)name;
@@ -84,6 +89,7 @@ typedef NS_OPTIONS(NSUInteger, LOG_MODE_MASK) {
 /*These two variables used in enxclient class only*/
 -(NSMutableArray *)getMessageQueue;
 -(NSMutableArray *)geticeServers;
+
 /* Property And Methods for client Loger */
 ///-----------------------------------
 /// @name Properties
@@ -105,6 +111,18 @@ typedef NS_OPTIONS(NSUInteger, LOG_MODE_MASK) {
 -(BOOL)getLoggerStatus;
 /*Drain All object once Session closed*/
 -(void)drainAllObjectRefrence;
+//Thame color
+-(void)setIconColor:(UIColor *)color;
+-(UIColor*)getThameColor;
+- (UIColor *)colorFromHexString:(NSString *)hexString;
+-(void)setMRoom:(EnxRoom *)mRoom;
+//Start Screen Share
+-(void)startScreenShare;
+-(void)sendVideoBuffer:(CMSampleBufferRef)sampleBuffer;
+-(void)stopScreenShare;
+-(void)setAppGroupsName:(NSString *)appGroup withUserKey:(NSString*)key;
+-(NSString*)getAppGroupName;
+-(NSString*)getUserKey;
 @end
 
 FOUNDATION_STATIC_INLINE void logThis(LOG_MODE mode, NSString *file, NSNumber *line, NSString *format, ...) {

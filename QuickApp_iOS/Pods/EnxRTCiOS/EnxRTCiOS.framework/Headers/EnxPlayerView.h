@@ -44,6 +44,7 @@ typedef NS_ENUM(NSInteger, TextPosition) {
 //Note: Works only with devices which supports metal.
 -(void)setContentMode:(UIViewContentMode)contentMode;
 @property(readonly) BOOL staTsFlag;
+@property (nonatomic) BOOL isPingUSer;
 /// EnxPlayerDelegate were this Player will invoke methods as events.
 @property (weak, nonatomic) id <EnxPlayerDelegate> _Nullable delegate;
 -(void)enablePlayerStats:(BOOL)flag;
@@ -65,5 +66,6 @@ typedef NS_ENUM(NSInteger, TextPosition) {
 -(void)audioUnmuted;
 -(void)showAndHideStats:(BOOL)flag;
 -(void)updateCollectionViewFrame;
+-(void)showAndHidePinged:(BOOL)flag;
 
 @end

@@ -162,8 +162,6 @@ typedef NS_ENUM(NSInteger, EnxOutBoundCallState) {
  */
 - (void)room:(EnxRoom *_Nullable)room didConnect:(NSDictionary *_Nullable)roomMetadata;
 
-- (void)roomDidDisconnected:(EnxRoomStatus)status __attribute__((deprecated("This API is depricated.Use didRoomDisconnect: in EnxRoom")));
-
 - (void)didRoomDisconnect:(NSArray * _Nullable)response;
 /**
  Fired each time there is an error with the room.
@@ -307,8 +305,6 @@ typedef NS_ENUM(NSInteger, EnxOutBoundCallState) {
  }
  
  */
-- (void)didGrantFloorRequested:(NSArray *_Nullable)Data
-__attribute__((deprecated("This API is depricated.Use didGrantedFloorRequest: in EnxRoom")));
 - (void)didGrantedFloorRequest:(NSArray *_Nullable)Data;
 /**
  
@@ -322,8 +318,6 @@ __attribute__((deprecated("This API is depricated.Use didGrantedFloorRequest: in
  "msg" : "Floor Request Denied"
  }
  */
-
-- (void)didDenyFloorRequested:(NSArray *_Nullable)Data __attribute__((deprecated("This API is depricated.Use didDeniedFloorRequest: in EnxRoom")));
 - (void)didDeniedFloorRequest:(NSArray *_Nullable)Data;
 /**
  
@@ -340,7 +334,7 @@ __attribute__((deprecated("This API is depricated.Use didGrantedFloorRequest: in
  }
  
  */
-- (void)didReleaseFloorRequested:(NSArray *_Nullable)Data __attribute__((deprecated("This API is depricated.Use didReleasedFloorRequest: in EnxRoom")));
+
 - (void)didReleasedFloorRequest:(NSArray *_Nullable)Data;
 /*
     This delegate method will notify to all available modiatore, Once any participent has cancled there floor request
@@ -529,7 +523,6 @@ __attribute__((deprecated("This API is depricated.Use didGrantedFloorRequest: in
  @param room Instance of the room where event happen.
  
  */
--(void)room:(EnxRoom *_Nullable)room activeTalkerList:(NSArray *_Nullable)Data __attribute__((deprecated("This API is depricated.Use didActiveTalkerList: in EnxStream")));
 //This delegate methods will return list of EnxStream
 -(void)room:(EnxRoom *_Nullable)room didActiveTalkerList:(NSArray *_Nullable)Data;
 //This delegate methods will return collectionView of EnxStream
@@ -563,16 +556,31 @@ __attribute__((deprecated("This API is depricated.Use didGrantedFloorRequest: in
  @param room Instance of the room where event happen.
  
  */
--(void)room:(EnxRoom *_Nullable)room screenSharedStarted:(NSArray *_Nullable)Data;
+-(void)room:(EnxRoom *_Nullable)room didScreenShareStarted:(EnxStream *_Nullable)stream;
 /**
  A Participant listens to this delegate to know about a screen shared by a user has stopped.
  
  @param room Instance of the room where event happen.
  
  */
--(void)room:(EnxRoom *_Nullable)room screenShareStopped:(NSArray *_Nullable)Data;
 
+-(void)room:(EnxRoom *_Nullable)room didScreenShareStopped:(EnxStream *_Nullable)stream;
 
+//Screen Share Start/Stop ACK Delegate for Self User
+/**
+ A user will receive this ack delegate, when he/she will start screen share.
+ @param room Instance of the room where event happen.
+ @param Data ACK list of start Annotation
+ 
+ */
+-(void)room:(EnxRoom *_Nullable)room didStartScreenShareACK:(NSArray *_Nullable)Data;
+/**
+ A user will receive this ack delegate, when he/she will stop screen share.
+ 
+ @param room Instance of the room where event happen.
+ @param  Data ACK list of Stop Annotation
+ */
+-(void)room:(EnxRoom *_Nullable)room didStoppedScreenShareACK:(NSArray *_Nullable)Data;
 
 //Canvas Delegate
 /**
@@ -582,7 +590,7 @@ __attribute__((deprecated("This API is depricated.Use didGrantedFloorRequest: in
  @param Data list of required information to display canvas
  
  */
--(void)room:(EnxRoom *_Nullable)room canvasStarted:(NSArray *_Nullable)Data;
+-(void)room:(EnxRoom *_Nullable)room didCanvasStarted:(EnxStream *_Nullable)stream;
 /**
  A Participant listens to this delegate to know about that Canvas  has stopped by user.
  
@@ -590,7 +598,7 @@ __attribute__((deprecated("This API is depricated.Use didGrantedFloorRequest: in
  @param Data list of required information to remove canvas
  
  */
--(void)room:(EnxRoom *_Nullable)room canvasStopped:(NSArray *_Nullable)Data;
+-(void)room:(EnxRoom *_Nullable)room didCanvasStopped:(EnxStream *_Nullable)stream;
 
 //Annotation Start/Stop Delegate for End User
 /**
@@ -839,7 +847,51 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 
 - (void)room:(EnxRoom *_Nullable)room didAckDestroy:(NSArray *_Nullable)data;
 
+#pragma mark- Room Live Streaming Events
+- (void)room:(EnxRoom *_Nullable)channel didAckStartStreaming:(NSArray *_Nullable)data;
+
+- (void)room:(EnxRoom *_Nullable)channel didAckStopStreaming:(NSArray *_Nullable)data;
+
+- (void)room:(EnxRoom *_Nullable)channel didStreamingNotification:(NSArray *_Nullable)data;
+#pragma mark - Acknowledgment for Add/Remove ping user
+
+/**
+ Fired when a Modiator request for add Ping user .
+ 
+ @param room Instance of the room where event happen.
+ @param data Inform user for pinged  success/failure.
+ 
+ */
+- (void)room:(EnxRoom *_Nullable)channel didAckPinUsers:(NSArray *_Nullable)data;
+/**
+ Fired when a Modiator request for remove Ping user .
+ @param room Instance of the room where event happen.
+ @param data Inform user for pinged  success/failure.
+ */
+- (void)room:(EnxRoom *_Nullable)channel didAckUnpinUsers:(NSArray *_Nullable)data;
+
+- (void)room:(EnxRoom *_Nullable)channel didPinnedUsers:(NSArray *_Nullable)data;
+
 @end
+@protocol EnxFaceXDelegate <NSObject>
+@optional
+#pragma mark - FaceX Events
+-(void)didPingBack:(NSArray*_Nullable)data;
+-(void)didStartedClientUsage:(NSArray*_Nullable)data;
+-(void)didStoppedClientUsage:(NSArray*_Nullable)data;
+@end
+
+@protocol EnxBroadCastDelegate <NSObject>
+@optional
+#pragma mark - EnxBroadCast  Events
+-(void)didStartBroadCast:(NSArray*_Nullable)data;
+-(void)didStoppedBroadCast:(NSArray*_Nullable)data;
+-(void)broadCastDisconnected;
+-(void)broadCastConnected;
+-(void)failedToConnectWithBroadCast:(NSArray*_Nonnull)reason;
+-(void)disconnectedByOwner;
+@end
+
 
 ///-----------------------------------
 /// @name Interface Declaration
@@ -876,6 +928,15 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 
 /// EnxRoomDelegate were this room will invoke methods as events.
 @property (weak, nonatomic) id <EnxRoomDelegate> _Nullable delegate;
+
+/// EnxFaceXDelegate were this room will invoke methods as events.
+@property (weak, nonatomic) id <EnxBroadCastDelegate> _Nullable broadCastDelegate;
+
+/// EnxFaceXDelegate were this room will invoke methods as events.
+@property (weak, nonatomic) id <EnxFaceXDelegate> _Nullable faceXDelegate;
+
+
+
 
 ///Here i am storing playerDelegate when join room called and set this playerDelegate to player when we create player internally.
 @property (weak, nonatomic) id  _Nullable playerDelegate;
@@ -1205,7 +1266,6 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 
 -(EnxStream *_Nullable)getLocalStream:(NSDictionary *_Nonnull)publishStreamInfo;
 
--(EnxStream *_Nullable)initlocalStream:(NSDictionary *_Nonnull)publishStreamInfo __attribute__((deprecated("This API is depricated.Use getLocalStream: in EnxRoom")));
 
 /**
  Speaker set active or not active
@@ -1252,9 +1312,6 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  
  */
 -(void)setTalkerCount:(NSInteger)number;
-
-
--(void)changeToAudioOnly:(BOOL)check __attribute__((deprecated("This API is depricated.Use setAudioOnlyMode: in EnxRoom")));;
 
 -(void)setAudioOnlyMode:(BOOL)audioOnly;
 
@@ -1322,7 +1379,7 @@ opt which should be "Auto, HD , SD, LD and talker/canvas"
 /*
     This method for initiating outbound call
  */
--(void)makeOutboundCall:(NSString*_Nonnull)number;
+-(void)makeOutboundCall:(NSString*_Nonnull)number callerId:(NSString *_Nonnull)callerId;
 -(void)setZoomFactor:(CGFloat)value clientId:(NSArray *_Nonnull)clientIds;
 /* Annotations*/
 -(void)startAnnotation:(EnxStream*_Nonnull)stream;
@@ -1334,7 +1391,7 @@ opt which should be "Auto, HD , SD, LD and talker/canvas"
  This metho for Extend Confrence Duration
  */
 -(void)extendConferenceDuration;
--(void)updateConfiguration:(NSDictionary *)data;
+-(void)updateConfiguration:(NSDictionary *_Nonnull)data;
 
  // lock/Unlock Room
 -(void)lockRoom;
@@ -1350,5 +1407,28 @@ opt which should be "Auto, HD , SD, LD and talker/canvas"
 /* this method help to rearrange collection view*/
 -(void)adjustLayout;
 
+//Live broadcast Streaming API
+-(void)startStreaming:(NSDictionary *_Nonnull)streamingConfig;
+-(void)stopStreaming:(NSDictionary *_Nonnull)streamingConfig;
+//Start Screen Share
+/**
+ 
+ This method is required instance of EnxScreenshareDelegate along with token
+ @param token The auth token for room access. See initWithEncodedToken:
+ for token composition details.
+ */
+-(void)connectWithScreenshare:(NSString *_Nonnull)token withScreenDelegate:(id<EnxBroadCastDelegate> _Nonnull)delegate;
+-(void)startScreenShare;
+-(void)sendVideoBuffer:(CMSampleBufferRef _Nonnull )sampleBuffer;
+-(void)stopScreenShare;
+
+//FaceX Methods
+/*-(void)pingBack:(id<EnxFaceXDelegate>_Nullable)faceXDelegate;
+-(void)startClientUsage:(NSDictionary *_Nonnull)data;
+-(void)stopClientUsage:(NSDictionary *_Nonnull)data;*/
+
+//pin user
+-(void)pinUsers:(NSArray *_Nonnull)clientIds;
+-(void)unpinUsers:(NSArray *_Nonnull)clientIds;
 @end
 

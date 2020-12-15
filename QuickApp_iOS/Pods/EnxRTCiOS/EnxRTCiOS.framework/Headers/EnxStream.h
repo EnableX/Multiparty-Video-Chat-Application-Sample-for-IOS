@@ -83,13 +83,6 @@
  Paricipant delegate
 
  */
-- (void)stream:(EnxStream *_Nullable)stream didSelfMuteVideo:(NSArray *_Nullable)data __attribute__((deprecated("This API is depricated.Use didRemoteStreamVideoUnMute: in EnxStream")));
-
-/**
-* User will get notify If other participants will do self mute video.
-@param stream Instance of the stream where event happen.
-@param data  mute video info on a stream.
-*/
 - (void)stream:(EnxStream *_Nullable)stream didRemoteStreamVideoMute:(NSArray *_Nullable)data;
 /**
  Fired when a self unmute video alert participant received from server.
@@ -101,13 +94,6 @@
 
  }
  */
-- (void)stream:(EnxStream *_Nullable)stream didSelfUnmuteVideo:(NSArray *_Nullable)data __attribute__((deprecated("This API is depricated.Use didRemoteStreamVideoUnMute: in EnxStream")));
-
-/**
-* User will get notify If other participants will do self unmute.
-@param stream Instance of the stream where event happen.
-@param data  unmute video info on a stream.
-*/
 - (void)stream:(EnxStream *_Nullable)stream didRemoteStreamVideoUnMute:(NSArray *_Nullable)data;
 
 /**
@@ -118,12 +104,6 @@
  
  Paricipant delegate
 
- */
-- (void)stream:(EnxStream *_Nullable)stream didSelfMuteAudio:(NSArray *_Nullable)data __attribute__((deprecated("This API is depricated.Use didRemoteStreamAudioMute: in EnxStream")));
-/**
-* User will get notify If other participants will do self mute audio.
-@param stream Instance of the stream where event happen.
-@param data  mute audio info on a stream.
 */
 - (void)stream:(EnxStream *_Nullable)stream didRemoteStreamAudioMute:(NSArray *_Nullable)data;
 
@@ -136,13 +116,6 @@
  @param data self unmute audio info on a stream.
  
  Paricipant delegate
-
- */
-- (void)stream:(EnxStream *_Nullable)stream didSelfUnmuteAudio:(NSArray *_Nullable)data __attribute__((deprecated("This API is depricated.Use didRemoteStreamAudioUnMute: in EnxStream")));
-/**
-* User will get notify If other participants will do self unmute audio.
-@param stream Instance of the stream where event happen.
-@param data  unmute audio info on a stream.
 */
 - (void)stream:(EnxStream *_Nullable)stream didRemoteStreamAudioUnMute:(NSArray *_Nullable)data;
 /**
@@ -174,7 +147,28 @@
 - (void)didRecievedHardUnmutedAudio:(NSArray *_Nullable)Data;
 
 
+/**
+Delegate to give data for facial expressions
+*/
+//- (void)stream:(EnxStream *_Nullable)stream didFacialExpressionData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
 
+- (void)stream:(EnxStream *_Nullable)stream didFaceFeaturesData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
+
+- (void)stream:(EnxStream *_Nullable)stream didFaceArousalValenceData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
+
+- (void)stream:(EnxStream *_Nullable)stream didFaceAttentionData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
+
+- (void)stream:(EnxStream *_Nullable)stream didFaceAgeData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
+
+- (void)stream:(EnxStream *_Nullable)stream didFacePoseData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
+
+- (void)stream:(EnxStream *_Nullable)stream didFaceGenderData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
+
+- (void)stream:(EnxStream *_Nullable)stream didFaceEmotionData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
+
+- (void)stream:(EnxStream *_Nullable)stream didFaceDetectorData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
+
+- (void)stream:(EnxStream *_Nullable)stream didFaceWishData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
 
 @end
 
@@ -209,6 +203,14 @@ from host device with defaultVideoConstraints.
 @return instancetype
 */
 - (instancetype _Nonnull)initCanvasStream;
+/**
+Creates an instance of EnxStream capturing Screen Frame data
+from host device with defaultVideoConstraints.
+@see initLocalStreamWithOptions:attributes:videoConstraints:audioConstraints:
+
+@return instancetype
+*/
+- (instancetype _Nonnull)initScreenShareStream;
 /**
  Creates an instance of EnxStream with a given stream id and signaling channel.
  
@@ -425,6 +427,8 @@ from host device with defaultVideoConstraints.
 
 @property (nonatomic) RTCCameraVideoCapturer * _Nullable capturer;
 
+@property (nonatomic) AVCaptureDevice *device;
+
 @property(strong,readonly,nonatomic) EnxPlayerView * _Nullable enxPlayerView;
 @property(strong,nonatomic)  NSString * _Nullable clientId;
 @property (strong,nonatomic) NSString * _Nullable mediaType;
@@ -440,6 +444,7 @@ from host device with defaultVideoConstraints.
 
 -(void)stopCapture;
 -(void)startCapture;
+-(void)setStreamResolution:(int)width height:(int)height;
 /**
  mute single audio stream.
  
@@ -475,6 +480,18 @@ from host device with defaultVideoConstraints.
 -(void)setZoomFactor:(CGFloat)value;
 -(void)recordScreen;
 -(void)stopRecordingCaptcha;
--(void)updateConfiguration:(NSDictionary *)data;
+-(void)updateConfiguration:(NSDictionary *_Nonnull)data;
+
+//To enable/disable facial expression of stream. true to enable and false to disable
+-(void)enableFaceFeatures:(BOOL)value;
+-(void)enableFaceArousalValence:(BOOL)value;
+-(void)enableFaceAttention:(BOOL)value;
+-(void)enableFaceAge:(BOOL)value;
+-(void)enableFacePose:(BOOL)value;
+-(void)enableFaceGender:(BOOL)value;
+-(void)enableFaceEmotion:(BOOL)value;
+-(void)enableFaceDetector:(BOOL)value;
+-(void)enableFaceWish:(BOOL)value;
+
 @end
 

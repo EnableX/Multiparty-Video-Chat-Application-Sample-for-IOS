@@ -73,6 +73,8 @@
 #define k4gNetworkConnection                @"4G"
 #define k3gNetworkConnection                @"3G"
 #define k2gNetworkConnection                @"2G"
+#define kFaildNetworkConnection                @"Faild to get connection on Simulator"
+
 #define kswitchedNetwork                    @"NetworkChange"
 #define kmaxVideoDeny                       @"MaxVideoDeny"
 
@@ -82,10 +84,10 @@
 //#define kMinHeightResolution (720)
 //#define kMaxHeightResolution (720)
 
-#define kMinWidthResolution (180)
-#define kMaxWidthResolution (1280)
-#define kMinHeightResolution (320)
-#define kMaxHeightResolution (720)
+#define kMinWidthResolution (320)
+#define kMaxWidthResolution (640)
+#define kMinHeightResolution (180)
+#define kMaxHeightResolution (480)
 #define kMaxBW (1500)
 #define kMinBW (150)
 //size.width = 1280;
@@ -248,6 +250,20 @@
 #define kStartCanvas                         @"StartCanvas"
 #define kStartCanvasInProgress               @"StartCanvasInProgress"
 #define kStartCanvasStartted                 @"StartCanvasStarted"
+
+
+/*Live Streaming*/
+#define kStartStreaming                         @"StartStreaming"
+#define kStartStreamingInProgress               @"StartStreamingInProgress"
+#define kStartStreamingStarted                  @"StartStreamingStarted"
+#define kStreamingStopping                      @"Streamingstopping"
+
+/* Screen Share*/
+#define kStartScreenShare                         @"StartScreenShare"
+#define kStartScreenShareInProgress               @"StartScreenShareInProgress"
+#define kStartScreenShareStartted                 @"StartScreenShareStarted"
+#define kStopScreenShareInProgress               @"StopScreenShareInProgress"
+
 
 #endif /* EnxContants_h */
 

@@ -79,6 +79,24 @@ readyToSubscribeStreamId:(NSString *)streamId
 - (void)signalingChannel:(EnxSignalingChannel *)signalingChannel
   canvasReadyToPublishStreamId:(NSString *)streamId
             peerSocketId:(NSString *)peerSocketId;
+
+#pragma mark-  Share Screen portocal
+/**
+ Event fired when Enx failed to publishing canvas stream.
+ 
+ @param signalingChannel EnxSignalingChannel the channel that emit the message.
+ */
+- (void)signalingChannelShareScreenPublishFailed:(EnxSignalingChannel *)signalingChannel;
+/**
+ Event fired when Enx is ready to receive a canvas publishing stream.
+
+ @param signalingChannel EnxSignalingChannel the channel that emit the message.
+ @param peerSocketId Id of the socket in a p2p publishing without MCU. Pass nil if
+        you are not setting a P2P room.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *)signalingChannel
+  shareScreenReadyToPublishStreamId:(NSString *)streamId
+            peerSocketId:(NSString *)peerSocketId;
 @end
 
 ///-----------------------------------
@@ -438,6 +456,23 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  */
 - (void)signalingChannel:(EnxSignalingChannel *)channel didCanvasUnpublishStreamWithId:(NSString *)streamId;
 
+#pragma mark- Screen Share Room Delegate
+/**
+ Event fired when a new stream id has been created and server is ready
+ to start publishing it.
+ 
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param streamId NSString id of the stream that will be published.
+ */
+- (void)signalingChannel:(EnxSignalingChannel * _Nullable)channel didReceiveScreenShareStreamIdReadyToPublish:(NSString *_Nullable)streamId;
+/**
+ Event fired when a Canvas published stream is being unpublished.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param streamId NSString of the stream being unpublished
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didScreenShareUnpublishStreamWithId:(NSString *_Nullable)streamId;
+
 #pragma mark- Room Expire Events
 //Timing Alert
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didConferencessDurationReminder:(NSArray *_Nullable)data;
@@ -454,6 +489,17 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
 
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckDestroy:(NSArray *_Nullable)data;
 
+#pragma mark- Room Live Streaming Events
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckStartStreaming:(NSArray *_Nullable)data;
+
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckStopStreaming:(NSArray *_Nullable)data;
+
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didStreamingNotification :(NSArray *_Nullable)data;
+
+#pragma mark- Room FaceX  Events
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAcknowledgePingBackInRoom:(NSArray *_Nullable)data;
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAcknowledgeStartClientUsageInRoom:(NSArray *_Nullable)data;
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAcknowledgeStopClientUsageInRoom:(NSArray *_Nullable)data;
 
 @end
 
@@ -523,6 +569,11 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>)delegate;
 signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
 - (void)unpublishCanvas:(NSString * _Nonnull)streamId signalingChannelDelegate:(id<EnxSignalingChannelDelegate> _Nullable)delegate;
 
+#pragma mark- shareScreen
+- (void)publishShareScreen:(NSDictionary *_Nonnull)options
+signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
+- (void)unpublishShareScreen:(NSString * _Nonnull)streamId signalingChannelDelegate:(id<EnxSignalingChannelDelegate> _Nullable)delegate;
+
 #pragma mark- CC
 - (void)RequestFlloor;
 - (void)ProcessFloorRequest:(NSString *)clientId status:(NSString *)status;
@@ -572,7 +623,7 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
 -(void)switchUserRole:(NSString *_Nonnull)clientId;
 
 // To initiate outbound call.
--(void)startOutBoundCall:(NSString* _Nonnull)number;
+-(void)startOutBoundCall:(NSString* _Nonnull)number callerId:(NSString *)callerId;
 -(void)extendConfrenceTime;
 
 -(void)signalingLockRoom;
@@ -582,4 +633,15 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
 -(void)signalingDropUser:(NSDictionary *_Nonnull)data;
 -(void)signalingDestroy:(NSDictionary *_Nonnull)data;
 
+//Live broadcast Streaming API
+-(void)signalingStartStreaming:(NSDictionary *)streamingConfig;
+-(void)signalingStopStreaming:(NSDictionary *)streamingConfig;
+
+//FaceX APIs
+-(void)pingBack;
+-(void)startClientUsage:(NSDictionary* _Nonnull)data;
+-(void)stopClientUsage:(NSDictionary* _Nonnull)data;
+
+#pragma mark- ScreenShare
+- (void)connectScreenShare;
 @end
