@@ -89,7 +89,7 @@ Note:
 * This Sample Application created a Virtual Room with limited Participant and 1 Moderator only. 
 * If you used any emulator/simulator, your local stream will not be created. It will be created only on real device.
 
-## 2. Testing Enrironment
+## 2. Testing Environment
 
 If you would like to test the quality of EnableX video call before setting up your own application server,  you may run the test on our pre-configured environment.https://try.enablex.io/
 In this environment, you will only be able to:
