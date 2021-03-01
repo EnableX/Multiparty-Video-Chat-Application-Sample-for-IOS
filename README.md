@@ -23,7 +23,7 @@ You will also enjoy the following features:
 
 You would need API Credential to access EnableX platform. To do that, simply create an account with us. It’s absolutely free!
 
-* [Create an account with EnableX](https://portal.enablex.io/cpaas/trial-sign-up/)
+* Create an account with EnableX - https://portal.enablex.io/cpaas/trial-sign-up/
 * Create your Project
 * Get your App ID and App Key delivered to your Email
 
@@ -35,14 +35,14 @@ You would need API Credential to access EnableX platform. To do that, simply cre
 
 #### 1.1.3 Sample iOS Client 
 
-* Clone or download this Repository [https://github.com/EnableX/Multiparty-Video-Chat-Application-Sample-for-IOS.git] 
+* Clone or download this Repository : https://github.com/EnableX/Multiparty-Video-Chat-Application-Sample-for-IOS.git 
 
 #### 1.1.4 Application Server
 
 An Application Server is required for your iOS App to communicate with EnableX. We have different variant of Application Server Sample Code, pick one in your preferred language and follow instructions given in README.md file of respective Repository.
 
-* NodeJS: [https://github.com/EnableX/Video-Conferencing-Open-Source-Web-Application-Sample.git] 
-* PHP: [https://github.com/EnableX/Group-Video-Call-Conferencing-Sample-Application-in-PHP]
+* NodeJS: https://github.com/EnableX/Video-Conferencing-Open-Source-Web-Application-Sample.git 
+* PHP: https://github.com/EnableX/Group-Video-Call-Conferencing-Sample-Application-in-PHP
 
 Note the following:
 •	You need to use App ID and App Key to run this Service.
@@ -94,7 +94,7 @@ If you would like to test the quality of EnableX video call before setting up yo
 * Conduct a single session with a total duration of no more than 10 minutes
 * Host a multiparty call with no more than 3 participants 
 
-> More information on Testing Environment: [https://developer.enablex.io/video/sample-code/#demo-app-server]
+> More information on Testing Environment: https://developer.enablex.io/video/sample-code/#demo-app-server
 
 Once you have tested them, it is important that you set up your own Application Server to continue building a multiparty iOS video calling app. Refer to section 1.1.3 on how to set up the application server. 
   
@@ -110,6 +110,6 @@ This Sample Application uses EnableX iOS Toolkit to communicate with EnableX Ser
 
 EnableX provides a library of Documentations, How-to Guides and Sample Codes to help software developers get started. 
 
-> Go to [https://developer.enablex.io/]. 
+> Go to https://developer.enablex.io/. 
 
 You may also write to us for additional support at support@enablex.io.   
