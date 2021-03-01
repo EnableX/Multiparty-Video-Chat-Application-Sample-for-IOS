@@ -11,7 +11,7 @@ You will also enjoy the following features:
 * Mute/Unmute Video
 * Mute/Unmute Audio
 * Record Session
-* Experience ActiveTalker feature 
+* ActiveTalker 
 
 > For more information, pls visit our Developer Center https://developer.enablex.io/
 
