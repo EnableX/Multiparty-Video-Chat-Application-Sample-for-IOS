@@ -1,43 +1,60 @@
-# Multi-Party RTC: A Sample iOS App with EnableX iOS Toolkit
+# EnableX Group Video Calling iOS app
 
-This is a Sample iOS App demonstrates the use of EnableX platform (https://www.enablex.io/cpaas/) Server APIs and iOS Toolkit.  It allows developers to ramp up on app development by hosting on their own devices. 
+This is a sample video calling app that uses EnableX infrastructure, APIs and Toolkit. It allows developers to try out real-time video and audio features on iOS.
 
-This App creates a virtual Room on the fly  hosted on the Enablex platform using REST calls and uses the Room credentials (i.e. Room Id) to connect to the virtual Room as a Moderator or Participant using a mobile client.  The same Room credentials can be shared with others to join the same virtual Room to carry out a RTC (Real Time Communication) session. 
+This sample apps allows you to easily:
+* Create a Virtual Room with REST video API 
+* Gain the Room Credential (i.e. Room ID) 
+* Join Virtual Room either as moderator or partipicant secure
 
-> EnableX Developer Center: https://developer.enablex.io/
+You will also enjoy the following features: 
+* Get Active Talkers Video 
+* Mute/Unmute Video
+* Mute/Unmute Audio
+* Record Session
 
+> For more information, pls visit our Developer Center https://developer.enablex.io/
 
-## 1. How to get started
+## 1. Get started
 
 ### 1.1 Pre-Requisites
 
 #### 1.1.1 App Id and App Key 
 
-* Register with EnableX [https://portal.enablex.io/cpaas/trial-sign-up/] 
-* Login to the EnableX Portal
-* Create your Application Key
+You would need API Credential to access EnableX platform. To do that, simply create an account with us. It’s absolutely free!
+
+* [Create an account with EnableX](https://portal.enablex.io/cpaas/trial-sign-up/)
+* Create your Project
 * Get your App ID and App Key delivered to your Email
 
+#### 1.1.2 Requirement
 
-#### 1.1.2 Sample iOS Client 
+* iOS Deployment Target: 12.0
+* Xcode Version: 12.0
+* Swift Language Version: 5 
+
+#### 1.1.3 Sample iOS Client 
 
 * Clone or download this Repository [https://github.com/EnableX/Multiparty-Video-Chat-Application-Sample-for-IOS.git] 
 
+#### 1.1.4 Application Server
 
-#### 1.1.3 Test Application Server
+An Application Server is required for your iOS App to communicate with EnableX. We have different variant of Application Server Sample Code, pick one in your preferred language and follow instructions given in README.md file of respective Repository.
 
-You need to setup an Application Server to provision Web Service API for your iOS Application to communicate enabling Video Session. 
+* NodeJS: [https://github.com/EnableX/Video-Conferencing-Open-Source-Web-Application-Sample.git] 
+* PHP: [https://github.com/EnableX/Group-Video-Call-Conferencing-Sample-Application-in-PHP]
 
-To help you to try our iOS Application quickly, without having to setup Applciation Server, the Application is shipped pre-configured with EnableX hosted Application Server i.e. https://try.enablex.io. 
+Note the following:
+•	You need to use App ID and App Key to run this Service.
+•	Your iOS Client End Point needs to connect to this Service to create Virtual Room and Create Token to join session.
+•	Application Server is created using [EnableX Server API] (https://developer.enablex.io/video-api/server-api/), a Rest API Service helps in provisioning, session access and post-session reporting.
 
-Our Application Server restricts a single Session Duation to 10 minutes, and allows 1 moderator and not more than 3 Participant in a Session.
+If you would like to test the quality of EnableX video call before setting up your own application server,  you may run the test on our pre-configured environment. Please refer to section 3 for details.
 
-Once you tried EnableX iOS Sample Application, you may need to setup your own  Application Server and verify your Application to work with your Application Server.  More on this, read Point 2 later in the Document.
-
-#### 1.1.4 Configure iOS Client 
+### 1.2 Configure iOS Client 
 
 * Open the App
-* Go to VCXConstant.swift, it's reads- 
+* Go to VCXConstant.swift, it's reads: 
 
 ``` 
  /* To try the App with Enablex Hosted Service you need to set the kTry = true
@@ -56,44 +73,43 @@ Once you tried EnableX iOS Sample Application, you may need to setup your own  A
     let kAppkey   = ""
  
  ```
- 
-### 1.2 Test
 
-#### 1.2.1 Open the App
+### 1.3 Test
 
-* Open the App in your Device. You get a form to enter Credentials i.e. Name & Room Id.
-* You need to create a Room by clicking the "Create Room" button.
-* Once the Room Id is created, you can use it and share with others to connect to the Virtual Room to carry out a RTC Session either as a Moderator or a Participant (Choose applicable Role in the Form).
+#### 1.3.1 Open the App
 
-Note: Only one user with Moderator Role allowed to connect to a Virtual Room while trying with EnableX Hosted Service. Your Own Application Server may allow upto 5 Moderators. 
+* Open the App in your Device. You get a form to enter Name, Room ID and Role (Moderator or Participant). 
+* If you don't have a Room ID, create a Room by clicking the "Create Room" button.
+* Enter the Room ID in the Form to connect to the Virtual Room to carry out a RTC Session either as a Moderator or a Participant.
+* Share Room ID with others to join the Virtual Room with you.
 
-Note:- If you used any emulator/simulator your local stream will not create. It will create only on real device.
+Note: 
+* This Sample Application created a Virtual Room with limited Participant and 1 Moderator only. 
+* If you used any emulator/simulator, your local stream will not be created. It will be created only on real device.
 
+## 3 Testing Enrironment
+
+If you would like to test the quality of EnableX video call before setting up your own application server,  you may run the test on our pre-configured environment. In this environment, you will only be able to:
+
+* Conduct a single session with a total duration of no more than 10 minutes
+* Host a multiparty call with no more than 3 participants 
+
+> More information on Testing Environment: [https://developer.enablex.io/video/sample-code/#demo-app-server]
+
+Once you have tested them, it is important that you set up your own Application Server to continue building a multiparty iOS video calling app. Refer to section 1.1.3 on how to set up the application server. 
   
-## 2 Setup Your Own Application Server
+## 4 iOS Toolkit
 
-You may need to setup your own Application Server after you tried the Sample Application with EnableX hosted Server. We have differnt variant of Appliciation Server Sample Code, pick one in your preferred language and follow instructions given in respective README.md file.
-
-*NodeJS: [https://github.com/EnableX/Video-Conferencing-Open-Source-Web-Application-Sample.git]
-*PHP: [https://github.com/EnableX/Group-Video-Call-Conferencing-Sample-Application-in-PHP]
-
-Note the following:
-
-* You need to use App ID and App Key to run this Service.
-* Your iOS Client End Point needs to connect to this Service to create Virtual Room and Create Token to join session.
-* Application Server is created using EnableX Server API, a Rest API Service helps in provisioning, session access and pos-session reporting.  
-
-To know more about Server API, go to:
-https://developer.enablex.io/latest/server-api/
-
-## 3 iOS Toolkit
-
-This Sample Applcation uses EnableX iOS Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications. You might need to update your Application with latest version of EnableX iOS Toolkit time as and when a new release is avaialble.  
+This Sample Application uses EnableX iOS Toolkit to communicate with EnableX Servers to initiate and manage Real Time Communications. You might need to update your Application with latest version of EnableX iOS Toolkit time as and when a new release is available. 
 
 * Documentation: https://developer.enablex.io/latest/client-api/ios-toolkit/
 * Download: https://developer.enablex.io/resources/downloads/#ios-toolkit
 
 
-## 4 Trial
+## 5 Support
 
-Sign up for a free trial https://portal.enablex.io/cpaas/trial-sign-up/ or try our multiparty video chat https://try.enablex.io/.
+EnableX provides a library of Documentations, How-to Guides and Sample Codes to help software developers get started. 
+
+> Go to [https://developer.enablex.io/]. 
+
+You may also write to us for additional support at support@enablex.io.   
