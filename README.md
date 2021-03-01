@@ -8,10 +8,10 @@ This sample apps allows you to easily:
 * Join Virtual Room either as moderator or partipicant securely
 
 You will also enjoy the following features: 
-* Get Active Talkers Video 
 * Mute/Unmute Video
 * Mute/Unmute Audio
 * Record Session
+* Experience ActiveTalker feature 
 
 > For more information, pls visit our Developer Center https://developer.enablex.io/
 
@@ -19,7 +19,7 @@ You will also enjoy the following features:
 
 ### 1.1 Pre-Requisites
 
-#### 1.1.1 App Id and App Key 
+#### 1.1.1 App ID and App Key 
 
 You would need API Credential to access EnableX platform. To do that, simply create an account with us. It’s absolutely free!
 
@@ -89,7 +89,8 @@ Note:
 
 ## 3 Testing Enrironment
 
-If you would like to test the quality of EnableX video call before setting up your own application server,  you may run the test on our pre-configured environment. In this environment, you will only be able to:
+If you would like to test the quality of EnableX video call before setting up your own application server,  you may run the test on our pre-configured environment.https://try.enablex.io/
+In this environment, you will only be able to:
 
 * Conduct a single session with a total duration of no more than 10 minutes
 * Host a multiparty call with no more than 3 participants 
