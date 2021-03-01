@@ -31,8 +31,9 @@ You would need API Credential to access EnableX platform. To do that, simply cre
 
 * iOS Deployment Target: 10.0 or higher
 * Xcode Version: 10.0 or higher
-* Swift Language Version: 3.0 or higher
-* Objective-C: In Compliance with iOS 10.0+
+* Language: Either Swift or Objective-C
+  * Swift Language Version: 3.0 or higher
+  * Objective-C: In Compliance with iOS 10.0+
 
 #### 1.1.3 Sample iOS Client 
 
