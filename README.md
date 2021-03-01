@@ -5,7 +5,7 @@ This is a sample video calling app that uses EnableX infrastructure, APIs and To
 This sample apps allows you to easily:
 * Create a Virtual Room with REST video API 
 * Gain the Room Credential (i.e. Room ID) 
-* Join Virtual Room either as moderator or partipicant secure
+* Join Virtual Room either as moderator or partipicant securely
 
 You will also enjoy the following features: 
 * Get Active Talkers Video 
