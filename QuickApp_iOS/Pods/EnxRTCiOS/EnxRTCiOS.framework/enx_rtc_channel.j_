@@ -1,9 +1,17 @@
- var myRoom;
+var myRoom;
 var fileUploadDataValue;
 var selectedfiles;
 var downloadedFile;
 var downloadFailed;
 var cancleResponse;
+var preeCall = null;
+var preTestFinished;
+var preTestFailed;
+var preTestStatus;
+var preTestStopped;
+var preTestInit;
+var flag = true;
+var preTestStatusFinished;
 function passToken(token,fileObject) {
         EnxRtc.Logger.info(token);
         myRoom = EnxRtc.EnxRoom({"token":token});
@@ -148,3 +156,99 @@ function passToken(token,fileObject) {
     function DownloadCancleIOS(){
         return cancleResponse;
     }
+
+/*Pree Call Test*/
+/*
+function performPreTestCall(Options){
+    try{
+
+        preeCall = EnxRtc.clientDiagnostics(Options);
+
+        preeCall.addEventListener("client-diagnosis-finished", function(event) {
+                //preTestFinished = JSON.stringify(event.message);
+                //window.location = 'client-diagnosis-finished:';
+        });
+        preeCall.addEventListener("client-diagnosis-failed", function(event) {
+            //preTestFailed = JSON.stringify(event.message);
+            //window.location = 'client-diagnosis-failed:';
+        });
+        preeCall.addEventListener("client-diagnosis-status", function(event) {
+            //preTestStatus = JSON.stringify(event.message);
+            //window.location = 'client-diagnosis-status:';
+        });
+        
+        preeCall.addEventListener("client-diagnosis-stopped", function(event) {
+            //preTestStopped = JSON.stringify(event.message);
+            //window.location = 'client-diagnosis-stopped:';
+        });
+    }catch(err) {
+        alert("Method Error");
+        console.log("Inside Catch",err.message);
+        }
+}
+function getPremission(){
+    
+    try{
+//                const constraints = {
+//                    audio :true,
+//                    video: true,
+//                };
+       
+//        if (!window.navigator) {
+//            window.navigator = function(){
+//                window.location = 'premissionGiven123:';
+//            };}
+//          window.navigator.getUserMedia(constraints) = function() {
+//            webkit.messageHandlers.callbackHandler.postMessage(arguments);
+//              preTestInit = arguments;
+//              window.location = 'premissionGiven:';
+//          }
+      
+        
+        const constraints = {
+            audio :true,
+            video: true,
+        };
+//        if (!window.navigator) {window.location = 'No Window and nav found:';}
+//          window.navigator.getUserMedia(constraints) = function() {
+//              preTestInit = "success";
+//              window.location = 'premissionGiven:';
+//            webkit.messageHandlers.callbackHandler.postMessage(arguments);
+//          }
+        window.navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+        if(stream != null){
+            preTestInit = "success";
+            window.location = 'premissionGiven:';
+        }
+        else{
+            //alert("getUserMedia() is not supported by your browser");
+            window.location = 'premissionDeny:';
+        }
+    });
+    }
+    catch(err) {
+        window.location = 'premissionDeny12:';
+//        alert("Method Error");
+//        console.log("Inside Catch",err.message);
+        }
+    
+}
+function clientDiagnosisFinished(){
+    return preTestFinished;
+}
+function clientDiagnosisfailed(){
+    return preTestFailed;
+}
+function clientDiagnosisStatus(){
+    return preTestStatus;
+}
+function clientDiagnosisStopped(){
+    return preTestStopped;
+}
+function clientDiagnosisInit(){
+    return preTestInit;
+}
+function clientDiagnosisStatusFinished(){
+    return preTestStatusFinished;
+}
+*/

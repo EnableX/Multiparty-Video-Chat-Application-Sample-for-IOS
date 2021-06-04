@@ -37,12 +37,14 @@
 // Simulcast
 #define ksimulcastOption              @"maxVideoLayers"
 
-// AudioOnly
+// AudioMuted
 #define kAudioMuted                     @"audioMuted"
 
-//VideoOnly
+//VideoMuted
 #define kVideoMuted                  @"videoMuted"
 
+//Audio Only
+#define kaudio_only                  @"audio_only"
 
 
 
@@ -263,6 +265,12 @@
 #define kStartScreenShareInProgress               @"StartScreenShareInProgress"
 #define kStartScreenShareStartted                 @"StartScreenShareStarted"
 #define kStopScreenShareInProgress               @"StopScreenShareInProgress"
+
+/* Speaker- Notification*/
+#define kStartSpeakerNotification                         @"StartSpeaker-Notification"
+#define kStartSpeakerNotificationInProgress               @"StartSpeaker-NotificationInProgress"
+#define kStartSpeakerNotificationStartted                 @"StartSpeaker-NotificationStarted"
+#define kStopSpeakerNotificationInProgress                @"StopSpeaker-NotificationInProgress"
 
 
 #endif /* EnxContants_h */

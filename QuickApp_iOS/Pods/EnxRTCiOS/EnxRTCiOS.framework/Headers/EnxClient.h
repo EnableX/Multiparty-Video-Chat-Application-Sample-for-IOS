@@ -48,7 +48,6 @@ extern NSString* clientStateToString(EnxClientState state);
 @property (nonatomic,readonly) int maxNumberOfLayers;
 @property (nonatomic,readonly) int maxbandWidth;
 @property (nonatomic,strong) NSString *peerId;
-
 ///-----------------------------------
 /// @name Initializers
 ///-----------------------------------

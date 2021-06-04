@@ -25,7 +25,8 @@
 - (RTCMediaStream *)streamToCanvasPublishByAppClient:(EnxClient *)client;
 - (RTCMediaStream *)canVasStreamToPublishByAppClient:(EnxClient *)client;
 - (NSDictionary *)appClientRequestICEServers:(EnxClient *)client;
--(void)ICEConnectionFailed;
+-(void)ICEConnectionFailed:(NSString *)streamID;
+-(void)networkSwitched;
 - (RTCMediaStream *)streamToShareScreenPublishByAppClient:(EnxClient *)client;
 
 @end
