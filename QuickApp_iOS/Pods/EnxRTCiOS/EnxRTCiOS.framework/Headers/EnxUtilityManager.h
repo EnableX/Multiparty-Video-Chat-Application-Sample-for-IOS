@@ -130,12 +130,10 @@ typedef NS_OPTIONS(NSUInteger, LOG_MODE_MASK) {
 - (UIColor *)colorFromHexString:(NSString *)hexString;
 -(void)setMRoom:(EnxRoom *)mRoom;
 //Start Screen Share
--(void)startScreenShare;
--(void)sendVideoBuffer:(CMSampleBufferRef)sampleBuffer;
--(void)stopScreenShare;
--(void)setAppGroupsName:(NSString *)appGroup withUserKey:(NSString*)key;
--(NSString*)getAppGroupName;
--(NSString*)getUserKey;
+-(void)setAppGroupsName:(NSString * _Nonnull)appGroup withUserKey:(NSString* _Nonnull)key;
+-(NSString* _Nonnull)getAppGroupName;
+-(NSString* _Nonnull)getUserKey;
+
 @end
 
 FOUNDATION_STATIC_INLINE void logThis(LOG_MODE mode, NSString *file, NSNumber *line, NSString *format, ...) {

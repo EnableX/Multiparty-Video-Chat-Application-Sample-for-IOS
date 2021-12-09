@@ -461,7 +461,10 @@ from host device with defaultVideoConstraints.
 /// Default audio contraints.
 @property (readonly,weak) RTCMediaConstraints * _Nullable defaultAudioConstraints;
 
-@property (nonatomic) RTCCameraVideoCapturer * _Nullable capturer;
+#if NS_EXTENSION_UNAVAILABLE_IOS
+    @property (nonatomic) RTCCameraVideoCapturer * _Nullable capturer;
+#endif
+
 
 @property (nonatomic) AVCaptureDevice * _Nonnull device;
 

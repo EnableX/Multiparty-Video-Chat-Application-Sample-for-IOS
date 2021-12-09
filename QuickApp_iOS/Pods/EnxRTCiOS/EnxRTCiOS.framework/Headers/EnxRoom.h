@@ -31,7 +31,8 @@ typedef NS_ENUM(NSInteger, EnxOutBoundCallState) {
     Ringing,
     Connected,
     Failed,
-    Disconnected
+    Disconnected,
+    Timeout
 };
 ///-----------------------------------
 /// @name Protocols
@@ -404,18 +405,31 @@ typedef NS_ENUM(NSInteger, EnxOutBoundCallState) {
 - (void)didProcessFloorRequested:(NSArray *_Nullable)Data;
 
 /*
- This is an acknowledgment method for the handOverFloorRequest to the moderator.
+ This is an acknowledgment method for the inviteToFloor to the moderator.
  */
--(void)didHandOverFloorRequested:(NSArray *_Nullable)Data;
+-(void)didACKInviteToFloorRequested:(NSArray *_Nullable)Data;
+/*
+ This event method will notify to all moderator in the same session (including the owner of the event), that invitation received by participant
+ **/
+-(void)didInviteToFloorRequested:(NSArray *_Nullable)Data;
 /*
  This delegate method for Participant , How or she will receive handover floor access.
  */
--(void)didReceivedFloorAccess:(NSArray *_Nullable)Data;
+-(void)didInvitedForFloorAccess:(NSArray *_Nullable)Data;
 
 /*
- This is an acknowledgment method for the all  moderator (Accept owner of handover floor request) and participant which has received handover floor request .
+ This is an event method for the all  moderator including owner of the API and participant which has received handover floor request .
  */
--(void)didCancelledHandOverFloorRequest:(NSArray *_Nullable)Data;
+-(void)didCanceledFloorInvite:(NSArray *_Nullable)Data;
+
+/*
+ This is an event method for the all  moderator including owner of the API and participant which has received handover floor request .
+ */
+-(void)didRejectedInviteFloor:(NSArray *_Nullable)Data;
+/*
+ This is an event method for the all  moderator including owner of the API and invitee participant,  once invitee has accept the invite floor  .
+ */
+-(void)didAcceptedFloorInvite:(NSArray *_Nullable)Data;
 
 #pragma mark-  HardMute Delegate
 
@@ -629,6 +643,16 @@ typedef NS_ENUM(NSInteger, EnxOutBoundCallState) {
  @details This delegate method will receive the owner of screen share , means who has stopped screen share.
  */
 -(void)room:(EnxRoom *_Nullable)room didStoppedScreenShareACK:(NSArray *_Nullable)Data;
+/**
+ Owner of the method will received this call back
+ @param room Instance of the room where event happen.
+ @param  Data ACK list of Stop Annotation
+ @details This delegate method will Acknowledge  to the owner of screen share , means who has stopped screen share.
+ */
+-(void)room:(EnxRoom *_Nullable)room didExitScreenShareACK:(NSArray *_Nullable)Data;
+
+
+
 
 #pragma mark - ACK/start/stop canvas delegates
 
@@ -992,6 +1016,14 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  */
 - (void)room:(EnxRoom *_Nullable)room didDialStateEvents:(EnxOutBoundCallState)state;
 
+/**
+ Fired when outbond call started
+ @param room Instance of the room where event happen.
+ @param dtmfCollected information about DTMF number
+ @details This delegate method will called, when any of user will initiate for outbound call and end user will press any DTMF number
+ */
+- (void)room:(EnxRoom *_Nullable)room didDTMFCollected:(NSString*_Nullable)dtmfCollected;
+
 #pragma mark- Lock/Unlock Room Delegate
 
 /**
@@ -1047,25 +1079,25 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 
 /**
  Fired when start streaning event called
- @param channel Instance of the room where event happen.
+ @param room Instance of the room where event happen.
  @param data information about streaming  event
  @details this is an acklodgment method for streaming in room, Moderatore can start streaming at any time in confrence.
  */
-- (void)room:(EnxRoom *_Nullable)channel didAckStartStreaming:(NSArray *_Nullable)data;
+- (void)room:(EnxRoom *_Nullable)room didAckStartStreaming:(NSArray *_Nullable)data;
 /**
  Fired when stop streaning event called
- @param channel Instance of the room where event happen.
+ @param room Instance of the room where event happen.
  @param data information about streaming  event
  @details this is an acklodgment method for streaming in room, Moderatore can stop streaming at any time in confrence.
  */
-- (void)room:(EnxRoom *_Nullable)channel didAckStopStreaming:(NSArray *_Nullable)data;
+- (void)room:(EnxRoom *_Nullable)room didAckStopStreaming:(NSArray *_Nullable)data;
 /**
  Fired when  streaning started in room
- @param channel Instance of the room where event happen.
+ @param room Instance of the room where event happen.
  @param data information about streaming  event
  @details This delegate method will called, when any modiatore will started streaming in room.
  */
-- (void)room:(EnxRoom *_Nullable)channel didStreamingNotification:(NSArray *_Nullable)data;
+- (void)room:(EnxRoom *_Nullable)room didStreamingNotification:(NSArray *_Nullable)data;
 
 #pragma mark - BreakOut Room Delegates
 
@@ -1171,29 +1203,60 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  @details this is the socket on listrener method for all use in parents room will get notify about user disconnected from breakout room resently.
  */
 - (void)room:(EnxRoom *_Nullable)room didUserDisconnectedFromBreakoutRoom:(NSArray *_Nullable)data;
+/**
+ Event fired when invitee user will reject breakout room invitation
+ @param room Instance of the room where event happen.
+ @param data details user , acknoledgmet details for reject breakout room invitation
+ @details this is the socket emit acknowledgment listrener method for the user who has rejected to join breakout room.
+ */
+
+- (void)room:(EnxRoom *_Nullable)room didAckRejectBreakoutRoom:(NSArray *_Nullable)data;
+
+/**
+ Event fired for all available moderator in room
+ @param room Instance of the room where event happen.
+ @param data details of breakout room ,
+ @details this is the socket on room managment listrener method for all moderator , once breakout room created.
+ */
+- (void)room:(EnxRoom *_Nullable)room didBreakoutRoomCreated:(NSArray *_Nullable)data;
+/**
+ Event fired for all available moderator in room
+ @param room Instance of the room where event happen.
+ @param data details of user who has intivet in breakout room
+ @details this is the socket on room managment listrener method, will be sent to all the moderators about a participant being invited to breakout room
+ */
+- (void)room:(EnxRoom *_Nullable)room didBreakoutRoomInvited:(NSArray *_Nullable)data;
+
+/**
+ Event fired for all available moderator in room
+ @param room Instance of the room where event happen.
+ @param data details user , How has rejected for breakout room invitation.
+ @details this is the socket on room managment listrener method, event will be sent to the invitee and all the moderator if the breakout invite is rejected. The message will contain the room_id and rejected client id.
+ */
+- (void)room:(EnxRoom *_Nullable)room didBreakoutRoomInviteRejected:(NSArray *_Nullable)data;
 
 #pragma mark - Acknowledgment for Add/Remove ping user
 /**
  Fired when a Moderator request for add Ping user .
- @param channel Instance of the room where event happen.
+ @param room Instance of the room where event happen.
  @param data Inform user for pinged  success/failure.
  @details this is an acknowledgment method for pinUser events done by any modiatore.
  */
-- (void)room:(EnxRoom *_Nullable)channel didAckPinUsers:(NSArray *_Nullable)data;
+- (void)room:(EnxRoom *_Nullable)room didAckPinUsers:(NSArray *_Nullable)data;
 /**
  Fired when a Moderator request for remove Ping user .
- @param channel Instance of the room where event happen.
+ @param room Instance of the room where event happen.
  @param data Inform user for pinged  success/failure.
  @details this is an acknowledgment method for UnpinUsers events done by any modiatore.
  */
-- (void)room:(EnxRoom *_Nullable)channel didAckUnpinUsers:(NSArray *_Nullable)data;
+- (void)room:(EnxRoom *_Nullable)room didAckUnpinUsers:(NSArray *_Nullable)data;
 /**
  Fired when a any user has pinned by any moderatore .
- @param channel Instance of the room where event happen.
+ @param room Instance of the room where event happen.
  @param data Inform user for pinged  user list.
  @details this delegate method will update the list of pinned user list in same confrence.
  */
-- (void)room:(EnxRoom *_Nullable)channel didPinnedUsers:(NSArray *_Nullable)data;
+- (void)room:(EnxRoom *_Nullable)room didPinnedUsers:(NSArray *_Nullable)data;
 
 #pragma mark - Knock-Knock Room /wait for moderator
 /**
@@ -1250,7 +1313,64 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  @param data  information of active speker.
  @details This delegate called for Talker notification subscribe/unsubscribeupdates.
  */
+
 -(void)room:(EnxRoom *_Nullable)room didTalkerNotification:(NSArray *_Nullable)data;
+
+/**
+ Fired to notify user for his/her subscriber bandwidth alart
+ @param room Instance of the room where event happen.
+ @param data  information about subscriber bandwidth.
+ @details This delegate notify to the user incase of subscriber bandwidth goes low
+ */
+
+-(void)room:(EnxRoom *_Nullable)room didRoomBandwidthAlert:(NSArray *_Nullable)data;
+
+
+#pragma mark - delegate for Add/Remove sportLight user
+/**
+ Fired when a Moderator request for add Spotlight user .
+ @param room Instance of the room where event happen.
+ @param data Inform user for Spotlight  success/failure.
+ @details this is an acknowledgment method for add Spotlight events done by any modiatore.
+ */
+- (void)room:(EnxRoom *_Nullable)room didAckAddSpotlightUsers:(NSArray *_Nullable)data;
+/**
+ Fired when a Moderator request for remove Spotlight user .
+ @param room Instance of the room where event happen.
+ @param data Inform user for Spotlight  success/failure.
+ @details this is an acknowledgment method for remove Spotlight events done by any modiatore.
+ */
+- (void)room:(EnxRoom *_Nullable)room didAckRemoveSpotlightUsers:(NSArray *_Nullable)data;
+/**
+ Fired when a any user has Spotlight by any moderatore .
+ @param room Instance of the room where event happen.
+ @param data Inform user for pinged  user list.
+ @details this delegate method will update the list of Spotlight user list in same confrence.
+ */
+- (void)room:(EnxRoom *_Nullable)room didUpdatedSpotlightUsers:(NSArray *_Nullable)data;
+
+#pragma mark - delegate for Switch Room Mode
+
+/**
+ This is an acknolagement for switch room
+ 
+ @param room Instance of the room where event happen.
+ @param data Acknowldgement details.
+ @details this is an acknowladgement owner of the method  .
+ */
+
+
+- (void)room:(EnxRoom *_Nullable)room didAckSwitchedRoom:(NSArray *_Nullable)data;
+
+/**
+ This is  notification  for switch room
+ 
+ @param room Instance of the room where event happen.
+ @param data details of the new room details.
+ @details this is notification for all participants or moderator   .
+ */
+
+-(void)room:(EnxRoom *_Nullable)room didRoomModeSwitched:(NSArray *_Nullable)data;
 
 @end
 @protocol EnxRoomFaceXDelegate <NSObject>
@@ -1313,6 +1433,12 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  @details This delegate method will called when user will start screen shared and main room disconnected.
  */
 -(void)disconnectedByOwner;
+/**
+ The chield will get notify to exist from breakout room
+ @param  Data ACK list of Stop Annotation
+ @details This delegate method will notify  to the child client .
+ */
+-(void)didRequestedExitRoom:(NSArray *_Nullable)Data;
 @end
 
 #pragma mark- Breakout Internal ClassUpdate
@@ -1560,9 +1686,9 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
   Delegate (Optional). If you need to handle the success or failure of the action, then pass a function name here to which you look to receive call back.
  
  Moderator delegate
- @see EnxRoomDelegate:didHandOverFloorRequested:data:
+ @see EnxRoomDelegate:didInviteToFloorRequested:data:
  */
--(void)handOverFloorRequest:(NSString* _Nonnull)clientId;
+-(void)inviteToFloor:(NSString* _Nonnull)clientId;
 
 /**
  This API is only available during Lecture Mode of a Session and for the participant. where moderator can handover the floor request to any random participent, Now its chooice of participent either he is accepting or deny
@@ -1574,7 +1700,7 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  Moderator delegate
  @see EnxRoomDelegate:didProcessFloorRequested:data:
  */
--(void)acceptHandOverFloorRequest:(NSString* _Nonnull)clientId;
+-(void)acceptInviteFloorRequest:(NSString* _Nonnull)clientId;
 
 /**
  This API is only available during Lecture Mode of a Session and for the moderator. where moderator can handover the floor request to any random participent and he/she can cancle that request at any time before accept.
@@ -1586,7 +1712,20 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  Moderator delegate
  @see EnxRoomDelegate:didProcessFloorRequested:data:
  */
--(void)cancelHandOverFloorRequest:(NSString* _Nonnull)clientId;
+-(void)cancelFloorInvite:(NSString* _Nonnull)clientId;
+
+/**
+ This API is only available during Lecture Mode of a Session and for the participant. where moderator can invite the floor request to any random participent, Now its chooice of participent either he is accepting or deny
+ 
+ @param clientId  It’s the Client ID for the participant to whom giving floor access.
+ 
+  Delegate (Optional). If you need to handle the success or failure of the action, then pass a function name here to which you look to receive call back.
+ 
+ Moderator delegate
+ @see EnxRoomDelegate:didProcessFloorRequested:data:
+ */
+
+-(void)rejectInviteFloor:(NSString* _Nonnull)clientId;
 
 
 #pragma mark- Hard Mute
@@ -1948,11 +2087,15 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  Client endpoint can use this method to send video buffer after screen shared started.
  @param sampleBuffer it is a required property, can't be nil.
 */
--(void)sendVideoBuffer:(CMSampleBufferRef _Nonnull )sampleBuffer;
+-(void)sendVideoBuffer:(CVPixelBufferRef _Nonnull )sampleBuffer withTimeStamp:(int64_t)timeStampNs;
 /**
  Client endpoint can use this method to stop screen share, this method only work when screen shared all ready running.
 */
 -(void)stopScreenShare;
+/**
+ Client endpoint can use this method to infoirm chiled user to exit from room, this method only work when screen shared all ready running.
+*/
+-(void)exitScreenShare;
 
 #pragma mark- FaceX Methods
 //FaceX Methods
@@ -2009,6 +2152,11 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 */
 -(void)unmuteRoom:(NSDictionary * _Nonnull)data;
 
+/**
+ Client endpoint can use this method to reject/cancel to join   breakout room.
+ @param roomId its a NSString which contain information about reject room
+*/
+-(void)rejectBreakOutRoom:(NSString *_Nonnull)roomId;
 
 #pragma mark- Pin/unpin user
 /**
@@ -2043,10 +2191,37 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 
 /**
  Client endpoint can set options at room level. to set Talker Event option after join room
-@param data contain the details information for either subscribe and unsubicribe Talker Events
+@param enable contain the details information for either subscribe and unsubicribe Talker Events
  */
 
 -(void)subscribeForTalkerNotification:(BOOL)enable;
+
+
+#pragma mark- add/remove spotlight
+/**
+ Client endpoint can use this method to add Spotlight for any of the available user in room , while pass their clientIDs
+ @param clientIds - this is list of clientID who going to be pinged
+ this is a required property , can't be nil.
+*/
+//pin user
+-(void)addSpotlightUsers:(NSArray *_Nonnull)clientIds;
+/**
+ Client endpoint can use this method to remove  Spotlight any of the added Spotlight user in room , while pass their clientIDs of pinned user
+ @param clientIds - this is list of pingged clientID who going to be unpinned
+ this is a required property , can't be nil.
+*/
+-(void)removeSpotlightUsers:(NSArray *_Nonnull)clientIds;
+
+
+#pragma mark- switch room mode
+
+/**
+ Client endpoint can use this method to switch room mode  for any of the available user in room , while pass their room mode
+ @param roomMode - this is room mode lecture /group
+ this is a required property , can't be nil.
+*/
+
+-(void)switchRoomMode:(NSString *_Nonnull)roomMode;
 
 @end
 

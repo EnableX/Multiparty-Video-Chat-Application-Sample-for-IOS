@@ -6,7 +6,7 @@ target 'QuickApp_iOS' do
   use_frameworks!
 
   # Pods for QuickApp_iOS
-    pod 'EnxRTCiOS'
+    pod 'EnxRTCiOS','2.0.0'
     pod 'Socket.IO-Client-Swift', '~> 15.0.0'
     pod 'SVProgressHUD'
     pod 'ReachabilitySwift'

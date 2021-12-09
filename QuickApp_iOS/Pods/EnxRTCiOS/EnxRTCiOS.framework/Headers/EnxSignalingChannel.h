@@ -744,19 +744,76 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
 #pragma mark- Screen Share Room Delegate
 /**
  Event fired when a new stream id has been created and server is ready
- to start publishing it.
+ to start publishing it screen share.
  
  @param channel EnxSignalingChannel the channel that emit the message.
  @param streamId NSString id of the stream that will be published.
  */
 - (void)signalingChannel:(EnxSignalingChannel * _Nullable)channel didReceiveScreenShareStreamIdReadyToPublish:(NSString *_Nonnull)streamId;
 /**
- Event fired when a Canvas published stream is being unpublished.
+ Event fired when a screen share unpublished stream is being unpublished.
 
  @param channel EnxSignalingChannel the channel that emit the message.
  @param streamId NSString of the stream being unpublished
  */
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didScreenShareUnpublishStreamWithId:(NSString *_Nonnull)streamId;
+
+/**
+ Event fired when a parement client disconnect , ongoing screen share confrence.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data NSArray of the parent client details
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didParentRoomDisconnected:(NSArray *_Nonnull)data;
+
+/**
+ Event fired when a Clied Connected  , ongoing confrence to shart screen share
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data NSArray of the parent client details
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didChildRoomConnecteded:(NSArray *_Nonnull)data;
+
+/**
+ Event fired when a parement client disconnect , ongoing screen share confrence.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data NSArray of the parent client details
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didScreenShareDisconnected:(NSArray *_Nonnull)data;
+
+/**
+ Event fired when a Clied Connected  , ongoing confrence to shart screen share
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data NSArray of the parent client details
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didScreenShareConnecteded:(NSArray *_Nonnull)data;
+
+/**
+ Event fired when a Clield client disconnect , ongoing screen share confrence.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data NSArray of the parent client details
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didChildRoomDisconnected:(NSArray *_Nonnull)data;
+
+/**
+ Event fired to exit screen share , ongoing screen share confrence.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data NSArray of the parent client details
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didRequestedExitRoom:(NSArray *_Nonnull)data;
+
+/**
+ Event fired to exit screen share , ongoing screen share confrence.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data NSArray of the parent client details
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKExitScreenShare:(NSArray *_Nonnull)data;
+
 
 #pragma mark- Room Expire Events
 /**
@@ -939,6 +996,13 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  @details this is the socket on listrener method for all use in parents room will get notify about user disconnected from breakout room resently.
  */
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didUserDisconnectedFromBreakoutRoom:(NSArray *_Nonnull)data;
+/**
+ Event fired for resume room Acknowledgment
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data details resume room
+ @details this is the socket emit acknowledgment method for resume room
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckRejectBreakoutRoom:(NSArray *_Nonnull)data;
 
 #pragma mark- knock-knock room or wait for modeator
 /**
@@ -964,6 +1028,25 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  @details this is the socket on listrener method for modeartor , this event will fair when any user knocking a room.
  */
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didUserAwated:(NSArray *_Nonnull)data;
+
+
+
+#pragma mark- Switch Room Mode
+/**
+ Event fired for switch room mode Acknowledgment
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data details switch  room mode
+ @details this is the socket emit acknowledgment method for switch  room mode
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAckSwitchedRoom:(NSArray *_Nonnull)data;
+
+/**
+ Event fired for Switched room
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data details about user who knocking the room _Nonnull
+ @details this is the socket on listrener method for participants , this event will fair when any moderator  switched room a room.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didSwitchedRoom:(NSArray *_Nonnull)data;
 
 
 @end
@@ -1148,6 +1231,13 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
     @details EnxRoom will used this method to unpublish screen share stream
  */
 - (void)unpublishShareScreen:(NSString * _Nonnull)streamId signalingChannelDelegate:(id<EnxSignalingChannelDelegate> _Nullable)delegate;
+
+/**
+    Socket API to exit screen share stream
+    
+    @details EnxRoom will used this method to exit screen share stream
+ */
+-(void)exitScreenShare;
 
 #pragma mark- CC
 
@@ -1429,6 +1519,13 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
 -(void)resumeRoom:(NSDictionary * _Nonnull)data;
 
 
+/**
+    Socket API to reject breakout room
+    @param data information about  breakoutroom
+    @details EnxRoom will used this method to reject breakoutroom
+ */
+-(void)requestForRejectBreakOutRoom:(NSString * _Nonnull)data;
+
 #pragma mark- Knock - Knock Room
 
 /**
@@ -1444,5 +1541,14 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
     @details EnxRoom will used this method to deny  to get in any user in knock -knock based room
  */
 - (void)denyAwaitedUser:(NSString*_Nonnull)clientId;
+
+
+#pragma mark- Switch Room Mode
+/**
+    Socket API to SwitchRoomMode
+    @param data information about  SwitchRoomMode
+    @details EnxRoom will used this method to SwitchRoomMode
+ */
+-(void)requestForSwitchedRoom:(NSString * _Nonnull)data;
 
 @end
