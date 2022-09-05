@@ -303,7 +303,8 @@ from host device with defaultVideoConstraints.
 /**
  Generates the audio tracks for the stream
  */
-- (void)generateAudioTracks;
+//- (void)generateAudioTracks;
+//-(void)removeAudioTracks;
 
 /**
  Get attributes of the stream
@@ -476,6 +477,8 @@ from host device with defaultVideoConstraints.
 @property (strong,nonatomic) NSString * _Nullable videoAspectRatio;
 @property (nonatomic) BOOL isAudioOnlyStream;
 @property(nonatomic,readonly)BOOL isCaptchaStared;
+@property(nonatomic,strong)NSString *_Nullable layout;
+@property(nonatomic,strong)NSString *_Nullable streamLayout;
 
 @property (readonly) BOOL usingFrontCamera;
 /*

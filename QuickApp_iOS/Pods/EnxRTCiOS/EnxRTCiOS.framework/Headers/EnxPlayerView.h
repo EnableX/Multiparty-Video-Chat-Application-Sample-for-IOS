@@ -74,6 +74,7 @@ typedef NS_ENUM(NSInteger, TextPosition) {
 @property (nonatomic) BOOL isPinUSer;
 /// EnxPlayerDelegate were this Player will invoke methods as events.
 @property (weak, nonatomic) id <EnxPlayerDelegate> _Nullable delegate;
+@property (nonatomic) int playIndex;
 /**
  Enable player Stats.
  @param flag its a bool value to enable/disable stats
@@ -184,5 +185,18 @@ typedef NS_ENUM(NSInteger, TextPosition) {
  @details this  API used by customer/Enxroom to show/hide Speaker Notification icon based on flag.
  */
 -(void)showAndHideSpeakerNotification:(BOOL)flag;
+
+
+/**
+  Bandwodth Update
+ @param playerConfiguartion has information about BW icon
+ @param type Uplaod/Downlow
+ @param isLB - low bandwidth/restore
+ @details this  API used by Enxroom to show video icon on playerView if video muted or low bandwidth icon due to low bandwidth.
+ */
+-(void)updateBW:(NSString *_Nullable)type isLowBN:(BOOL)isLB withConfiguration:(NSDictionary *_Nullable)playerConfiguartion;
+
+-(void)addRemoveLocalViewAvatara:(BOOL)isAdd;
+
 
 @end

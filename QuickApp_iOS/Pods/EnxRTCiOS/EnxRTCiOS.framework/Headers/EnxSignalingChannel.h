@@ -630,6 +630,8 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  @details this is the socket on listener method for EnxRoom ,which inform to room about publisher bandwidth
  */
 -(void)signalingChannel:(EnxSignalingChannel *_Nullable)channel publisherBandWidthAlert:(NSArray *_Nonnull)Data;
+//Unifide BW alert
+-(void)signalingChannel:(EnxSignalingChannel *_Nullable)channel roomBandWidthAlert:(NSArray *_Nonnull)Data;
 //SimulCast
 /**
  Event fired when remote stream video quality update
@@ -714,6 +716,8 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  @details this is the socket emit  method for outbound call.
  */
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didOutBoundCallInitiated:(NSArray *_Nonnull)data;
+//Cancel OutbondCall
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didOutBoundCallCancel:(NSArray *_Nonnull)data;
 /**
  Event fired to update state about outbound call
  @param channel EnxSignalingChannel the channel that emit the message.
@@ -814,6 +818,38 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  */
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKExitScreenShare:(NSArray *_Nonnull)data;
 
+/**
+ Event fired to stop all  share in room.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data details ack of the API
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKStopAllSharing:(NSArray *_Nonnull)data;
+
+/**
+ Event fired to stop on going share in the room
+
+ @param channel EnxSignalingChannel the channel that on the message.
+ @param data is on request method to stop on going share in confrence.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didStopAllSharing:(NSArray *_Nonnull)data;
+
+
+/**
+ Event fired to stop all  share in room.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data details ack of the API
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKOverrideScreenShare:(NSArray *_Nonnull)data;
+
+/**
+ Event fired to stop all  share in room.
+
+ @param channel EnxSignalingChannel the channel that emit the message.
+ @param data details update of the API
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didOverrideScreenShare:(NSArray *_Nonnull)data;
 
 #pragma mark- Room Expire Events
 /**
@@ -1048,6 +1084,133 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  */
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didSwitchedRoom:(NSArray *_Nonnull)data;
 
+#pragma mark - Live Recording Notification
+/**
+ Event fired for Strat Live Recording in room  Acknowledgment
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data details about user who knocking the room _Nonnull
+ @details this is the socket emit acknowledgment method for the event owner
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKStartLiveRecording:(NSArray *_Nonnull)data;
+
+/**
+ Event fired for Stop Live Recording in room  Acknowledgment
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data details about user who knocking the room _Nonnull
+ @details this is the socket emit acknowledgment method for the event owner
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKStopLiveRecording:(NSArray *_Nonnull)data;
+
+/**
+ Event fired for liveRecording room
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data details about user who knocking the room _Nonnull
+ @details this is the socket on listrener method for participants including owner of the event , this event will fair when any moderator  will start liveRecording.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didLiveRecordingNotification:(NSArray *_Nonnull)data;
+
+/**
+ Event fired for liveRecording room
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data details about user who knocking the room _Nonnull
+ @details this is the socket on listrener method for the user who has joined after live Recording has started
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didRoomliverecordOn:(NSArray *_Nonnull)data;
+
+/**
+ Event fired for layout update in room  Acknowledgment
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data details about method process ack
+ @details this is the socket emit acknowledgment method for the event owner
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKUpdateLayout:(NSArray *_Nonnull)data;
+
+/**
+ Event fired for layout update in room for all participant
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data update about what layout moderator demanding for users
+ @details this is the socket on  method for all the users in room
+ */
+
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didLayoutupdated:(NSArray *_Nonnull)data;
+#pragma mark - Customer Data Update
+/**
+ Event fired forcustome Data Update
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data update custome data
+ @details this is the socket on  method for the owner of event
+ */
+
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didCustomDataUpdated:(NSArray *_Nonnull)data;
+/**
+ Event fired for custome Data save
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data save custome data
+ @details this is the socket on  method to the owner of event
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didCustomDataSaved:(NSArray *_Nonnull)data;
+/**
+ Event fired for get custome Data save
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket on  method to the owner of event
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didGetCustomData:(NSArray *_Nonnull)data;
+
+#pragma mark - Page Video
+/**
+ Event fired for get ACK to subscribe page video
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket ACK event method for subscribe page talker , this is only for owner of the method
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKSubscribePageVideo:(NSArray *_Nonnull)data;
+/**
+ Event fired for unsubscribe page video
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket ACK method for unsubscribe page video
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKUnsubscribePageVideo:(NSArray *_Nonnull)data;
+
+/**
+ Event fired for get page video
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket ACK method for get page video
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKGetPageVideo:(NSArray *_Nonnull)data;
+/**
+ Event on method for get page
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket on method for page talker
+ */
+-(void)signalingChannel:(EnxSignalingChannel *_Nullable)channel pageTalkerList:(NSArray *_Nonnull)data;
+#pragma mark - Speach to Text
+/**
+ Event on ACK method for StartLiveTranscription
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket ACK on method for the owner of the event
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKStartLiveTranscription:(NSArray *_Nonnull)data;
+/**
+ Event on ACK method for StopLiveTranscription
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket ACK on method for the owner of the event
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKStopLiveTranscription:(NSArray *_Nonnull)data;
+/**
+ Event on notification for the user how start StartLiveTranscription
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket on method for StartLiveTranscription
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didTranscriptionEvents:(NSArray *_Nonnull)data;
+
+
 
 @end
 
@@ -1217,6 +1380,12 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
 
 #pragma mark- shareScreen
 /**
+    Socket API to connect with same room for  screen share
+    @details EnxRoom will used this method to connect with same room for screen share publish
+ */
+- (void)connectScreenShare;
+
+/**
     Socket API to publish Screen share  stream
     @param options NSDictonary with carry publish information about screen share stream
     @param delegate EnxClient Refrence to update callback
@@ -1238,6 +1407,20 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
     @details EnxRoom will used this method to exit screen share stream
  */
 -(void)exitScreenShare;
+
+/**
+ Client endpoint - Moderator can use this method to stop all sharing in the room.
+*/
+-(void)stopAllSharing:(NSString * _Nonnull)clientID;
+
+
+/**
+ Client endpoint - Any participant can use this method to Override current running screen share in  the room.
+*/
+-(void)overrideScreenShare:(NSString * _Nonnull)clientID;
+
+
+
 
 #pragma mark- CC
 
@@ -1394,7 +1577,9 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
     @param callerId , its a uniq number of caller
     @details EnxRoom will used this method to make out bond call.
  */
--(void)startOutBoundCall:(NSString* _Nonnull)number callerId:(NSString *_Nonnull)callerId;
+-(void)startOutBoundCall:(NSString* _Nonnull)number callerId:(NSString *_Nonnull)callerId withDialOptions:(NSDictionary* _Nullable)options;
+/* Cancle Out bond call*/
+-(void)cancelOutbondCall:(NSString*_Nonnull)number;
 /**
     Socket API to extend confrence time
     @details EnxRoom will used this method to extend confrence time
@@ -1455,13 +1640,6 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
     @details EnxRoom will used this method to stop FaceX
  */
 -(void)stopClientUsage:(NSDictionary* _Nonnull)data;
-
-#pragma mark- ScreenShare
-/**
-    Socket API to connect with same room for  screen share
-    @details EnxRoom will used this method to connect with same room for screen share publish
- */
-- (void)connectScreenShare;
 
 #pragma mark- BreakOut room
 /**
@@ -1550,5 +1728,31 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
     @details EnxRoom will used this method to SwitchRoomMode
  */
 -(void)requestForSwitchedRoom:(NSString * _Nonnull)data;
+
+#pragma mark - Live Recording
+
+-(void)startLiveRecording:(NSDictionary *_Nonnull)streamingConfig;
+-(void)stopLiveRecording;
+
+#pragma mark - LoyouUpdate
+//Update Loyout for liveRecording’, ‘streaming’, ‘screenShare’,’all’
+-(void)updateLayout:(NSDictionary* _Nonnull)layoutOptions;
+
+#pragma mark - Customer Data Update
+//Save Data
+-(void)saveCustomData:(NSDictionary* _Nonnull)CustomData;
+//update Data
+-(void)setCustomData:(NSDictionary* _Nonnull)CustomData;
+//get Data
+-(void)getCustomData:(NSDictionary* _Nonnull)CustomData;
+
+
+#pragma mark - Page Video
+-(void)pageTalket:(NSDictionary* _Nonnull)info;
+
+#pragma mark - Speach to Text
+-(void)startLiveTranscription;
+-(void)stopLiveTranscription;
+
 
 @end

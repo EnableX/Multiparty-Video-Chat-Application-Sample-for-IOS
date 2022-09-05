@@ -11,7 +11,7 @@
   },
   "event_stream_subscribe_failed": {
     "event_code": "4001",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "stream-subscribe-failed"
   },
     "event_stream_subscribe_success": {
@@ -21,7 +21,7 @@
   },
   "event_stream_unsubscribe_failed": {
     "event_code": "4002",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "stream-unsubscribe-failed"
   },
     "event_stream_unsubscribe_success": {
@@ -41,7 +41,7 @@
   },
   "event_stream_publish_failed": {
     "event_code": "4004",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "stream-publish-failed"
   },
     "event_stream_publish_success": {
@@ -51,7 +51,7 @@
   },
   "event_stream_unpublish_failed": {
     "event_code": "4005",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "stream-unpublish-failed"
   },
     "event_stream_unpublish_success": {
@@ -61,7 +61,7 @@
   },
   "event_start_recording_failed": {
     "event_code": "4006",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "start-recording-failed"
   },
     "event_start_recording_success": {
@@ -71,7 +71,7 @@
   },
   "event_stop_recording_failed": {
     "event_code": "4007",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "stop-recording-failed"
   },
     "event_stop_recording_success": {
@@ -81,7 +81,7 @@
   },
   "event_start_screenshare_failed": {
     "event_code": "4008",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "start-screenshare-failed"
   },
     "event_start_screenshare_success": {
@@ -91,12 +91,12 @@
   },
   "event_agent_start_screenshare_failed": {
     "event_code": "40081",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "agent-start-screenshare-failed"
   },
   "event_stop_screenshare_failed": {
     "event_code": "4009",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "stop-screenshare-failed"
   },
     "event_stop_screenshare_success": {
@@ -106,7 +106,7 @@
   },
   "event_start_canvas_failed": {
     "event_code": "4010",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "start-canvas-failed"
   },
     "event_start_canvas_success": {
@@ -116,7 +116,7 @@
   },
   "event_stop_canvas_failed": {
     "event_code": "4011",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "stop-canvas-failed"
   },
     "event_stop_canvas_success": {
@@ -136,7 +136,7 @@
   },
   "event_network_reconnect_timeout_failed": {
     "event_code": "4012",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "network-reconnect-timeout-failed"
   },
   "event_send_message_failed": {
@@ -181,7 +181,7 @@
   },
   "event_media_access_denied": {
     "event_code": "4019",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "media-access-denied-failed"
   },
     "event_media_access_success": {
@@ -191,7 +191,7 @@
   },
   "event_agent_media_access_denied": {
     "event_code": "40191",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "agent-media-access-denied-failed"
   },
   "event_gum_failed": {
@@ -211,7 +211,7 @@
   },
   "event_audio_device_access_failed": {
     "event_code": "4021",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "audio-device-access-failed"
   },
     "event_audio_device_access_success": {
@@ -221,12 +221,12 @@
   },
   "event_agent_audio_device_access_failed": {
     "event_code": "40211",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "agent-audio-device-access-failed"
   },
   "event_video_device_access_failed": {
     "event_code": "4022",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "video-device-access-failed"
   },
     "event_video_device_access_success": {
@@ -236,7 +236,7 @@
   },
   "event_agent_video_device_access_failed": {
     "event_code": "40221",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "agent-video-device-access-failed"
   },
   "event_remote_canvas_stream_failed": {
@@ -246,12 +246,12 @@
   },
   "event_capture_canvas_stream_failed": {
     "event_code": "4024",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "agent-capture-canvas-stream-failed"
   },
   "event_set_local_description": {
     "event_code": "4025",
-    "severity": "none",
+    "severity": "high",
     "event_name": "set-local-description-failed"
   },
     "event_set_local_description_success": {
@@ -261,7 +261,7 @@
   },
   "event_set_remote_description": {
     "event_code": "4026",
-    "severity": "none",
+    "severity": "high",
     "event_name": "set-remote-description-failed"
   },
     "event_set_remote_description_success": {
@@ -271,17 +271,17 @@
   },
   "event_reconnect_subscribe_failed": {
     "event_code": "4027",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "reconnect-subscribe-failed"
   },
   "event_reconnect_publish_failed": {
     "event_code": "4028",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "reconnect-publish-failed"
   },
   "event_agent_incompatible_browser_failed": {
     "event_code": "4029",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "agent-incompatible-browser-failed"
   },
     "event_start_annotation_success": {
@@ -296,37 +296,12 @@
   },
     "event_start_annotation_failed": {
     "event_code": "4012",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "start-annotation-failed"
   },
     "event_stop_annotation_failed": {
     "event_code": "4013",
-    "severity": "critical",
-    "event_name": "stop-annotation-failed"
-  },
-    "event_stop_annotation_failed": {
-    "event_code": "4013",
-    "severity": "critical",
-    "event_name": "stop-annotation-failed"
-  },
-    "event_stop_annotation_failed": {
-    "event_code": "4013",
-    "severity": "critical",
-    "event_name": "stop-annotation-failed"
-  },
-    "event_stop_annotation_failed": {
-    "event_code": "4013",
-    "severity": "critical",
-    "event_name": "stop-annotation-failed"
-  },
-    "event_stop_annotation_failed": {
-    "event_code": "4013",
-    "severity": "critical",
-    "event_name": "stop-annotation-failed"
-  },
-    "event_stop_annotation_failed": {
-    "event_code": "4013",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "stop-annotation-failed"
   },
     "event_reconnect_socket_failed": {
@@ -351,7 +326,7 @@
   },
     "event_room_reconnection_failed": {
     "event_code": "4031",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "room-reconnection-failed"
   },
     "event_room_reconnection_success": {
@@ -371,7 +346,7 @@
   },
     "event_mute_self_audio_failed": {
     "event_code": "4033",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "mute-self-audio-failed"
   },
     "event_mute_self_audio_success": {
@@ -381,7 +356,7 @@
   },
     "event_unmute_self_audio_failed": {
     "event_code": "4034",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "unmute-self-audio-failed"
   },
     "event_unmute_self_audio_success": {
@@ -391,7 +366,7 @@
   },
     "event_room_mute_failed": {
     "event_code": "4035",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "room-mute-failed"
   },
     "event_room_mute_success": {
@@ -401,7 +376,7 @@
   },
     "event_room_unmute_failed": {
     "event_code": "4036",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "room-unmute-failed"
   },
     "event_room_unmute_success": {
@@ -411,7 +386,7 @@
   },
     "event_file_shared_failed": {
     "event_code": "4037",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "file-shared-failed"
   },
     "event_file_shared_success": {
@@ -421,7 +396,7 @@
   },
     "event_file_downlod_failed": {
     "event_code": "4038",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "file-downlod-failed"
   },
     "event_file_downlod_success": {
@@ -431,7 +406,7 @@
   },
     "event_mute_self_video_failed": {
     "event_code": "4039",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "mute-self-video-failed"
   },
     "event_mute_self_video_success": {
@@ -441,7 +416,7 @@
   },
     "event_unmute_self_video_failed": {
     "event_code": "4040",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "unmute-self-video-failed"
   },
     "event_unmute_self_video_success": {
@@ -451,37 +426,47 @@
   },
     "event_low_bandwidth_update": {
     "event_code": "4042",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "low-bandwidth-update"
   },
     "event_network_changes": {
     "event_code": "4043",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "network-changes"
   },
     "event_current_connected_network": {
     "event_code": "4044",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "current-connected-network"
   },
     "event_connection_lost": {
     "event_code": "4045",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "connection-lost"
   },
     "event_make_outbound_call_failed": {
     "event_code": "4044",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "make-outbound-call-failed"
   },
     "event_make_outbound_call_success": {
     "event_code": "40441",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "make-outbound-call-success"
   },
     "event_make_outbound_call_state": {
     "event_code": "4045",
-    "severity": "critical",
+    "severity": "high",
     "event_name": "make-outbond-call-state"
+  },
+  "event_page_talker": {
+    "event_code": "4046",
+    "severity": "high",
+    "event_name": "page_talker"
+  },
+    "event_Live_recording": {
+    "event_code": "4047",
+    "severity": "high",
+    "event_name": "live_recording"
   }
 }

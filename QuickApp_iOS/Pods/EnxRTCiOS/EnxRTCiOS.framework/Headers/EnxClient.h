@@ -48,6 +48,7 @@ extern NSString* clientStateToString(EnxClientState state);
 @property (nonatomic,readonly) int maxNumberOfLayers;
 @property (nonatomic,readonly) int maxbandWidth;
 @property (nonatomic,strong) NSString *peerId;
+@property (nonatomic,strong) NSString *subscriberLayout;
 ///-----------------------------------
 /// @name Initializers
 ///-----------------------------------
@@ -59,7 +60,7 @@ extern NSString* clientStateToString(EnxClientState state);
 - (instancetype)initPublishClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room withMaxVideoLayers:(int)layer withMaxBandWidth:(int)bandWidth isAudioOnly:(BOOL)isAudioOnly ;
 
 // for Subscriber Stream
--(instancetype)initSubscriberClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room;
+-(instancetype)initSubscriberClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room withLayout:(NSString*)layout;
 
 // for CanVas Stream
 -(instancetype)initCanvasClientWithDelegate:(id<EnxClientDelegate>)delegate withEnxRoom:(EnxRoom *)room;
