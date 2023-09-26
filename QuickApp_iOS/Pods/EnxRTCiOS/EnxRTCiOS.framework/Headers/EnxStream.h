@@ -172,7 +172,6 @@ Delegate to give data for facial expressions
 - (void)stream:(EnxStream *_Nullable)stream didFaceWishData:(NSString *_Nullable)type value:(NSString *_Nullable)value;
 
 @end
-
 /**
  @interface EnxStream
  
@@ -497,6 +496,10 @@ from host device with defaultVideoConstraints.
  This method used to start capture if not stated
  */
 -(void)startCapture;
+/*
+ This method used to start capture to test preview of video
+ */
+-(void)startPreviewCapture;
 /*
  This method used to set resolution for stream
  */

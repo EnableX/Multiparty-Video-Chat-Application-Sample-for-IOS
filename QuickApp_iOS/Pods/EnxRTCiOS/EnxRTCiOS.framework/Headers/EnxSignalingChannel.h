@@ -1142,6 +1142,7 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  */
 
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didCustomDataUpdated:(NSArray *_Nonnull)data;
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKCustomDataUpdated:(NSArray *_Nonnull)data;
 /**
  Event fired for custome Data save
  @param channel EnxSignalingChannel _Nullable the channel that emit the message.
@@ -1195,13 +1196,24 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
  @details this is the socket ACK on method for the owner of the event
  */
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKStartLiveTranscription:(NSArray *_Nonnull)data;
+
+/**
+ Event on ACK method for SubscribeForLiveTranscription
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket ACK on method for the owner of the event
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKSubscribeForLiveTranscription:(NSArray *_Nonnull)data;
+
 /**
  Event on ACK method for StopLiveTranscription
  @param channel EnxSignalingChannel _Nullable the channel that emit the message.
  @param data related to customer
  @details this is the socket ACK on method for the owner of the event
  */
+
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didACKStopLiveTranscription:(NSArray *_Nonnull)data;
+
 /**
  Event on notification for the user how start StartLiveTranscription
  @param channel EnxSignalingChannel _Nullable the channel that emit the message.
@@ -1211,6 +1223,65 @@ Event fired when a StreamId previously subscribed has been failed to unsubscribe
 - (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didTranscriptionEvents:(NSArray *_Nonnull)data;
 
 
+/**
+ Event on notification all the user.
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details When the room transcription on, the following event is being sent to all the participant details.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didRomTranscriptionOn:(NSArray *_Nonnull)data;
+
+/**
+ Event Off notification all the user
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details Once the transcription is off, the following events will be sent.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didRoomTranscriptionOff:(NSArray *_Nonnull)data;
+
+/**
+ Event on notification for the user how start StartLiveTranscription
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details For a client level transcription, once it is started, the following event is sent.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didSelfTranscriptionOn:(NSArray *_Nonnull)data;
+
+/**
+ Event Off notification for the user how Stop StartLiveTranscription
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details For the client level transcription, the following event is sent once the transcription is turned off.
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didSelfTranscriptionOff:(NSArray *_Nonnull)data;
+
+
+/**
+ Event to notification for the audiance  once HLS- Started
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket Notiufication method for all audiances , once HLS stream has been stared
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didHLSStreamingNotification:(NSArray *_Nonnull)data;
+/**
+ Event to notification for the audiance  once HLS- Stopped
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket Notiufication method for all audiances , once HLS stream has been Stopped
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didHLSStreamingNotificationToPublisher:(NSArray *_Nonnull)data;
+
+#pragma mark- auxilaryPublishRequests
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didauxilaryPublishResponse:(NSArray *_Nonnull)data;
+
+#pragma mark- Share premission Request
+/**
+ Event to notification for the clients  in room based on requested
+ @param channel EnxSignalingChannel _Nullable the channel that emit the message.
+ @param data related to customer
+ @details this is the socket Notiufication method for all participent , it will be responsible for all share premission and update premission request
+ */
+- (void)signalingChannel:(EnxSignalingChannel *_Nullable)channel didAuxilaryPublishEvent:(NSArray *_Nonnull)data;
 
 @end
 
@@ -1751,8 +1822,14 @@ signalingChannelDelegate:(id<EnxSignalingChannelDelegate>_Nullable)delegate;
 -(void)pageTalket:(NSDictionary* _Nonnull)info;
 
 #pragma mark - Speach to Text
--(void)startLiveTranscription;
+-(void)startLiveTranscription:(NSDictionary *_Nullable)options;
 -(void)stopLiveTranscription;
 
+#pragma mark- auxilaryPublishRequests
+
+-(void)auxilaryPublishRequests:(NSDictionary *_Nullable)options;
+
+#pragma mark- Camera Switch
+-(void)cameraSwitched;
 
 @end

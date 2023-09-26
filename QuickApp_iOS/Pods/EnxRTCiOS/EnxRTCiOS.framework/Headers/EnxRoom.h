@@ -36,12 +36,34 @@ typedef NS_ENUM(NSInteger, EnxOutBoundCallState) {
     Timeout
 };
 
-typedef NS_ENUM(NSInteger, EnxCustomDataScope) {
-    user,
-    owner,
-    room,
-    session
-};
+typedef NSString * EnxCustomDataScope;
+    #define EnxCustomDataScopeuser @"user"
+    #define EnxCustomDataScopeowner @"owner"
+    #define EnxCustomDataScoperoom @"room"
+    #define EnxCustomDataScopesession @"session"
+
+//typedef NS_ENUM(NSInteger, EnxCustomDataScope) {
+//    user,
+//    owner,
+//    room,
+//    session
+//};
+
+
+typedef enum EnxPubType {
+    Screen,
+    Canvas,
+} EnxPubType;
+extern NSString * _Nonnull const EnxPubType_toString[];
+typedef enum EnxPubMode {
+    All,
+    Authorize,
+    Moderators,
+} EnxPubMode;
+extern NSString * _Nonnull const EnxPubMode_toString[];
+
+
+
 ///-----------------------------------
 /// @name Protocols
 ///-----------------------------------
@@ -591,13 +613,20 @@ typedef NS_ENUM(NSInteger, EnxCustomDataScope) {
  A Participant get of active talker list
  @param room Instance of the room where event happen.
  @param Data will contain list of EnxStream.
- @param view will contain full view of active talker list
  @Details once any participent successfully completed subscription of all avaialble stream in same confrence will receive available active talker list.
  By default its will give list of EnxStream, if user want complete view of active talker in that case he/she will pass a parameter "activeviews" = @"view" in "roominfo" duringb join room.
  
  */
 //This delegate methods will return list of EnxStream
 -(void)room:(EnxRoom *_Nullable)room didActiveTalkerList:(NSArray *_Nullable)Data;
+
+/**
+ A Participant get of active talker list
+ @param room Instance of the room where event happen.
+ @param view will contain full view of active talker list
+ @Details once any participent successfully completed subscription of all avaialble stream in same confrence will receive available active talker list.
+ By default its will give list of EnxStream, if user want complete view of active talker in that case he/she will pass a parameter "activeviews" = @"view" in "roominfo" duringb join room.
+ */
 //This delegate methods will return collectionView of EnxStream
 -(void)room:(EnxRoom *_Nullable)room didActiveTalkerView:(UIView *_Nullable)view;
 
@@ -944,6 +973,7 @@ didFileDownloadCancelled:(NSArray *_Nullable)data;
 - (void)room:(EnxRoom *_Nonnull)room
 didFileUploadCancelled:(NSArray *_Nullable)data;
 
+#pragma mark- Advance Option CallBacks
 /**
  Fired for ACK advance option
  @param room Instance of the room where event happen.
@@ -984,7 +1014,13 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  @details This delegate called once user will set advance option and request to know about advance option update during call.
  */
 - (void)room:(EnxRoom *_Nullable)room didGetAdvanceOptions:(NSArray *_Nullable)data;
-
+/**
+ Fired for advance opt update of Privacy Mode
+ @param room Instance of the room where event happen.
+ @param data information of advanceoption update.
+ @details This delegate mothed notify to all the user, once Moderator will set privacy mode advance option l.
+ */
+- (void)room:(EnxRoom *_Nullable)room didPrivacyModeUpDated:(NSArray *_Nullable)data;
 /**
  Fired for confrence duration update
  @param room Instance of the room where event happen.
@@ -1530,6 +1566,7 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  @param data information about custome data
  @details notify list of getdata **/
 -(void)didGetCustomData:(NSArray *_Nullable)data;
+-(void)didACKCustomDataUpdated:(NSArray *_Nullable)data;
 
 #pragma mark - Page Talker
 -(void)room:(EnxRoom* _Nullable)room didACKSubscribePageVideo:(NSArray *_Nullable)data;
@@ -1537,11 +1574,45 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 -(void)room:(EnxRoom* _Nullable)room didACKGetPageVideo:(NSArray *_Nullable)data;
 -(void)room:(EnxRoom* _Nullable)room didPageTalkerList:(NSArray *_Nullable)data;
 
-#pragma mark - Speach to Text
+#pragma mark - Speech to Text
 
 - (void)room:(EnxRoom* _Nullable)room didACKStartLiveTranscription:(NSArray *_Nonnull)data;
 - (void)room:(EnxRoom* _Nullable)room didACKStopLiveTranscription:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didACKSubscribeForLiveTranscription:(NSArray *_Nonnull)data;
 - (void)room:(EnxRoom* _Nullable)room didTranscriptionEvents:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didRoomTranscriptionOn:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didRoomTranscriptionOff:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didSelfTranscriptionOn:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didSelfTranscriptionOff:(NSArray *_Nonnull)data;
+
+
+#pragma mark - HLS Stream
+- (void)room:(EnxRoom* _Nullable)room didHlsStarted:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didHlsStopped:(NSArray *_Nonnull)data;
+//In Feature if need
+- (void)room:(EnxRoom* _Nullable)room didHlsFailed:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didHlsWaiting:(NSArray *_Nonnull)data;
+
+#pragma mark- Speaker Volume
+-(void)didSpeakerMuted;
+-(void)didSpeakerUnmuted;
+#pragma mark - Share premission
+- (void)room:(EnxRoom* _Nullable)room didSharePermissionsModeChanged:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didACKSetSharePermissionMode:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didACKGrantSharePermission:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didACKDenySharePermission:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didACKReleaseSharePermission:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didACKRequestSharePermission:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didACKCancelSharePermission:(NSArray *_Nonnull)data;
+
+//Share Events
+- (void)room:(EnxRoom* _Nullable)room didSharePermissionRequested:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didSharePermissionReleased:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didSharePermissionDeny:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didSharePermissionCancled:(NSArray *_Nonnull)data;
+- (void)room:(EnxRoom* _Nullable)room didSharePermissionGranted:(NSArray *_Nonnull)data;
+
+
 
 @end
 @protocol EnxRoomFaceXDelegate <NSObject>
@@ -1599,6 +1670,14 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  @details This delegate method will called when user will start screen and failed
  */
 -(void)failedToConnectWithBroadCast:(NSArray*_Nonnull)reason;
+
+/**
+ Fired when a broadcased disconnected failed
+ @param reason Information about failure to start screen share
+ @details This delegate method will called when user will start screen and failed
+ */
+-(void)failedToDisconnectWithBroadCast:(NSArray*_Nonnull)reason;
+
 /**
  Fired when disconnectedByOwner
  @details This delegate method will called when user will start screen shared and main room disconnected.
@@ -1726,6 +1805,9 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 //store delegate refrence of parents room.
 @property(nonatomic) id _Nullable delegateRef;
 @property(nonatomic)BOOL isLobby;
+//Custome Data locally Storage
+@property(nonatomic,readonly)NSMutableDictionary * _Nullable customRoomData;
+
 ///-----------------------------------
 /// @name Public Methods
 ///-----------------------------------
@@ -2100,7 +2182,7 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
  @param clientIds here will maintain list of client id who going to receive chat message. it can be nil if broadcast true.
  */
 -(void)sendUserData:(NSDictionary *_Nonnull)message isBroadCast:(BOOL)broadcast recipientIDs:(NSArray *_Nullable)clientIds;
-
+#pragma mark- Advance Option Method
 /**
  Client endpoint can set options at room level. to set adavance option after join room
 @param data contain list of advance option going to subscribe, data can't be nill
@@ -2474,11 +2556,11 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 
 #pragma mark - Customer Data Update
 //Save Data
--(void)saveCustomData:(EnxCustomDataScope)scope withData:(NSDictionary* _Nonnull)customData;
-//update Data
--(void)setCustomData:(EnxCustomDataScope)scope withData:(NSDictionary* _Nonnull)customData;
+-(void)saveCustomData:(NSDictionary* _Nonnull)dataOption withData:(NSDictionary* _Nonnull)data;
+//set Custome Data
+-(void)setCustomData:(NSDictionary*_Nonnull)dataOption withData:(NSDictionary* _Nonnull)data;
 //get Data
--(void)getCustomData:(EnxCustomDataScope)scope withData:(NSDictionary* _Nonnull)customData;
+-(void)getCustomData:(NSDictionary* _Nonnull)dataOption;
 
 #pragma mark - Page Talker
 //Subscripe Page Talker
@@ -2488,9 +2570,33 @@ didFileUploadCancelled:(NSArray *_Nullable)data;
 //get Page Talker
 -(void)getPagedVideos:(NSString* _Nonnull)pageInfo;
 
-#pragma mark - Speach to Text
--(void)startLiveTranscription;
+#pragma mark - Speech to Text
+-(void)subscribeForLiveTranscription:(BOOL)enable;
+-(void)startLiveTranscriptionForRoom:(NSString* _Nullable)languge;
 -(void)stopLiveTranscription;
+
+// Checking Video subscription
+-(BOOL)checkvideoSubscription;
+
+-(EnxStream* _Nullable)getPreviewStream;
+//Speaker Volume
+-(void)setSpeakerVolume:(float)volume;
+
+#pragma mark - Share premission
+//Participant Request
+-(void)requestSharePermission:(EnxPubType)pubType;
+-(void)cancelSharePermission:(EnxPubType)pubType;
+
+//Moderator Request
+-(void)setSharePermissionMode:(EnxPubType)pubType withmode:(EnxPubMode)pubMode;
+-(void)grantSharePermission:(EnxPubType)pubType requestyId:(NSString * _Nonnull)clientID;
+-(void)denySharePermission:(EnxPubType)pubType requestyId:(NSString * _Nonnull)clientID;
+-(void)releaseSharePermission:(EnxPubType)pubType requestyId:(NSString * _Nonnull)clientID;
+
+//Generice Apis for app Participants, who wanted to know what is the current premission available
+-(NSDictionary * _Nonnull)getSharePermissions;
+
+-(NSString*)getRoomMode;
 
 @end
 

@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, EnxSignalingMessageType) {
 @property(readonly) NSString *streamId;
 @property(readonly) NSString *peerSocketId;
 
+
 + (EnxSignalingMessage *)messageFromDictionary:(NSDictionary *)dictionary;
 - (NSData *)JSONData;
 

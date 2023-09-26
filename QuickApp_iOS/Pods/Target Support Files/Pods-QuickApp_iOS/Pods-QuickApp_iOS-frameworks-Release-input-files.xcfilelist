@@ -1,6 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-QuickApp_iOS/Pods-QuickApp_iOS-frameworks.sh
+${PODS_ROOT}/EnablexWebRTC/EnablexWebRTC/WebRTC.framework
 ${PODS_ROOT}/EnxRTCiOS/EnxRTCiOS.framework
-${PODS_ROOT}/GoogleWebRTC/Frameworks/frameworks/WebRTC.framework
 ${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework
 ${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
 ${BUILT_PRODUCTS_DIR}/Socket.IO-Client-Swift/SocketIO.framework

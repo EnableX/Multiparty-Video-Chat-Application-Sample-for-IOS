@@ -125,10 +125,11 @@ typedef NS_OPTIONS(NSUInteger, LOG_MODE_MASK) {
 /*Drain All object once Session closed*/
 -(void)drainAllObjectRefrence;
 //Thame color
--(void)setIconColor:(UIColor *)color;
--(UIColor*)getThameColor;
-- (UIColor *)colorFromHexString:(NSString *)hexString;
--(void)setMRoom:(EnxRoom *)mRoom;
+-(void)setIconColor:(UIColor *_Nullable)color;
+-(UIColor*_Nullable)getThameColor;
+- (UIColor *_Nullable)colorFromHexString:(NSString *)hexString;
+-(void)setMRoom:(EnxRoom *_Nonnull)mRoom;
+-(EnxRoom * _Nonnull)getRoom;
 //Start Screen Share
 -(void)setAppGroupsName:(NSString * _Nonnull)appGroup withUserKey:(NSString* _Nonnull)key;
 -(NSString* _Nonnull)getAppGroupName;
