@@ -1,17 +1,19 @@
-# EnableX Group Video Calling iOS app
+# Building a Multiparty Video Calling iOS App with EnableX: A Comprehensive Guide
 
+EnableX Group Video Calling iOS app
 This is a sample video calling app that uses EnableX infrastructure, APIs and Toolkit. It allows developers to try out real-time video and audio features on iOS.
 
 This sample apps allows you to easily:
-* Create a Virtual Room with REST video API 
-* Gain the Room Credentials (i.e. Room ID) 
-* Join Virtual Room either as moderator or partipicant securely
 
-You will also enjoy the following features: 
-* Mute/Unmute Video
-* Mute/Unmute Audio
-* Record Session
-* ActiveTalker 
+Create a Virtual Room with REST video API
+Gain the Room Credentials (i.e. Room ID)
+Join Virtual Room either as moderator or partipicant securely
+You will also enjoy the following features:
+
+Mute/Unmute Video
+Mute/Unmute Audio
+Record Session
+ActiveTalker
 
 > For more information, pls visit our Developer Center https://developer.enablex.io/
 
