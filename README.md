@@ -51,7 +51,7 @@ An Application Server is required for your iOS App to communicate with EnableX. 
 Note the following:
 •	You need to use App ID and App Key to run this Service.
 •	Your iOS Client EndPoint needs to connect to this Service to create Virtual Room and Create Token to join the session.
-•	Application Server is created using [EnableX Server API](https://www.enablex.io/developer/video-api/server-api) while Rest API Service helps in provisioning, session access and post-session reporting.
+•	Application Server is created using [EnableX Server API](https://developer.enablex.io/docs/references/apis/video-api/index/) while Rest API Service helps in provisioning, session access and post-session reporting.
 
 If you would like to test the quality of EnableX video call before setting up your own application server,  you can run the test on our pre-configured environment. Refer to point 2 for more details on this.
 
@@ -107,8 +107,8 @@ Once you have tested it, it is important that you set up your own Application Se
 
 This Sample Application uses EnableX iOS Toolkit to communicate with EnableX Servers to initiate and manage Real-Time Communications. Please update your Application with latest version of EnableX IOS Toolkit as and when a new release is available. 
 
-* Documentation: https://www.enablex.io/developer/video-api/client-api/ios-toolkit/
-* Download: https://www.enablex.io/developer/video-api/client-api/ios-toolkit/
+* Documentation: https://developer.enablex.io/docs/references/sdks/video-sdk/ios-sdk/index/
+* Download: https://developer.enablex.io/docs/references/sdks/video-sdk/ios-sdk/index/
 
 
 ## 4. Support
