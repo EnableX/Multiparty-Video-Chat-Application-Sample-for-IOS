@@ -25,7 +25,7 @@ ActiveTalker
 
 You would need API Credentials to access EnableX platform. To do that, simply create an account with us. It’s absolutely free!
 
-* Create an account with EnableX - https://portal.enablex.io/cpaas/trial-sign-up/
+* Create an account with EnableX - https://www.enablex.io/free-trial/
 * Create your Project
 * Get your App ID and App Key delivered to your email
 
