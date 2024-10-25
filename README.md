@@ -99,7 +99,7 @@ In this environment, you will only be able to:
 * Conduct a single session with a total durations of not more than 15 minutes
 * Host a multiparty call with no more than 6 participants 
 
-> More information on Testing Environment: https://developer.enablex.io/video/sample-code/#demo-app-server
+> More information on Testing Environment: https://developer.enablex.io/docs/guides/video-guide/sample-codes/video-calling-app/#demo-application-server
 
 Once you have tested it, it is important that you set up your own Application Server to continue building a multiparty IOS video calling app. Refer to section 1.1.4 on how to set up the Application Server. 
   
