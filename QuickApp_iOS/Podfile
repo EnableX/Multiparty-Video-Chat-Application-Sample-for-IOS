@@ -6,8 +6,7 @@ target 'QuickApp_iOS' do
   use_frameworks!
 
   # Pods for QuickApp_iOS
-    pod 'EnxRTCiOS'
-    pod 'Socket.IO-Client-Swift', '~> 16.1.0'
+    pod 'Socket.IO-Client-Swift', '~> 16.1.1'
     pod 'SVProgressHUD'
     pod 'ReachabilitySwift'
     pod 'Fabric'
@@ -17,18 +16,4 @@ target 'QuickApp_iOS' do
     inherit! :search_paths
     # Pods for testing
   end
-
-  target 'QuickApp_iOSUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-  post_install do |installer|
-            installer.generated_projects.each do |project|
-                  project.targets.each do |target|
-                      target.build_configurations.each do |config|
-                          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
-                       end
-                  end
-           end
-        end
 end

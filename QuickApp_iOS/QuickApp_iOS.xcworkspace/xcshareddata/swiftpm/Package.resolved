@@ -1,0 +1,24 @@
+{
+  "originHash" : "155f3a20992a86ced3cbbf0e813feddfedd7dc940d48da5ad2b7179590f5e1d8",
+  "pins" : [
+    {
+      "identity" : "enablexwebrtc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EnableX/EnablexWebRTC.git",
+      "state" : {
+        "revision" : "cf2162e19bcfb1dc0719ae356e35c339fcccb5ac",
+        "version" : "2.0.1"
+      }
+    },
+    {
+      "identity" : "enxrtcios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EnableX/EnxRTCiOS.git",
+      "state" : {
+        "revision" : "42c5aecb3e218781439e6166d7fa1b5495ebf29c",
+        "version" : "3.1.2"
+      }
+    }
+  ],
+  "version" : 3
+}

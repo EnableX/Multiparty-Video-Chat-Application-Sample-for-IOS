@@ -1,0 +1,39 @@
+PODS:
+  - Crashlytics (3.14.0):
+    - Fabric (~> 1.10.2)
+  - Fabric (1.10.2)
+  - ReachabilitySwift (5.2.4)
+  - Socket.IO-Client-Swift (16.1.1):
+    - Starscream (~> 4.0.8)
+  - Starscream (4.0.8)
+  - SVProgressHUD (2.3.1):
+    - SVProgressHUD/Core (= 2.3.1)
+  - SVProgressHUD/Core (2.3.1)
+
+DEPENDENCIES:
+  - Crashlytics
+  - Fabric
+  - ReachabilitySwift
+  - Socket.IO-Client-Swift (~> 16.1.1)
+  - SVProgressHUD
+
+SPEC REPOS:
+  trunk:
+    - Crashlytics
+    - Fabric
+    - ReachabilitySwift
+    - Socket.IO-Client-Swift
+    - Starscream
+    - SVProgressHUD
+
+SPEC CHECKSUMS:
+  Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
+  Fabric: ea977e3cd9c20425516d3dafd3bf8c941c51223f
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
+  Socket.IO-Client-Swift: 3614bea82ba005df1c2ff01154f4004993e05ad7
+  Starscream: 19b5533ddb925208db698f0ac508a100b884a1b9
+  SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
+
+PODFILE CHECKSUM: 0738c2af4fc560fd8a2579eaa301d6d7b8673898
+
+COCOAPODS: 1.16.2
